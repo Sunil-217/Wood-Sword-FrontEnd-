@@ -113,6 +113,13 @@ h3,
   }
 }
 
+/* Keyboard focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Marquee for the announcement bar */
 @keyframes ws-marquee {
   from {
@@ -124,6 +131,9 @@ h3,
 }
 .animate-marquee {
   animation: ws-marquee 30s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 /* Gentle rise-in used for hero + section reveals */
@@ -148,4 +158,64 @@ h3,
     transparent 0 42px,
     color-mix(in srgb, #ffffff 6%, transparent) 42px 84px
   );
+}
+
+/* Gentle bob for the hero collage cards */
+@keyframes ws-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-float {
+  animation: ws-float 5.5s ease-in-out infinite;
+}
+
+/* Scroll-reveal (toggled by the Reveal component) */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s var(--ease-out-expo),
+    transform 0.7s var(--ease-out-expo);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Toast slide-in */
+@keyframes ws-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-toast-in {
+  animation: ws-toast-in 0.35s var(--ease-out-expo) both;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float,
+  .animate-rise,
+  .animate-toast-in {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

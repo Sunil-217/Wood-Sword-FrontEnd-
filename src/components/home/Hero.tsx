@@ -59,16 +59,16 @@ export function Hero() {
         {/* Hero product collage */}
         <div className="relative hidden animate-rise lg:block" style={{ animationDelay: "120ms" }}>
           <div className="relative mx-auto aspect-square max-w-md">
-            <div className="absolute left-0 top-6 w-3/5 rotate-[-6deg] rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="animate-float absolute left-0 top-6 w-3/5 rotate-[-6deg] rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
               <ProductArt art="bat" accent="#e0a82e" className="aspect-square rounded-3xl" label="Cricket bat" />
             </div>
-            <div className="absolute bottom-0 right-2 w-1/2 rotate-[7deg] rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="animate-float absolute bottom-0 right-2 w-1/2 rotate-[7deg] rounded-3xl border border-white/10 shadow-2xl shadow-black/40" style={{ animationDelay: "1.2s" }}>
               <ProductArt art="helmet" accent="#3b4252" className="aspect-square rounded-3xl" label="Helmet" />
             </div>
-            <div className="absolute right-0 top-0 w-2/5 rotate-[10deg] rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="animate-float absolute right-0 top-0 w-2/5 rotate-[10deg] rounded-2xl border border-white/10 shadow-2xl shadow-black/40" style={{ animationDelay: "0.6s" }}>
               <ProductArt art="ball" accent="#b92b22" className="aspect-square rounded-2xl" label="Cricket ball" />
             </div>
-            <div className="absolute bottom-6 left-2 w-2/5 rotate-[-9deg] rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="animate-float absolute bottom-6 left-2 w-2/5 rotate-[-9deg] rounded-2xl border border-white/10 shadow-2xl shadow-black/40" style={{ animationDelay: "1.8s" }}>
               <ProductArt art="gloves" accent="#256e49" className="aspect-square rounded-2xl" label="Batting gloves" />
             </div>
           </div>

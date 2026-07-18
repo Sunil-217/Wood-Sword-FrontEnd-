@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
+import { showToast } from "@/components/Toaster";
 import type { ArtKind } from "@/lib/types";
 
 export interface QuickAddProduct {
@@ -42,6 +43,7 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
       qty: 1,
     });
     setAdded(true);
+    showToast(`${product.name} added to your bag`);
     window.setTimeout(() => setAdded(false), 1400);
   }
 

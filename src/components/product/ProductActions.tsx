@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
+import { showToast } from "@/components/Toaster";
 import { inr } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
@@ -15,7 +15,6 @@ export function ProductActions({ product }: { product: Product }) {
   const [size, setSize] = useState(product.sizes[0]);
   const [hand, setHand] = useState(product.hands?.[0]);
   const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
 
   function buildLine() {
     const id = makeLineId(product.id, { size, color, hand });
@@ -37,8 +36,7 @@ export function ProductActions({ product }: { product: Product }) {
 
   function handleAdd() {
     addLine(buildLine());
-    setAdded(true);
-    window.setTimeout(() => setAdded(false), 2200);
+    showToast(`${product.name} added to your bag`);
   }
 
   function handleBuyNow() {
@@ -102,20 +100,6 @@ export function ProductActions({ product }: { product: Product }) {
       >
         Buy it now
       </button>
-
-      {added && (
-        <div className="flex items-center justify-between gap-3 rounded-xl border border-brand-600/30 bg-brand-50 px-4 py-3 text-sm">
-          <span className="flex items-center gap-2 font-medium text-brand-800">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Added to your bag
-          </span>
-          <Link href="/cart" className="font-semibold text-brand-700 hover:underline">
-            View bag →
-          </Link>
-        </div>
-      )}
     </div>
   );
 }
