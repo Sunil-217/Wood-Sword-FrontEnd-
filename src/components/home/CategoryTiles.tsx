@@ -24,12 +24,9 @@ export function CategoryTiles() {
               i === 0 ? "col-span-2 row-span-2 min-h-56 lg:min-h-full" : "min-h-40"
             }`}
           >
-            <ProductArt
-              art={c.art}
-              accent={c.accent}
-              label={c.name}
-              className="absolute inset-0 h-full w-full transition-transform duration-500 group-hover:scale-105"
-            />
+            <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-105">
+              <ProductArt art={c.art} accent={c.accent} label={c.name} className="h-full w-full" />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/20 to-transparent" />
             <div className="relative">
               <h3 className="font-display text-lg font-bold text-white drop-shadow-sm">

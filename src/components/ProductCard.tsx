@@ -30,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-3 sm:p-4">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-500">
           {product.brand}
         </p>
@@ -45,13 +45,13 @@ export function ProductCard({ product }: { product: Product }) {
           <Rating value={product.rating} reviews={product.reviews} />
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-2">
-          <div className="flex items-baseline gap-2">
-            <span className="font-display text-lg font-bold text-brand-950">
+        <div className="mt-3 flex items-end justify-between gap-1.5">
+          <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
+            <span className="font-display text-base font-bold text-brand-950 sm:text-lg">
               {inr(product.price)}
             </span>
             {product.mrp && (
-              <span className="text-sm text-brand-900/40 line-through">
+              <span className="text-xs text-brand-900/40 line-through sm:text-sm">
                 {inr(product.mrp)}
               </span>
             )}

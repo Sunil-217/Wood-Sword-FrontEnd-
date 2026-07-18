@@ -30,14 +30,17 @@ export function ValueProps() {
     <Container className="-mt-8 relative z-20">
       <div className="grid grid-cols-2 gap-3 rounded-2xl border border-brand-900/8 bg-white p-3 shadow-xl shadow-brand-900/5 sm:gap-4 lg:grid-cols-4">
         {props.map((p) => (
-          <div key={p.title} className="flex items-center gap-3 rounded-xl px-3 py-3">
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+          <div
+            key={p.title}
+            className="flex flex-col items-center gap-2 rounded-xl px-2 py-3 text-center sm:flex-row sm:items-center sm:gap-3 sm:px-3 sm:text-left"
+          >
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 sm:h-11 sm:w-11">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
                 {p.icon}
               </svg>
             </span>
             <div>
-              <p className="text-sm font-semibold text-brand-950">{p.title}</p>
+              <p className="text-[13px] font-semibold text-brand-950 sm:text-sm">{p.title}</p>
               <p className="text-xs text-brand-900/55">{p.body}</p>
             </div>
           </div>

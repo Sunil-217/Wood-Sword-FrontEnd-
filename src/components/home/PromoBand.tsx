@@ -30,7 +30,7 @@ export function PromoBand() {
               </svg>
             </Link>
           </div>
-          <div className="pointer-events-none absolute -bottom-6 -right-4 w-40 rotate-[-14deg] opacity-90 sm:w-52">
+          <div className="pointer-events-none absolute -bottom-6 -right-4 w-28 rotate-[-14deg] opacity-40 sm:w-52 sm:opacity-90">
             <ProductArt art="bat" accent="#e0a82e" className="aspect-square rounded-2xl" label="Custom bat" />
           </div>
         </div>
@@ -59,7 +59,7 @@ export function PromoBand() {
               </svg>
             </Link>
           </div>
-          <div className="pointer-events-none absolute -bottom-4 -right-2 flex w-48 gap-1 sm:w-60">
+          <div className="pointer-events-none absolute -bottom-4 -right-2 flex w-32 gap-1 opacity-40 sm:w-60 sm:opacity-100">
             <div className="w-1/2 rotate-[8deg]">
               <ProductArt art="helmet" accent="#3b4252" className="aspect-square rounded-2xl" label="Helmet" />
             </div>

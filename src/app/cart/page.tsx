@@ -120,7 +120,7 @@ export default function CartPage() {
               <li key={line.id} className="flex gap-4 p-4">
                 <Link
                   href={`/product/${line.slug}`}
-                  className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-brand-900/8"
+                  className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-brand-900/8 sm:h-24 sm:w-24"
                 >
                   <ProductArt art={line.art} accent={line.accent} label={line.name} className="h-full w-full" />
                 </Link>
