@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏏 Woodsword Cricket — Storefront
 
-## Getting Started
+A premium, front-end-only cricket-equipment store, inspired by the layout of
+[wood-swordcricket.com](https://wood-swordcricket.com). Built with **Next.js 16
+(App Router)**, **TypeScript**, and **Tailwind CSS v4**.
 
-First, run the development server:
+> Demo project with **sample data** — nothing is scraped from the reference
+> site, and checkout is not wired to a real payment provider.
+
+## ✨ Features
+
+- **Home page** — animated hero, value props, category bento grid, best-sellers,
+  promo bands and a newsletter block.
+- **Shop** — server-side **filtering** (category, price, size, hand) + **search**
+  + **sorting**, live category counts, removable filter chips and an empty state.
+- **Product detail** — image gallery, variant selectors (colour / hand / size),
+  quantity stepper, add-to-bag & buy-now, features and related products.
+- **Cart** — client-side cart with **localStorage** persistence, quantity edits,
+  free-shipping progress bar, order summary and a demo checkout.
+- **Design system** — custom forest-green + gold palette, Sora/Inter type,
+  fully responsive, accessible, self-contained **SVG product artwork** (no
+  external image dependencies).
+
+## 🚀 Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install      # if dependencies aren't installed yet
+npm run dev      # start the dev server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build    # production build (also type-checks + prerenders)
+npm start        # serve the production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗂️ Project structure
 
-## Learn More
+```
+src/
+├─ app/
+│  ├─ layout.tsx              # fonts, cart provider, header/footer
+│  ├─ page.tsx                # home
+│  ├─ shop/page.tsx           # listing + filters + sort + search
+│  ├─ product/[slug]/page.tsx # product detail (SSG)
+│  ├─ cart/page.tsx           # cart + demo checkout
+│  └─ globals.css             # design tokens (Tailwind v4 @theme)
+├─ components/
+│  ├─ Header / Footer / AnnouncementBar / Logo
+│  ├─ ProductArt.tsx          # SVG artwork per category
+│  ├─ ProductCard / ProductGrid / QuickAdd
+│  ├─ home/*                  # hero, category tiles, promos, newsletter
+│  ├─ shop/*                  # FilterSidebar, SortSelect
+│  ├─ product/ProductActions  # variant selectors + add to cart
+│  └─ ui/*                    # Container, Rating, Badge
+├─ context/CartContext.tsx    # cart state + persistence
+└─ lib/
+   ├─ types.ts                # domain types
+   ├─ catalog.ts              # categories + sample products
+   ├─ filters.ts              # sort/filter helpers
+   └─ format.ts               # ₹ formatting
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Editing the catalog
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All products and categories live in [`src/lib/catalog.ts`](src/lib/catalog.ts).
+Add or edit entries there — each product picks an `art` kind (`bat`, `gloves`,
+`pads`, `helmet`, `ball`, `keeping`, `bag`, `jersey`, `misc`) and an `accent`
+colour that tints its artwork.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Notes / next steps
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is a front-end build. To make it a real store you'd add: a backend/CMS for
+products, real product images, authentication, a checkout/payment integration
+(e.g. Razorpay/Stripe), and order management.
