@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { buildQuery, PRICE_BUCKETS, parseList, toggleInList } from "@/lib/filters";
-import { categories } from "@/lib/catalog";
+import { categoriesInGroup, groups } from "@/lib/catalog";
 
 interface Props {
   params: Record<string, string>;
@@ -19,6 +19,7 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
   const activeHands = parseList(params.hand);
   const activeCount =
     (params.category ? 1 : 0) +
+    (params.group ? 1 : 0) +
     (params.price ? 1 : 0) +
     activeSizes.length +
     activeHands.length;
@@ -63,32 +64,79 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
           )}
         </div>
 
-        {/* Category */}
+        {/* Categories, grouped like the store menu */}
         <FilterGroup title="Category">
-          <ul className="space-y-1">
-            {categories.map((c) => {
-              const active = params.category === c.slug;
-              const count = categoryCounts[c.slug] ?? 0;
+          <div className="space-y-4">
+            {groups.map((g) => {
+              const leaves = categoriesInGroup(g.slug);
+              const groupActive = params.group === g.slug;
+              const groupCount = leaves.reduce((n, c) => n + (categoryCounts[c.slug] ?? 0), 0);
+              // Single-category groups render as one row
+              if (leaves.length === 1) {
+                const c = leaves[0];
+                const active = params.category === c.slug;
+                return (
+                  <CategoryRow
+                    key={g.slug}
+                    href={hrefWith({
+                      category: active ? undefined : c.slug,
+                      group: undefined,
+                      size: undefined,
+                      hand: undefined,
+                    })}
+                    active={active}
+                    accent={c.accent}
+                    label={c.name}
+                    count={categoryCounts[c.slug] ?? 0}
+                  />
+                );
+              }
               return (
-                <li key={c.slug}>
+                <div key={g.slug}>
                   <Link
-                    href={hrefWith({ category: active ? undefined : c.slug, size: undefined, hand: undefined })}
-                    className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-sm transition-colors ${
-                      active
-                        ? "bg-brand-900 font-semibold text-white"
-                        : "text-brand-900/80 hover:bg-brand-50"
+                    href={hrefWith({
+                      group: groupActive ? undefined : g.slug,
+                      category: undefined,
+                      size: undefined,
+                      hand: undefined,
+                    })}
+                    className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                      groupActive
+                        ? "bg-brand-900 text-white"
+                        : "text-brand-900/45 hover:bg-brand-50 hover:text-brand-900/70"
                     }`}
                   >
-                    <span className="flex items-center gap-2">
-                      <span className="inline-block h-3 w-1 rounded-full" style={{ background: c.accent }} />
-                      {c.name}
+                    {g.name}
+                    <span className={groupActive ? "text-white/60" : "text-brand-900/35"}>
+                      {groupCount}
                     </span>
-                    <span className={active ? "text-white/60" : "text-brand-900/40"}>{count}</span>
                   </Link>
-                </li>
+                  <ul className="mt-1 space-y-0.5">
+                    {leaves.map((c) => {
+                      const active = params.category === c.slug;
+                      return (
+                        <li key={c.slug}>
+                          <CategoryRow
+                            href={hrefWith({
+                              category: active ? undefined : c.slug,
+                              group: undefined,
+                              size: undefined,
+                              hand: undefined,
+                            })}
+                            active={active}
+                            accent={c.accent}
+                            label={c.name}
+                            count={categoryCounts[c.slug] ?? 0}
+                            indent
+                          />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               );
             })}
-          </ul>
+          </div>
         </FilterGroup>
 
         {/* Price */}
@@ -169,6 +217,39 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
         )}
       </div>
     </div>
+  );
+}
+
+function CategoryRow({
+  href,
+  active,
+  accent,
+  label,
+  count,
+  indent = false,
+}: {
+  href: string;
+  active: boolean;
+  accent: string;
+  label: string;
+  count: number;
+  indent?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`flex items-center justify-between rounded-lg py-1.5 pr-2.5 text-sm transition-colors ${
+        indent ? "pl-4" : "pl-2.5"
+      } ${
+        active ? "bg-brand-900 font-semibold text-white" : "text-brand-900/80 hover:bg-brand-50"
+      }`}
+    >
+      <span className="flex items-center gap-2">
+        <span className="inline-block h-3 w-1 rounded-full" style={{ background: accent }} />
+        {label}
+      </span>
+      <span className={active ? "text-white/60" : "text-brand-900/40"}>{count}</span>
+    </Link>
   );
 }
 

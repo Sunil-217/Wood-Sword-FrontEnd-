@@ -1,13 +1,34 @@
-export type CategorySlug =
+/** Top-level menu groups (mirror the reference store's structure). */
+export type GroupSlug =
   | "bats"
+  | "protection"
+  | "wicket-keeping"
+  | "luggage"
+  | "cricket-balls"
+  | "accessories"
+  | "bundles"
+  | "clothing";
+
+/** Leaf categories products belong to. */
+export type CategorySlug =
+  | "english-willow-bats"
+  | "kashmir-willow-bats"
+  | "tennis-bats"
+  | "custom-bats"
   | "batting-gloves"
   | "leg-guards"
   | "helmets"
-  | "wicket-keeping"
+  | "other-protection"
+  | "wk-gloves"
+  | "wk-inners"
+  | "wk-leg-guards"
+  | "duffle-bags"
+  | "trolley-bags"
+  | "bat-covers"
   | "cricket-balls"
-  | "kit-bags"
-  | "clothing"
-  | "accessories";
+  | "accessories"
+  | "bundles"
+  | "clothing";
 
 /** Which SVG illustration to render for a product / category. */
 export type ArtKind =
@@ -48,8 +69,17 @@ export interface Product {
   inStock: boolean;
 }
 
+export interface Group {
+  slug: GroupSlug;
+  name: string;
+  blurb: string;
+  art: ArtKind;
+  accent: string;
+}
+
 export interface Category {
   slug: CategorySlug;
+  group: GroupSlug;
   name: string;
   blurb: string;
   art: ArtKind;

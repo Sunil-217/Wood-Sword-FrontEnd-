@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { categories } from "@/lib/catalog";
+import { categoriesInGroup, groups } from "@/lib/catalog";
 import { useCart } from "@/context/CartContext";
 import { Logo } from "./Logo";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [catsOpen, setCatsOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
@@ -58,6 +58,9 @@ export function Header() {
     closeDrawer();
   }
 
+  const multiGroups = groups.filter((g) => categoriesInGroup(g.slug).length > 1);
+  const singleGroups = groups.filter((g) => categoriesInGroup(g.slug).length === 1);
+
   return (
     <header
       className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
@@ -67,7 +70,7 @@ export function Header() {
       }`}
     >
       <div className="container-page flex h-16 items-center gap-4">
-        {/* Mobile hamburger (left, like a native app drawer) */}
+        {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(true)}
           className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50 lg:hidden"
@@ -88,30 +91,57 @@ export function Header() {
                 <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Mega dropdown */}
-            <div className="invisible absolute left-0 top-full w-[520px] translate-y-2 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-              <div className="grid grid-cols-2 gap-1 rounded-2xl border border-brand-900/10 bg-white p-3 shadow-xl shadow-brand-900/10">
-                {categories.map((c) => (
+            {/* Mega dropdown, grouped like the store */}
+            <div className="invisible absolute left-0 top-full w-[640px] translate-y-2 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="rounded-2xl border border-brand-900/10 bg-white p-5 shadow-xl shadow-brand-900/10">
+                <div className="grid grid-cols-4 gap-5">
+                  {multiGroups.map((g) => (
+                    <div key={g.slug}>
+                      <Link
+                        href={`/shop?group=${g.slug}`}
+                        className="text-xs font-semibold uppercase tracking-wider text-brand-500 hover:text-brand-700"
+                      >
+                        {g.name}
+                      </Link>
+                      <ul className="mt-2.5 space-y-1.5">
+                        {categoriesInGroup(g.slug).map((c) => (
+                          <li key={c.slug}>
+                            <Link
+                              href={`/shop?category=${c.slug}`}
+                              className="flex items-center gap-2 text-sm text-brand-900/75 transition-colors hover:text-brand-950"
+                            >
+                              <span className="inline-block h-3 w-1 rounded-full" style={{ background: c.accent }} />
+                              {c.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2 border-t border-brand-900/8 pt-4">
+                  {singleGroups.map((g) => (
+                    <Link
+                      key={g.slug}
+                      href={`/shop?category=${categoriesInGroup(g.slug)[0].slug}`}
+                      className="rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-brand-100"
+                    >
+                      {g.name}
+                    </Link>
+                  ))}
                   <Link
-                    key={c.slug}
-                    href={`/shop?category=${c.slug}`}
-                    className="flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-brand-50"
+                    href="/shop"
+                    className="ml-auto rounded-full bg-brand-900 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-800"
                   >
-                    <span
-                      className="mt-0.5 inline-block h-8 w-1.5 shrink-0 rounded-full"
-                      style={{ background: c.accent }}
-                    />
-                    <span>
-                      <span className="block text-sm font-semibold text-brand-950">{c.name}</span>
-                      <span className="block text-xs text-brand-900/50">{c.blurb}</span>
-                    </span>
+                    All gear →
                   </Link>
-                ))}
+                </div>
               </div>
             </div>
           </div>
-          <NavLink href="/shop?category=bats">Bats</NavLink>
-          <NavLink href="/shop?category=batting-gloves">Protection</NavLink>
+          <NavLink href="/shop?group=bats">Bats</NavLink>
+          <NavLink href="/shop?group=protection">Protection</NavLink>
+          <NavLink href="/shop?group=wicket-keeping">Keeping</NavLink>
           <NavLink href="/shop">All Gear</NavLink>
         </nav>
 
@@ -209,73 +239,71 @@ export function Header() {
                 </Link>
               </li>
 
-              {/* Accordion: Shop by Category */}
-              <li className="border-b border-brand-900/8">
-                <button
-                  onClick={() => setCatsOpen((v) => !v)}
-                  aria-expanded={catsOpen}
-                  className="flex w-full items-center justify-between py-4 text-left text-[17px] font-medium text-brand-950"
-                >
-                  Cricket Gear
-                  <span className="text-brand-950" aria-hidden>
-                    {catsOpen ? <MinusIcon /> : <PlusIcon />}
-                  </span>
-                </button>
-                <div
-                  className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-                    catsOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                  }`}
-                >
-                  <ul className="overflow-hidden">
-                    {categories.map((c) => (
-                      <li key={c.slug}>
-                        <Link
-                          href={`/shop?category=${c.slug}`}
-                          onClick={closeDrawer}
-                          className="flex items-center gap-2.5 py-3 pl-7 text-[15px] text-brand-900/85 transition-colors hover:text-brand-950"
-                        >
-                          <span
-                            className="inline-block h-3.5 w-1 rounded-full"
-                            style={{ background: c.accent }}
-                          />
-                          {c.name}
-                        </Link>
-                      </li>
-                    ))}
-                    <li className="pb-3">
-                      <Link
-                        href="/shop"
-                        onClick={closeDrawer}
-                        className="flex items-center gap-1.5 py-3 pl-7 text-[15px] font-semibold text-brand-700"
-                      >
-                        View all gear
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </li>
+              {/* Accordion per group, like the reference store */}
+              {multiGroups.map((g) => {
+                const isOpen = openGroup === g.slug;
+                return (
+                  <li key={g.slug} className="border-b border-brand-900/8">
+                    <button
+                      onClick={() => setOpenGroup(isOpen ? null : g.slug)}
+                      aria-expanded={isOpen}
+                      className="flex w-full items-center justify-between py-4 text-left text-[17px] font-medium text-brand-950"
+                    >
+                      {g.name}
+                      <span aria-hidden>{isOpen ? <MinusIcon /> : <PlusIcon />}</span>
+                    </button>
+                    <div
+                      className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                        isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                      }`}
+                    >
+                      <ul className="overflow-hidden">
+                        {categoriesInGroup(g.slug).map((c) => (
+                          <li key={c.slug}>
+                            <Link
+                              href={`/shop?category=${c.slug}`}
+                              onClick={closeDrawer}
+                              className="flex items-center gap-2.5 py-3 pl-7 text-[15px] text-brand-900/85 transition-colors hover:text-brand-950"
+                            >
+                              <span
+                                className="inline-block h-3.5 w-1 rounded-full"
+                                style={{ background: c.accent }}
+                              />
+                              {c.name}
+                            </Link>
+                          </li>
+                        ))}
+                        <li className="pb-3">
+                          <Link
+                            href={`/shop?group=${g.slug}`}
+                            onClick={closeDrawer}
+                            className="flex items-center gap-1.5 py-3 pl-7 text-[15px] font-semibold text-brand-700"
+                          >
+                            All {g.name.toLowerCase()}
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                );
+              })}
 
-              <li className="border-b border-brand-900/8">
-                <Link
-                  href="/shop?category=bats"
-                  onClick={closeDrawer}
-                  className="block py-4 text-[17px] font-medium text-brand-950"
-                >
-                  Bats
-                </Link>
-              </li>
-              <li className="border-b border-brand-900/8">
-                <Link
-                  href="/shop?category=batting-gloves"
-                  onClick={closeDrawer}
-                  className="block py-4 text-[17px] font-medium text-brand-950"
-                >
-                  Protection
-                </Link>
-              </li>
+              {/* Single-category groups are plain rows */}
+              {singleGroups.map((g) => (
+                <li key={g.slug} className="border-b border-brand-900/8">
+                  <Link
+                    href={`/shop?category=${categoriesInGroup(g.slug)[0].slug}`}
+                    onClick={closeDrawer}
+                    className="block py-4 text-[17px] font-medium text-brand-950"
+                  >
+                    {g.name}
+                  </Link>
+                </li>
+              ))}
+
               <li className="border-b border-brand-900/8">
                 <Link
                   href="/cart"

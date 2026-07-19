@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductGrid } from "@/components/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
 import { SortSelect } from "@/components/shop/SortSelect";
-import { categories, categoryMap, products } from "@/lib/catalog";
+import { categories, categoryMap, groupMap, products } from "@/lib/catalog";
 import {
   buildQuery,
   parseList,
@@ -13,7 +13,7 @@ import {
   toggleInList,
   type SortKey,
 } from "@/lib/filters";
-import type { CategorySlug } from "@/lib/types";
+import type { CategorySlug, GroupSlug } from "@/lib/types";
 
 export const metadata: Metadata = {
   title: "Shop cricket gear",
@@ -35,7 +35,14 @@ export default async function ShopPage({
     params[k] = Array.isArray(v) ? v.join(",") : v;
   }
 
-  const category = params.category as CategorySlug | undefined;
+  const category =
+    params.category && params.category in categoryMap
+      ? (params.category as CategorySlug)
+      : undefined;
+  const group =
+    !category && params.group && params.group in groupMap
+      ? (params.group as GroupSlug)
+      : undefined;
   const q = params.q?.trim().toLowerCase();
   const price = params.price;
   const sizes = parseList(params.size);
@@ -47,7 +54,8 @@ export default async function ShopPage({
   // Base set = search + price (used for category counts + facets)
   const base = products.filter((p) => {
     if (q) {
-      const hay = `${p.name} ${p.brand} ${p.tagline} ${p.description} ${categoryMap[p.category].name}`.toLowerCase();
+      const hay =
+        `${p.name} ${p.brand} ${p.tagline} ${p.description} ${categoryMap[p.category].name} ${groupMap[categoryMap[p.category].group].name}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     if (bucket && !bucket.test(p.price)) return false;
@@ -59,23 +67,33 @@ export default async function ShopPage({
     categoryCounts[c.slug] = base.filter((p) => p.category === c.slug).length;
   }
 
-  const inCategory = category ? base.filter((p) => p.category === category) : base;
+  const inScope = category
+    ? base.filter((p) => p.category === category)
+    : group
+      ? base.filter((p) => categoryMap[p.category].group === group)
+      : base;
 
-  // Facets from the category-scoped set (stable regardless of size/hand picks)
-  const sizeOptions = uniq(inCategory.flatMap((p) => p.sizes));
-  const handOptions = uniq(inCategory.flatMap((p) => p.hands ?? []));
+  // Facets from the scoped set (stable regardless of size/hand picks)
+  const sizeOptions = uniq(inScope.flatMap((p) => p.sizes));
+  const handOptions = uniq(inScope.flatMap((p) => p.hands ?? []));
 
-  let list = inCategory;
+  let list = inScope;
   if (sizes.length) list = list.filter((p) => p.sizes.some((s) => sizes.includes(s)));
   if (hands.length) list = list.filter((p) => (p.hands ?? []).some((h) => hands.includes(h)));
   list = sortProducts(list, sort);
 
   const heading = category
     ? categoryMap[category].name
-    : q
-      ? `Results for “${params.q}”`
-      : "All gear";
-  const blurb = category ? categoryMap[category].blurb : "Every piece of kit, in one place.";
+    : group
+      ? groupMap[group].name
+      : q
+        ? `Results for “${params.q}”`
+        : "All gear";
+  const blurb = category
+    ? categoryMap[category].blurb
+    : group
+      ? groupMap[group].blurb
+      : "Every piece of kit, in one place.";
 
   // active filter chips (removal links, computed server-side)
   const chips: { label: string; href: string }[] = [];
@@ -83,6 +101,12 @@ export default async function ShopPage({
     chips.push({
       label: categoryMap[category].name,
       href: `/shop${buildQuery(without(params, "category", "size", "hand"))}`,
+    });
+  }
+  if (group) {
+    chips.push({
+      label: groupMap[group].name,
+      href: `/shop${buildQuery(without(params, "group", "size", "hand"))}`,
     });
   }
   if (bucket) {
@@ -111,7 +135,20 @@ export default async function ShopPage({
         {category && (
           <>
             <span>/</span>
+            <Link
+              href={`/shop?group=${categoryMap[category].group}`}
+              className="hover:text-brand-700"
+            >
+              {groupMap[categoryMap[category].group].name}
+            </Link>
+            <span>/</span>
             <span className="text-brand-900/80">{categoryMap[category].name}</span>
+          </>
+        )}
+        {group && (
+          <>
+            <span>/</span>
+            <span className="text-brand-900/80">{groupMap[group].name}</span>
           </>
         )}
       </nav>
@@ -123,7 +160,7 @@ export default async function ShopPage({
         <p className="mt-1.5 text-sm text-brand-900/55">{blurb}</p>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[270px_1fr]">
         <aside>
           <FilterSidebar
             params={params}

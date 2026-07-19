@@ -1,22 +1,26 @@
 import Link from "next/link";
-import { categories } from "@/lib/catalog";
+import { categoriesInGroup, groups } from "@/lib/catalog";
 import { Container } from "./ui/Container";
 
 export function Footer() {
+  const groupHref = (slug: string) => {
+    const leaves = categoriesInGroup(slug as (typeof groups)[number]["slug"]);
+    return leaves.length === 1 ? `/shop?category=${leaves[0].slug}` : `/shop?group=${slug}`;
+  };
   const cols = [
     {
       title: "Shop",
-      links: categories.slice(0, 5).map((c) => ({
-        label: c.name,
-        href: `/shop?category=${c.slug}`,
+      links: groups.slice(0, 4).map((g) => ({
+        label: g.name,
+        href: groupHref(g.slug),
       })),
     },
     {
       title: "More",
       links: [
-        ...categories.slice(5).map((c) => ({
-          label: c.name,
-          href: `/shop?category=${c.slug}`,
+        ...groups.slice(4).map((g) => ({
+          label: g.name,
+          href: groupHref(g.slug),
         })),
         { label: "All Gear", href: "/shop" },
       ],

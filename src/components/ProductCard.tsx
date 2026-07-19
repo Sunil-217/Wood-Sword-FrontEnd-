@@ -23,6 +23,11 @@ export function ProductCard({ product }: { product: Product }) {
           {product.badge && <ProductBadge kind={product.badge} />}
           {off && !product.badge && <ProductBadge kind="Sale" />}
         </div>
+        {!product.inStock && (
+          <span className="absolute inset-x-3 bottom-3 rounded-full bg-brand-950/80 px-3 py-1.5 text-center text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur">
+            Out of stock
+          </span>
+        )}
         {off && (
           <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-ball-600 shadow-sm backdrop-blur">
             -{off}%
@@ -57,22 +62,24 @@ export function ProductCard({ product }: { product: Product }) {
             )}
           </div>
           {/* z-10 keeps the button above the card-wide link overlay */}
-          <div className="relative z-10">
-            <QuickAdd
-              product={{
-                id: product.id,
-                slug: product.slug,
-                name: product.name,
-                brand: product.brand,
-                art: product.art,
-                accent: product.accent,
-                price: product.price,
-                size: product.sizes[0],
-                color: product.colors[0],
-                hand: product.hands?.[0],
-              }}
-            />
-          </div>
+          {product.inStock && (
+            <div className="relative z-10">
+              <QuickAdd
+                product={{
+                  id: product.id,
+                  slug: product.slug,
+                  name: product.name,
+                  brand: product.brand,
+                  art: product.art,
+                  accent: product.accent,
+                  price: product.price,
+                  size: product.sizes[0],
+                  color: product.colors[0],
+                  hand: product.hands?.[0],
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </article>

@@ -14,7 +14,8 @@ export const PRICE_BUCKETS: { value: string; label: string; test: (p: number) =>
   { value: "0-1000", label: "Under ₹1,000", test: (p) => p < 1000 },
   { value: "1000-2500", label: "₹1,000 – ₹2,500", test: (p) => p >= 1000 && p < 2500 },
   { value: "2500-5000", label: "₹2,500 – ₹5,000", test: (p) => p >= 2500 && p < 5000 },
-  { value: "5000+", label: "₹5,000 & above", test: (p) => p >= 5000 },
+  { value: "5000-15000", label: "₹5,000 – ₹15,000", test: (p) => p >= 5000 && p < 15000 },
+  { value: "15000+", label: "₹15,000 & above", test: (p) => p >= 15000 },
 ];
 
 /** Normalise a searchParams value into an array (supports comma lists). */

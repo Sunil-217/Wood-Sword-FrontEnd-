@@ -88,18 +88,25 @@ export function ProductActions({ product }: { product: Product }) {
 
         <button
           onClick={handleAdd}
-          className="flex-1 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-all hover:bg-brand-800 hover:shadow-brand-900/25"
+          disabled={!product.inStock}
+          className="flex-1 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-all hover:bg-brand-800 hover:shadow-brand-900/25 disabled:cursor-not-allowed disabled:bg-brand-900/40 disabled:shadow-none"
         >
-          Add to bag · {inr(product.price * qty)}
+          {product.inStock ? `Add to bag · ${inr(product.price * qty)}` : "Out of stock"}
         </button>
       </div>
 
-      <button
-        onClick={handleBuyNow}
-        className="w-full rounded-full border border-brand-900/15 bg-white px-6 py-3.5 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
-      >
-        Buy it now
-      </button>
+      {product.inStock ? (
+        <button
+          onClick={handleBuyNow}
+          className="w-full rounded-full border border-brand-900/15 bg-white px-6 py-3.5 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
+        >
+          Buy it now
+        </button>
+      ) : (
+        <p className="rounded-xl bg-brand-50 px-4 py-3 text-center text-sm text-brand-900/60">
+          This item is currently out of stock — check back soon.
+        </p>
+      )}
     </div>
   );
 }
