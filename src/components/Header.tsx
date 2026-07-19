@@ -63,9 +63,9 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
+      className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
         scrolled
-          ? "border-brand-900/10 bg-white/85 backdrop-blur-lg"
+          ? "glass border-brand-900/10 shadow-sm shadow-brand-900/5"
           : "border-transparent bg-white"
       }`}
     >
@@ -92,7 +92,7 @@ export function Header() {
               </svg>
             </button>
             {/* Mega dropdown, grouped like the store */}
-            <div className="invisible absolute left-0 top-full w-[640px] translate-y-2 pt-2 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+            <div className="invisible absolute left-0 top-full w-[640px] origin-top translate-y-3 scale-[0.98] pt-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
               <div className="rounded-2xl border border-brand-900/10 bg-white p-5 shadow-xl shadow-brand-900/10">
                 <div className="grid grid-cols-4 gap-5">
                   {multiGroups.map((g) => (
@@ -195,7 +195,7 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-500 [transition-timing-function:var(--ease-spring)] ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -226,10 +226,13 @@ export function Header() {
             </div>
           </form>
 
-          {/* Nav list */}
+          {/* Nav list — items cascade in when the drawer opens */}
           <nav className="flex-1 overflow-y-auto px-5">
-            <ul>
-              <li className="border-b border-brand-900/8">
+            <ul key={mobileOpen ? "open" : "closed"}>
+              <li
+                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                style={{ "--i": 0 } as React.CSSProperties}
+              >
                 <Link
                   href="/"
                   onClick={closeDrawer}
@@ -240,10 +243,14 @@ export function Header() {
               </li>
 
               {/* Accordion per group, like the reference store */}
-              {multiGroups.map((g) => {
+              {multiGroups.map((g, gi) => {
                 const isOpen = openGroup === g.slug;
                 return (
-                  <li key={g.slug} className="border-b border-brand-900/8">
+                  <li
+                    key={g.slug}
+                    className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                    style={{ "--i": gi + 1 } as React.CSSProperties}
+                  >
                     <button
                       onClick={() => setOpenGroup(isOpen ? null : g.slug)}
                       aria-expanded={isOpen}
@@ -292,8 +299,12 @@ export function Header() {
               })}
 
               {/* Single-category groups are plain rows */}
-              {singleGroups.map((g) => (
-                <li key={g.slug} className="border-b border-brand-900/8">
+              {singleGroups.map((g, si) => (
+                <li
+                  key={g.slug}
+                  className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                  style={{ "--i": multiGroups.length + 1 + si } as React.CSSProperties}
+                >
                   <Link
                     href={`/shop?category=${categoriesInGroup(g.slug)[0].slug}`}
                     onClick={closeDrawer}
@@ -304,7 +315,10 @@ export function Header() {
                 </li>
               ))}
 
-              <li className="border-b border-brand-900/8">
+              <li
+                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                style={{ "--i": multiGroups.length + singleGroups.length + 1 } as React.CSSProperties}
+              >
                 <Link
                   href="/cart"
                   onClick={closeDrawer}
@@ -337,9 +351,14 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="rounded-full px-3 py-2 text-sm font-medium text-brand-900 transition-colors hover:bg-brand-50"
+      className="group/nav relative rounded-full px-3 py-2 text-sm font-medium text-brand-900 transition-colors hover:text-brand-950"
     >
       {children}
+      {/* animated underline */}
+      <span
+        aria-hidden
+        className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-gold-500 transition-transform duration-300 [transition-timing-function:var(--ease-spring)] group-hover/nav:scale-x-100"
+      />
     </Link>
   );
 }

@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  WOODSWORD — Design System                                          */
+/*  WOODSWORD — Design System v2                                       */
+/*  Cricket theme · production motion system                           */
 /* ------------------------------------------------------------------ */
 
 @theme {
@@ -40,8 +41,10 @@
   --color-sand-100: #f4f2ec;
   --color-sand-200: #e8e4d9;
 
-  /* Motion */
+  /* Motion — spring-calibrated curves */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-bounce-soft: cubic-bezier(0.34, 1.3, 0.64, 1);
 }
 
 :root {
@@ -63,6 +66,7 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -95,6 +99,13 @@ h3,
   background-clip: content-box;
 }
 
+/* Keyboard focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Page container */
 .container-page {
   margin-inline: auto;
@@ -113,12 +124,46 @@ h3,
   }
 }
 
-/* Keyboard focus ring */
-:focus-visible {
-  outline: 2px solid var(--color-gold-500);
-  outline-offset: 2px;
-  border-radius: 4px;
+/* ------------------------------------------------------------------ */
+/*  Interaction primitives                                             */
+/* ------------------------------------------------------------------ */
+
+/* Apple-style press feedback — put on any button/link */
+.press {
+  transition: transform 0.18s var(--ease-spring);
 }
+.press:active {
+  transform: scale(0.96);
+}
+
+/* Frosted glass surface (nav, overlays) */
+.glass {
+  background: color-mix(in srgb, #ffffff 72%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Light sweep across cards on hover — pair with .group */
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 60%
+  );
+  transform: translateX(-160%);
+  transition: transform 0.9s var(--ease-spring);
+}
+.group:hover .sheen {
+  transform: translateX(160%);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Keyframes                                                          */
+/* ------------------------------------------------------------------ */
 
 /* Marquee for the announcement bar */
 @keyframes ws-marquee {
@@ -136,7 +181,7 @@ h3,
   animation-play-state: paused;
 }
 
-/* Gentle rise-in used for hero + section reveals */
+/* Gentle rise-in used for hero copy */
 @keyframes ws-rise {
   from {
     opacity: 0;
@@ -148,19 +193,10 @@ h3,
   }
 }
 .animate-rise {
-  animation: ws-rise 0.7s var(--ease-out-expo) both;
+  animation: ws-rise 0.8s var(--ease-out-expo) both;
 }
 
-/* Field of play stripes (pitch texture) */
-.pitch-stripes {
-  background-image: repeating-linear-gradient(
-    115deg,
-    transparent 0 42px,
-    color-mix(in srgb, #ffffff 6%, transparent) 42px 84px
-  );
-}
-
-/* Gentle bob for the hero collage cards */
+/* Gentle bob for floating scene cards */
 @keyframes ws-float {
   0%,
   100% {
@@ -171,20 +207,73 @@ h3,
   }
 }
 .animate-float {
-  animation: ws-float 5.5s ease-in-out infinite;
+  animation: ws-float 6s ease-in-out infinite;
 }
 
-/* Scroll-reveal (toggled by the Reveal component) */
-.reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition:
-    opacity 0.7s var(--ease-out-expo),
-    transform 0.7s var(--ease-out-expo);
+/* Cricket ball: bounce with a hint of squash */
+@keyframes ws-ball-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  42% {
+    transform: translateY(-26px) scale(0.98, 1.02);
+  }
+  50% {
+    transform: translateY(-28px) scale(1, 1);
+  }
+  92% {
+    transform: translateY(0) scale(1, 1);
+  }
+  96% {
+    transform: translateY(2px) scale(1.04, 0.94);
+  }
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.animate-ball-bounce {
+  animation: ws-ball-bounce 2.6s var(--ease-spring) infinite;
+}
+
+/* Seam rotation for the hero ball */
+@keyframes ws-seam-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-seam-spin {
+  animation: ws-seam-spin 9s linear infinite;
+}
+
+/* Ball ground shadow, synced to the bounce */
+@keyframes ws-ball-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.18;
+  }
+}
+.animate-ball-shadow {
+  animation: ws-ball-shadow 2.6s var(--ease-spring) infinite;
+}
+
+/* Floodlight breathing glow */
+@keyframes ws-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+.animate-glow {
+  animation: ws-glow 7s ease-in-out infinite;
 }
 
 /* Toast slide-in */
@@ -199,23 +288,119 @@ h3,
   }
 }
 .animate-toast-in {
-  animation: ws-toast-in 0.35s var(--ease-out-expo) both;
+  animation: ws-toast-in 0.4s var(--ease-bounce-soft) both;
 }
 
-/* Respect users who prefer less motion */
+/* Drawer items cascade — set --i per item */
+@keyframes ws-cascade {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.drawer-cascade {
+  animation: ws-cascade 0.45s var(--ease-out-expo) both;
+  animation-delay: calc(80ms + var(--i, 0) * 40ms);
+}
+
+/* Skeleton shimmer */
+@keyframes ws-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-brand-900) 5%, transparent) 40%,
+    color-mix(in srgb, var(--color-brand-900) 10%, transparent) 50%,
+    color-mix(in srgb, var(--color-brand-900) 5%, transparent) 60%
+  );
+  background-size: 200% 100%;
+  animation: ws-shimmer 1.6s linear infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scroll reveal (driven by the Reveal component)                     */
+/* ------------------------------------------------------------------ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo),
+    filter 0.9s var(--ease-out-expo);
+  will-change: opacity, transform, filter;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Scene textures                                                     */
+/* ------------------------------------------------------------------ */
+
+/* Field of play stripes (pitch texture) */
+.pitch-stripes {
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0 42px,
+    color-mix(in srgb, #ffffff 6%, transparent) 42px 84px
+  );
+}
+
+/* Night-stadium backdrop for the hero */
+.stadium {
+  background:
+    radial-gradient(120% 90% at 85% -10%, rgba(240, 193, 78, 0.14) 0%, transparent 55%),
+    radial-gradient(110% 80% at 8% -14%, rgba(240, 193, 78, 0.1) 0%, transparent 50%),
+    radial-gradient(140% 120% at 50% 120%, rgba(54, 138, 93, 0.28) 0%, transparent 60%),
+    linear-gradient(178deg, #060f0a 0%, var(--color-brand-950) 45%, #0c2418 100%);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion: calm everything down                               */
+/* ------------------------------------------------------------------ */
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-float,
   .animate-rise,
-  .animate-toast-in {
+  .animate-toast-in,
+  .animate-ball-bounce,
+  .animate-seam-spin,
+  .animate-ball-shadow,
+  .animate-glow,
+  .drawer-cascade,
+  .skeleton {
     animation: none;
   }
   .reveal {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
+  }
+  .sheen {
+    display: none;
   }
   html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }

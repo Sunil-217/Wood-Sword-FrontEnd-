@@ -22,7 +22,7 @@ export function PromoBand() {
             </p>
             <Link
               href="/shop?category=bats"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-brand-950 transition-transform hover:scale-[1.03]"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-brand-950 press transition-colors"
             >
               Start your build
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
@@ -51,7 +51,7 @@ export function PromoBand() {
             </p>
             <Link
               href="/shop?category=helmets"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white press transition-colors"
             >
               Shop protection
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">

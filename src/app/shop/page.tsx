@@ -217,7 +217,7 @@ export default async function ShopPage({
               </p>
               <Link
                 href="/shop"
-                className="mt-5 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
+                className="mt-5 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white press transition-colors"
               >
                 Reset filters
               </Link>

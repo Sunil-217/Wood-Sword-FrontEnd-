@@ -11,14 +11,15 @@ export function ProductCard({ product }: { product: Product }) {
   const href = `/product/${product.slug}`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-900/15 hover:shadow-xl hover:shadow-brand-900/10">
+    <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-brand-900/15 hover:shadow-xl hover:shadow-brand-900/10">
       <Link href={href} className="relative block aspect-square overflow-hidden">
         <ProductArt
           art={product.art}
           accent={product.accent}
           label={product.name}
-          className="h-full w-full transition-transform duration-500 group-hover:scale-[1.06]"
+          className="h-full w-full transform-gpu transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.07]"
         />
+        <span className="sheen" aria-hidden />
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {product.badge && <ProductBadge kind={product.badge} />}
           {off && !product.badge && <ProductBadge kind="Sale" />}

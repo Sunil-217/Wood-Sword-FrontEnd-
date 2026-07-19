@@ -38,7 +38,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/shop"
-            className="mt-6 inline-block rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
+            className="mt-6 press inline-block rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
           >
             Keep shopping
           </Link>
@@ -63,7 +63,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/shop"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-transform hover:scale-[1.03]"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white press transition-colors"
           >
             Start shopping
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">

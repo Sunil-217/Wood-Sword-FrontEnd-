@@ -16,7 +16,7 @@ export default function NotFound() {
         <Link href="/" className="rounded-full border border-brand-900/15 bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-brand-50">
           Go home
         </Link>
-        <Link href="/shop" className="rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.03]">
+        <Link href="/shop" className="rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white press transition-colors">
           Shop all gear
         </Link>
       </div>

@@ -52,7 +52,7 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
       type="button"
       onClick={handleAdd}
       aria-label={`Add ${product.name} to bag`}
-      className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all duration-300 sm:h-10 sm:w-10 ${
+      className={`press inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors duration-300 sm:h-10 sm:w-10 ${
         added
           ? "bg-brand-600 text-white"
           : "bg-brand-950/5 text-brand-900 hover:bg-brand-900 hover:text-white"
