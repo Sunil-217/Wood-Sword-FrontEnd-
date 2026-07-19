@@ -154,7 +154,7 @@ export default async function ShopPage({
       </nav>
 
       <div className="mt-3">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-brand-950 sm:text-4xl">
+        <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">
           {heading}
         </h1>
         <p className="mt-1.5 text-sm text-brand-900/55">{blurb}</p>

@@ -94,7 +94,7 @@ export default async function ProductPage({
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-500">
             {product.brand} · {category.name}
           </p>
-          <h1 className="mt-1.5 font-display text-3xl font-extrabold tracking-tight text-brand-950 sm:text-4xl">
+          <h1 className="title-fluid mt-1.5 font-display font-extrabold tracking-tight text-brand-950">
             {product.name}
           </h1>
           <p className="mt-2 text-sm text-brand-900/60">{product.tagline}</p>

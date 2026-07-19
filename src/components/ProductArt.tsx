@@ -17,10 +17,10 @@ export function ProductArt({
   label?: string;
 }) {
   const panel: React.CSSProperties = {
-    backgroundImage: `linear-gradient(150deg,
-      color-mix(in srgb, ${accent} 16%, #ffffff) 0%,
-      color-mix(in srgb, ${accent} 30%, #ffffff) 42%,
-      color-mix(in srgb, ${accent} 62%, #0e1c14) 100%)`,
+    backgroundImage: `radial-gradient(120% 100% at 20% 0%,
+      color-mix(in srgb, ${accent} 10%, #ffffff) 0%,
+      color-mix(in srgb, ${accent} 26%, #f4f2ec) 48%,
+      color-mix(in srgb, ${accent} 55%, #17281e) 100%)`,
   };
 
   return (
@@ -32,8 +32,16 @@ export function ProductArt({
     >
       {/* soft light bloom */}
       <div
-        className="pointer-events-none absolute -left-10 -top-10 h-40 w-40 rounded-full blur-2xl"
-        style={{ background: "rgba(255,255,255,0.35)" }}
+        className="pointer-events-none absolute -left-10 -top-10 h-44 w-44 rounded-full blur-2xl"
+        style={{ background: "rgba(255,255,255,0.4)" }}
+      />
+      {/* corner vignette for depth */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(130% 110% at 85% 105%, rgba(7,19,12,0.28) 0%, transparent 55%)",
+        }}
       />
       <svg
         viewBox="0 0 320 320"
@@ -43,13 +51,16 @@ export function ProductArt({
         {/* ground shadow */}
         <ellipse
           cx="160"
-          cy="286"
-          rx="86"
-          ry="14"
+          cy="294"
+          rx="104"
+          ry="15"
           fill="#0a2016"
-          opacity="0.18"
+          opacity="0.2"
         />
-        <Art art={art} accent={accent} />
+        {/* artwork fills the tile */}
+        <g transform="translate(160 160) scale(1.26) translate(-160 -160)">
+          <Art art={art} accent={accent} />
+        </g>
       </svg>
     </div>
   );

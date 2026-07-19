@@ -84,7 +84,7 @@ export default function CartPage() {
   return (
     <Container className="py-8 sm:py-10">
       <div className="flex items-end justify-between">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight text-brand-950 sm:text-4xl">
+        <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">
           Your bag
         </h1>
         <button onClick={clear} className="text-sm font-medium text-brand-900/50 hover:text-ball-500">

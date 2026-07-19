@@ -6,9 +6,21 @@ import { Rating } from "./ui/Rating";
 import { ProductBadge } from "./ui/Badge";
 import { QuickAdd } from "./QuickAdd";
 
+/**
+ * Card titles drop a trailing "(variant)" so grid rows stay tidy —
+ * the full name still shows on the product page, and the variant
+ * lives in the subtitle line.
+ */
+function splitName(name: string): { base: string; variant?: string } {
+  const m = name.match(/^(.*)\s\(([^()]+)\)$/);
+  if (!m) return { base: name };
+  return { base: m[1], variant: m[2] };
+}
+
 export function ProductCard({ product }: { product: Product }) {
   const off = discountPct(product.price, product.mrp);
   const href = `/product/${product.slug}`;
+  const { base, variant } = splitName(product.name);
 
   return (
     <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-brand-900/15 hover:shadow-xl hover:shadow-brand-900/10">
@@ -40,18 +52,20 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-500">
           {product.brand}
         </p>
-        <h3 className="mt-0.5 font-display text-[15px] font-semibold leading-snug text-brand-950">
+        <h3 className="mt-0.5 line-clamp-2 min-h-[2.4em] font-display text-[15px] font-semibold leading-snug text-brand-950">
           <Link href={href} className="after:absolute after:inset-0 after:content-['']">
-            {product.name}
+            {base}
           </Link>
         </h3>
-        <p className="mt-1 line-clamp-1 text-xs text-brand-900/55">{product.tagline}</p>
+        <p className="mt-1 line-clamp-1 text-xs text-brand-900/55">
+          {variant ?? product.tagline}
+        </p>
 
         <div className="mt-2">
           <Rating value={product.rating} reviews={product.reviews} />
         </div>
 
-        <div className="mt-3 flex items-end justify-between gap-1.5">
+        <div className="mt-auto flex items-end justify-between gap-1.5 pt-3">
           <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
             <span className="font-display text-base font-bold text-brand-950 sm:text-lg">
               {inr(product.price)}

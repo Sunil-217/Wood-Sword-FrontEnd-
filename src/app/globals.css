@@ -74,13 +74,27 @@ body {
   color: var(--color-brand-950);
 }
 
-/* Headings default to the display face */
+/* Headings default to the display face, balanced line wrapping */
 h1,
 h2,
 h3,
 .font-display {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+}
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+/* Fluid page-title scale — identical rhythm on every device */
+.title-fluid {
+  font-size: clamp(1.875rem, 1.3rem + 2.2vw, 2.5rem);
+  line-height: 1.1;
+}
+.hero-fluid {
+  font-size: clamp(2.375rem, 1.55rem + 3.6vw, 3.75rem);
+  line-height: 1.05;
 }
 
 /* Thin, tasteful scrollbar */

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { buildQuery, PRICE_BUCKETS, parseList, toggleInList } from "@/lib/filters";
-import { categoriesInGroup, groups } from "@/lib/catalog";
+import { categoriesInGroup, categoryMap, groups } from "@/lib/catalog";
+import type { CategorySlug } from "@/lib/types";
 
 interface Props {
   params: Record<string, string>;
@@ -14,6 +15,23 @@ interface Props {
 
 export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts }: Props) {
   const [open, setOpen] = useState(false);
+
+  // The group owning the active category (or the active group) starts expanded.
+  const activeGroup =
+    params.group ??
+    (params.category ? categoryMap[params.category as CategorySlug]?.group : undefined);
+  const [expanded, setExpanded] = useState<Set<string>>(
+    () => new Set(activeGroup ? [activeGroup] : []),
+  );
+
+  function toggleGroup(slug: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      return next;
+    });
+  }
 
   const activeSizes = parseList(params.size);
   const activeHands = parseList(params.hand);
@@ -54,7 +72,9 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
         </svg>
       </button>
 
-      <div className={`${open ? "block" : "hidden"} space-y-7 rounded-2xl border border-brand-900/8 bg-white p-5 lg:block`}>
+      <div
+        className={`${open ? "block" : "hidden"} space-y-7 overscroll-contain rounded-2xl border border-brand-900/8 bg-white p-5 lg:block lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto`}
+      >
         <div className="flex items-center justify-between">
           <h2 className="font-display text-base font-bold text-brand-950">Filters</h2>
           {activeCount > 0 && (
@@ -91,48 +111,77 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                   />
                 );
               }
+              const isExpanded = expanded.has(g.slug) || groupActive;
               return (
                 <div key={g.slug}>
-                  <Link
-                    href={hrefWith({
-                      group: groupActive ? undefined : g.slug,
-                      category: undefined,
-                      size: undefined,
-                      hand: undefined,
-                    })}
-                    className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
-                      groupActive
-                        ? "bg-brand-900 text-white"
-                        : "text-brand-900/45 hover:bg-brand-50 hover:text-brand-900/70"
+                  <div
+                    className={`flex items-center justify-between gap-1 rounded-lg pr-1 transition-colors ${
+                      groupActive ? "bg-brand-900" : "hover:bg-brand-50"
                     }`}
                   >
-                    {g.name}
-                    <span className={groupActive ? "text-white/60" : "text-brand-900/35"}>
-                      {groupCount}
-                    </span>
-                  </Link>
-                  <ul className="mt-1 space-y-0.5">
-                    {leaves.map((c) => {
-                      const active = params.category === c.slug;
-                      return (
-                        <li key={c.slug}>
-                          <CategoryRow
-                            href={hrefWith({
-                              category: active ? undefined : c.slug,
-                              group: undefined,
-                              size: undefined,
-                              hand: undefined,
-                            })}
-                            active={active}
-                            accent={c.accent}
-                            label={c.name}
-                            count={categoryCounts[c.slug] ?? 0}
-                            indent
-                          />
-                        </li>
-                      );
-                    })}
-                  </ul>
+                    <Link
+                      href={hrefWith({
+                        group: groupActive ? undefined : g.slug,
+                        category: undefined,
+                        size: undefined,
+                        hand: undefined,
+                      })}
+                      className={`flex flex-1 items-center justify-between px-2.5 py-2 text-xs font-semibold uppercase tracking-wider ${
+                        groupActive ? "text-white" : "text-brand-900/50"
+                      }`}
+                    >
+                      {g.name}
+                      <span className={groupActive ? "text-white/60" : "text-brand-900/35"}>
+                        {groupCount}
+                      </span>
+                    </Link>
+                    <button
+                      onClick={() => toggleGroup(g.slug)}
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? "Collapse" : "Expand"} ${g.name}`}
+                      className={`press flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${
+                        groupActive ? "text-white/70" : "text-brand-900/45 hover:text-brand-900"
+                      }`}
+                    >
+                      <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        className={`transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+                      >
+                        <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div
+                    className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+                      isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <ul className="mt-1 space-y-0.5 overflow-hidden">
+                      {leaves.map((c) => {
+                        const active = params.category === c.slug;
+                        return (
+                          <li key={c.slug}>
+                            <CategoryRow
+                              href={hrefWith({
+                                category: active ? undefined : c.slug,
+                                group: undefined,
+                                size: undefined,
+                                hand: undefined,
+                              })}
+                              active={active}
+                              accent={c.accent}
+                              label={c.name}
+                              count={categoryCounts[c.slug] ?? 0}
+                              indent
+                            />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </div>
               );
             })}

@@ -23,7 +23,7 @@ export function Hero() {
             New season · 2026 range now live
           </span>
           <h1
-            className="animate-rise mt-5 font-display text-4xl font-extrabold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl"
+            className="hero-fluid animate-rise mt-5 font-display font-extrabold tracking-tight"
             style={{ animationDelay: "80ms" }}
           >
             Gear built to be
