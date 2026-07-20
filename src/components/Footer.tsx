@@ -53,7 +53,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-lg bg-white p-1 shadow-sm">
+              <span className="inline-flex items-center justify-center rounded-lg bg-surface p-1 shadow-sm">
                 <ShieldMark className="h-8 w-auto" />
               </span>
               <span className="font-display text-lg font-extrabold tracking-tight text-white">

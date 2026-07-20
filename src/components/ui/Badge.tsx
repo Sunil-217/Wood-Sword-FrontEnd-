@@ -2,7 +2,7 @@ import type { Badge as BadgeKind } from "@/lib/types";
 
 const styles: Record<BadgeKind, string> = {
   New: "bg-brand-600 text-white",
-  Bestseller: "bg-gold-500 text-brand-950",
+  Bestseller: "bg-gold-500 text-ink",
   Sale: "bg-ball-500 text-white",
   Pro: "bg-brand-950 text-gold-400 ring-1 ring-gold-500/40",
 };

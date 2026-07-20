@@ -12,13 +12,13 @@ export default function ShopLoading() {
           <div className="skeleton h-[480px] rounded-2xl" />
         </div>
         <div>
-          <div className="flex items-center justify-between border-b border-brand-900/8 pb-4">
+          <div className="flex items-center justify-between border-b border-line/8 pb-4">
             <div className="skeleton h-4 w-24 rounded-full" />
             <div className="skeleton h-9 w-36 rounded-full" />
           </div>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="overflow-hidden rounded-2xl border border-brand-900/8 bg-white">
+              <div key={i} className="overflow-hidden rounded-2xl border border-line/8 bg-surface">
                 <div className="skeleton aspect-square" />
                 <div className="space-y-2.5 p-4">
                   <div className="skeleton h-3 w-16 rounded-full" />

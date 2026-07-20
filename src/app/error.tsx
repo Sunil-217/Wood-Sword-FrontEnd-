@@ -24,10 +24,10 @@ export default function ErrorPage({
           <path d="M10.3 3.8 2.9 17a2 2 0 0 0 1.7 3h14.8a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
         </svg>
       </div>
-      <h1 className="mt-5 font-display text-2xl font-bold text-brand-950">
+      <h1 className="mt-5 font-display text-2xl font-bold text-ink">
         That one caught the edge
       </h1>
-      <p className="mt-2 max-w-sm text-sm text-brand-900/55">
+      <p className="mt-2 max-w-sm text-sm text-muted/55">
         Something went wrong loading this page. It&apos;s us, not you — try
         again, or head back to the gear.
       </p>
@@ -40,7 +40,7 @@ export default function ErrorPage({
         </button>
         <Link
           href="/"
-          className="press rounded-full border border-brand-900/15 bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-brand-50"
+          className="press rounded-full border border-line/15 bg-surface px-5 py-2.5 text-sm font-semibold text-ink hover:bg-subtle"
         >
           Go home
         </Link>

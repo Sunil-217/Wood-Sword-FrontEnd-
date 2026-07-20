@@ -30,11 +30,11 @@ export default function ContactPage() {
   return (
     <Container className="py-10 sm:py-14">
       <div className="mx-auto max-w-2xl text-center">
-        <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">
+        <h1 className="title-fluid font-display font-extrabold tracking-tight text-ink">
           Get in touch
         </h1>
         <div className="seam-stitch mx-auto mt-3 w-16" aria-hidden />
-        <p className="mt-2 text-sm text-brand-900/60">
+        <p className="mt-2 text-sm text-muted/60">
           Questions about sizing, a custom bat, or an order? We&apos;re here to help.
         </p>
       </div>
@@ -42,33 +42,33 @@ export default function ContactPage() {
       {/* Contact cards */}
       <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
         {CONTACTS.map((c) => (
-          <div key={c.title} className="rounded-2xl border border-brand-900/8 bg-white p-5 text-center shadow-sm">
-            <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+          <div key={c.title} className="rounded-2xl border border-line/8 bg-surface p-5 text-center shadow-sm">
+            <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-subtle text-accent">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">{c.icon}</svg>
             </span>
-            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-brand-900/45">{c.title}</p>
-            <p className="mt-0.5 text-sm font-semibold text-brand-950">{c.value}</p>
-            <p className="text-xs text-brand-900/50">{c.sub}</p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-muted/45">{c.title}</p>
+            <p className="mt-0.5 text-sm font-semibold text-ink">{c.value}</p>
+            <p className="text-xs text-muted/50">{c.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Form */}
-      <div className="mx-auto mt-6 max-w-2xl rounded-3xl border border-brand-900/8 bg-white p-6 shadow-sm sm:p-8">
+      <div className="mx-auto mt-6 max-w-2xl rounded-3xl border border-line/8 bg-surface p-6 shadow-sm sm:p-8">
         {done ? (
           <div className="py-8 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-accent">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <h2 className="mt-4 font-display text-xl font-bold text-brand-950">Message sent!</h2>
-            <p className="mt-2 text-sm text-brand-900/60">
+            <h2 className="mt-4 font-display text-xl font-bold text-ink">Message sent!</h2>
+            <p className="mt-2 text-sm text-muted/60">
               Thanks for reaching out — we&apos;ll get back to you soon. (Demo — no message is actually sent.)
             </p>
             <button
               onClick={() => setDone(false)}
-              className="press mt-5 rounded-full border border-brand-900/15 bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-brand-50"
+              className="press mt-5 rounded-full border border-line/15 bg-surface px-5 py-2.5 text-sm font-semibold text-ink hover:bg-subtle"
             >
               Send another
             </button>
@@ -112,12 +112,12 @@ export default function ContactPage() {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-brand-900/15 bg-white px-3.5 py-2.5 text-sm text-brand-950 outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20";
+  "w-full rounded-xl border border-line/15 bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block text-left">
-      <span className="mb-1 block text-xs font-medium text-brand-900/60">{label}</span>
+      <span className="mb-1 block text-xs font-medium text-muted/60">{label}</span>
       {children}
     </label>
   );

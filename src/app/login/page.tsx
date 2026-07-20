@@ -35,15 +35,15 @@ function LoginForm() {
     <div className="mx-auto w-full max-w-md">
       <div className="mb-6 flex flex-col items-center text-center">
         <ShieldMark className="h-12 w-auto" />
-        <h1 className="mt-4 font-display text-2xl font-bold text-brand-950">Sign in to MM Sports</h1>
-        <p className="mt-1.5 text-sm text-brand-900/55">
+        <h1 className="mt-4 font-display text-2xl font-bold text-ink">Sign in to MM Sports</h1>
+        <p className="mt-1.5 text-sm text-muted/55">
           Access your bag, wishlist and orders.
         </p>
       </div>
 
-      <form onSubmit={submit} className="rounded-2xl border border-brand-900/8 bg-white p-6 shadow-sm sm:p-8">
+      <form onSubmit={submit} className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm sm:p-8">
         <label className="block">
-          <span className="mb-1 block text-xs font-medium text-brand-900/60">Email</span>
+          <span className="mb-1 block text-xs font-medium text-muted/60">Email</span>
           <input
             type="email"
             required
@@ -54,13 +54,13 @@ function LoginForm() {
               setError(null);
             }}
             placeholder="you@email.com"
-            className="w-full rounded-xl border border-brand-900/15 bg-white px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+            className="w-full rounded-xl border border-line/15 bg-surface px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
           />
         </label>
 
         <label className="mt-4 block">
-          <span className="mb-1 block text-xs font-medium text-brand-900/60">Password</span>
-          <div className="flex items-center rounded-xl border border-brand-900/15 bg-white pr-2 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20">
+          <span className="mb-1 block text-xs font-medium text-muted/60">Password</span>
+          <div className="flex items-center rounded-xl border border-line/15 bg-surface pr-2 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20">
             <input
               type={show ? "text" : "password"}
               required
@@ -75,7 +75,7 @@ function LoginForm() {
             <button
               type="button"
               onClick={() => setShow((s) => !s)}
-              className="press rounded-lg px-2 py-1 text-xs font-semibold text-brand-700"
+              className="press rounded-lg px-2 py-1 text-xs font-semibold text-accent"
             >
               {show ? "Hide" : "Show"}
             </button>
@@ -99,13 +99,13 @@ function LoginForm() {
           Sign in
         </button>
 
-        <p className="mt-4 text-center text-xs text-brand-900/45">
+        <p className="mt-4 text-center text-xs text-muted/45">
           Demo store — any email + a 6+ character password signs you in as a customer.
         </p>
       </form>
 
-      <p className="mt-5 text-center text-sm text-brand-900/55">
-        <Link href="/shop" className="font-semibold text-brand-700 hover:underline">
+      <p className="mt-5 text-center text-sm text-muted/55">
+        <Link href="/shop" className="font-semibold text-accent hover:underline">
           ← Continue shopping
         </Link>
       </p>

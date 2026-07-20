@@ -78,7 +78,7 @@ export function Logo({
       aria-label="MM Sports home"
     >
       <ShieldMark className="h-9 w-auto drop-shadow-sm" />
-      <span className="font-display text-lg font-extrabold tracking-tight text-brand-950">
+      <span className="font-display text-lg font-extrabold tracking-tight text-ink">
         MM<span className="text-ball-600"> SPORTS</span>
       </span>
     </Link>

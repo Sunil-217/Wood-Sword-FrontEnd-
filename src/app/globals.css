@@ -41,6 +41,16 @@
   --color-sand-100: #f4f2ec;
   --color-sand-200: #e8e4d9;
 
+  /* Semantic, theme-aware surface tokens (light values;
+     overridden under [data-theme="dark"]) */
+  --color-ink: #0b1524;      /* primary text */
+  --color-muted: #142236;    /* secondary text (used with opacity) */
+  --color-surface: #ffffff;  /* cards, panels, header */
+  --color-page: #faf9f6;     /* body background */
+  --color-subtle: #eef2f8;   /* subtle fills / hovers */
+  --color-line: #142236;     /* borders (used with opacity) */
+  --color-accent: #2b4269;   /* eyebrows / inline links */
+
   /* Motion — spring-calibrated curves */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
@@ -50,6 +60,24 @@
 :root {
   --background: #ffffff;
   --foreground: #0e1a2b;
+}
+
+/* Dark theme — flips the semantic tokens; brand navy, gold and red
+   accents stay as-is so the identity is consistent across modes. */
+:root[data-theme="dark"] {
+  --background: #0a1526;
+  --foreground: #e8eef5;
+  --color-ink: #e8eef5;
+  --color-muted: #b3c2d6;
+  --color-surface: #12233c;
+  --color-page: #0a1526;
+  --color-subtle: #1c3252;
+  --color-line: #d2ddec;
+  --color-accent: #8fb0e0;
+}
+
+:root[data-theme="dark"] body {
+  color-scheme: dark;
 }
 
 * {
@@ -143,7 +171,7 @@ h2 {
 
 /* Frosted glass surface (nav, overlays) */
 .glass {
-  background: color-mix(in srgb, #ffffff 72%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 72%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
 }

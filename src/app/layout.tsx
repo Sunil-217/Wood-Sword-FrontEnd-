@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
@@ -55,9 +56,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${sora.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-sand-50 text-brand-950">
+      <body className="flex min-h-full flex-col bg-page text-ink">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`try{var t=localStorage.getItem('mmsports-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}else if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}`}
+        </Script>
         <AuthProvider>
           <CatalogProvider>
             <OrdersProvider>

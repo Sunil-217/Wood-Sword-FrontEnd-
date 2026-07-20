@@ -72,19 +72,19 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-500">
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-accent">
             <span className="inline-flex h-2 w-2 rounded-full bg-brand-500" />
             Admin
           </p>
-          <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">
+          <h1 className="title-fluid font-display font-extrabold tracking-tight text-ink">
             Dashboard
           </h1>
-          <p className="mt-1 text-sm text-brand-900/55">Signed in as {email}</p>
+          <p className="mt-1 text-sm text-muted/55">Signed in as {email}</p>
         </div>
         <div className="flex items-center gap-2">
           <Link
             href="/"
-            className="press rounded-full border border-brand-900/15 bg-white px-4 py-2 text-sm font-semibold text-brand-900 hover:bg-brand-50"
+            className="press rounded-full border border-line/15 bg-surface px-4 py-2 text-sm font-semibold text-ink hover:bg-subtle"
           >
             View store
           </Link>
@@ -110,7 +110,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       </div>
 
       {edited && (
-        <p className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-gold-500/10 px-4 py-2.5 text-sm text-brand-800">
+        <p className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-gold-500/10 px-4 py-2.5 text-sm text-ink">
           <span className="font-semibold">Live edits active.</span>
           Your changes show on the storefront (saved in this browser).
           <button onClick={resetAll} className="font-semibold text-ball-600 hover:underline">
@@ -120,18 +120,18 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       )}
 
       {/* Tabs */}
-      <div className="mt-6 inline-flex rounded-full border border-brand-900/10 bg-brand-50 p-1">
+      <div className="mt-6 inline-flex rounded-full border border-line/10 bg-subtle p-1">
         {(["products", "orders"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             className={`press rounded-full px-4 py-2 text-sm font-semibold capitalize transition-colors ${
-              tab === t ? "bg-brand-900 text-white" : "text-brand-900/60 hover:text-brand-900"
+              tab === t ? "bg-brand-900 text-white" : "text-muted/60 hover:text-ink"
             }`}
           >
             {t}
             {t === "orders" && orders.length > 0 && (
-              <span className={`ml-1.5 ${tab === t ? "text-white/60" : "text-brand-900/40"}`}>
+              <span className={`ml-1.5 ${tab === t ? "text-white/60" : "text-muted/40"}`}>
                 {orders.length}
               </span>
             )}
@@ -144,9 +144,9 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       {tab === "products" && (
       <>
       {/* Toolbar */}
-      <div className="mt-6 flex flex-wrap items-center gap-3 border-b border-brand-900/8 pb-4">
-        <div className="flex flex-1 items-center rounded-full bg-brand-50 ring-1 ring-brand-900/5 focus-within:ring-brand-500/40">
-          <span className="pl-3 text-brand-900/40">
+      <div className="mt-6 flex flex-wrap items-center gap-3 border-b border-line/8 pb-4">
+        <div className="flex flex-1 items-center rounded-full bg-subtle ring-1 ring-line/5 focus-within:ring-brand-500/40">
+          <span className="pl-3 text-muted/40">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
               <path d="M20 20l-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -156,13 +156,13 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search products…"
-            className="w-full bg-transparent px-2 py-2 text-sm outline-none placeholder:text-brand-900/40"
+            className="w-full bg-transparent px-2 py-2 text-sm outline-none placeholder:text-muted/40"
           />
         </div>
         <select
           value={cat}
           onChange={(e) => setCat(e.target.value as "all" | CategorySlug)}
-          className="cursor-pointer rounded-full border border-brand-900/15 bg-white py-2 pl-3.5 pr-8 text-sm font-medium text-brand-900 outline-none hover:border-brand-900/30"
+          className="cursor-pointer rounded-full border border-line/15 bg-surface py-2 pl-3.5 pr-8 text-sm font-medium text-ink outline-none hover:border-line/30"
         >
           <option value="all">All categories</option>
           {categories.map((c) => (
@@ -181,14 +181,14 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       </div>
 
       {/* Table */}
-      <p className="mt-4 text-sm text-brand-900/55">
-        <span className="font-semibold text-brand-950">{rows.length}</span>{" "}
+      <p className="mt-4 text-sm text-muted/55">
+        <span className="font-semibold text-ink">{rows.length}</span>{" "}
         {rows.length === 1 ? "product" : "products"}
       </p>
-      <div className="mt-3 overflow-x-auto rounded-2xl border border-brand-900/8 bg-white">
+      <div className="mt-3 overflow-x-auto rounded-2xl border border-line/8 bg-surface">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead>
-            <tr className="border-b border-brand-900/8 text-xs uppercase tracking-wider text-brand-900/45">
+            <tr className="border-b border-line/8 text-xs uppercase tracking-wider text-muted/45">
               <th className="px-4 py-3 font-semibold">Product</th>
               <th className="px-4 py-3 font-semibold">Category</th>
               <th className="px-4 py-3 font-semibold">Price</th>
@@ -199,28 +199,28 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
           </thead>
           <tbody>
             {rows.map((p) => (
-              <tr key={p.id} className="border-b border-brand-900/6 last:border-0 hover:bg-brand-50/40">
+              <tr key={p.id} className="border-b border-line/6 last:border-0 hover:bg-brand-50/40">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <span className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-brand-900/8">
+                    <span className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-line/8">
                       <ProductArt art={p.art} accent={p.accent} label={p.name} className="h-full w-full" />
                     </span>
                     <span className="min-w-0">
-                      <span className="block max-w-[220px] truncate font-medium text-brand-950">{p.name}</span>
-                      <span className="block text-xs text-brand-900/45">{p.brand}</span>
+                      <span className="block max-w-[220px] truncate font-medium text-ink">{p.name}</span>
+                      <span className="block text-xs text-muted/45">{p.brand}</span>
                     </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 text-brand-900/70">{categoryMap[p.category].name}</td>
+                <td className="px-4 py-3 text-muted/70">{categoryMap[p.category].name}</td>
                 <td className="px-4 py-3">
-                  <span className="font-semibold text-brand-950">{inr(p.price)}</span>
-                  {p.mrp && <span className="ml-1 text-xs text-brand-900/40 line-through">{inr(p.mrp)}</span>}
+                  <span className="font-semibold text-ink">{inr(p.price)}</span>
+                  {p.mrp && <span className="ml-1 text-xs text-muted/40 line-through">{inr(p.mrp)}</span>}
                 </td>
                 <td className="px-4 py-3">
                   {p.badge ? (
-                    <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-700">{p.badge}</span>
+                    <span className="rounded-full bg-subtle px-2 py-0.5 text-xs font-semibold text-accent">{p.badge}</span>
                   ) : (
-                    <span className="text-xs text-brand-900/30">—</span>
+                    <span className="text-xs text-muted/30">—</span>
                   )}
                 </td>
                 <td className="px-4 py-3">
@@ -232,14 +232,14 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
                     aria-label={p.inStock ? "Mark out of stock" : "Mark in stock"}
                     aria-pressed={p.inStock}
                   >
-                    <span className="h-5 w-5 rounded-full bg-white shadow-sm" />
+                    <span className="h-5 w-5 rounded-full bg-surface shadow-sm" />
                   </button>
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => setEditing({ mode: "edit", product: p })}
-                      className="press rounded-lg p-2 text-brand-700 hover:bg-brand-50"
+                      className="press rounded-lg p-2 text-accent hover:bg-subtle"
                       aria-label={`Edit ${p.name}`}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -263,7 +263,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
             ))}
             {rows.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-sm text-brand-900/45">
+                <td colSpan={6} className="px-4 py-10 text-center text-sm text-muted/45">
                   No products match your search.
                 </td>
               </tr>
@@ -304,9 +304,9 @@ function OrdersPanel({
 
   if (orders.length === 0) {
     return (
-      <div className="mt-6 rounded-2xl border border-dashed border-brand-900/15 bg-white/60 px-6 py-16 text-center">
-        <h3 className="font-display text-lg font-bold text-brand-950">No orders yet</h3>
-        <p className="mt-1.5 text-sm text-brand-900/55">
+      <div className="mt-6 rounded-2xl border border-dashed border-line/15 bg-white/60 px-6 py-16 text-center">
+        <h3 className="font-display text-lg font-bold text-ink">No orders yet</h3>
+        <p className="mt-1.5 text-sm text-muted/55">
           Orders placed at checkout will appear here for you to manage.
         </p>
       </div>
@@ -321,10 +321,10 @@ function OrdersPanel({
         <Stat label="To fulfil" value={String(pending)} tone={pending ? "bad" : "good"} />
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-brand-900/8 bg-white">
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-line/8 bg-surface">
         <table className="w-full min-w-[720px] text-left text-sm">
           <thead>
-            <tr className="border-b border-brand-900/8 text-xs uppercase tracking-wider text-brand-900/45">
+            <tr className="border-b border-line/8 text-xs uppercase tracking-wider text-muted/45">
               <th className="px-4 py-3 font-semibold">Order</th>
               <th className="px-4 py-3 font-semibold">Date</th>
               <th className="px-4 py-3 font-semibold">Customer</th>
@@ -335,22 +335,22 @@ function OrdersPanel({
           </thead>
           <tbody>
             {orders.map((o) => (
-              <tr key={o.id} className="border-b border-brand-900/6 last:border-0 hover:bg-brand-50/40">
-                <td className="px-4 py-3 font-semibold text-brand-950">{o.id}</td>
-                <td className="px-4 py-3 text-brand-900/60">
+              <tr key={o.id} className="border-b border-line/6 last:border-0 hover:bg-brand-50/40">
+                <td className="px-4 py-3 font-semibold text-ink">{o.id}</td>
+                <td className="px-4 py-3 text-muted/60">
                   {new Date(o.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                 </td>
                 <td className="px-4 py-3">
-                  <span className="block max-w-[180px] truncate text-brand-950">{o.name || "—"}</span>
-                  <span className="block max-w-[180px] truncate text-xs text-brand-900/50">{o.email}</span>
+                  <span className="block max-w-[180px] truncate text-ink">{o.name || "—"}</span>
+                  <span className="block max-w-[180px] truncate text-xs text-muted/50">{o.email}</span>
                 </td>
-                <td className="px-4 py-3 text-brand-900/70">{o.items.reduce((n, l) => n + l.qty, 0)}</td>
-                <td className="px-4 py-3 font-semibold text-brand-950">{inr(o.total)}</td>
+                <td className="px-4 py-3 text-muted/70">{o.items.reduce((n, l) => n + l.qty, 0)}</td>
+                <td className="px-4 py-3 font-semibold text-ink">{inr(o.total)}</td>
                 <td className="px-4 py-3">
                   <select
                     value={o.status}
                     onChange={(e) => updateStatus(o.id, e.target.value as OrderStatus)}
-                    className="cursor-pointer rounded-full border border-brand-900/15 bg-white py-1.5 pl-3 pr-7 text-xs font-semibold text-brand-900 outline-none hover:border-brand-900/30"
+                    className="cursor-pointer rounded-full border border-line/15 bg-surface py-1.5 pl-3 pr-7 text-xs font-semibold text-ink outline-none hover:border-line/30"
                   >
                     {ORDER_STATUSES.map((s) => (
                       <option key={s} value={s}>{s}</option>
@@ -376,11 +376,11 @@ function Stat({
   tone?: "muted" | "good" | "bad";
 }) {
   const toneCls =
-    tone === "good" ? "text-brand-600" : tone === "bad" ? "text-ball-600" : "text-brand-950";
+    tone === "good" ? "text-accent" : tone === "bad" ? "text-ball-600" : "text-ink";
   return (
-    <div className="rounded-2xl border border-brand-900/8 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-line/8 bg-surface p-4 shadow-sm">
       <p className={`font-display text-2xl font-bold ${toneCls}`}>{value}</p>
-      <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-brand-900/45">{label}</p>
+      <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-muted/45">{label}</p>
     </div>
   );
 }
@@ -439,13 +439,13 @@ function ProductDialog({
       <div className="absolute inset-0 bg-brand-950/50 backdrop-blur-[2px]" onClick={onClose} />
       <form
         onSubmit={save}
-        className="animate-toast-in relative w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl"
+        className="animate-toast-in relative w-full max-w-lg overflow-hidden rounded-2xl bg-surface shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-brand-900/8 px-6 py-4">
-          <h2 className="font-display text-lg font-bold text-brand-950">
+        <div className="flex items-center justify-between border-b border-line/8 px-6 py-4">
+          <h2 className="font-display text-lg font-bold text-ink">
             {isEdit ? "Edit product" : "Add product"}
           </h2>
-          <button type="button" onClick={onClose} className="press rounded-lg p-1.5 text-brand-900/50 hover:bg-brand-50" aria-label="Close">
+          <button type="button" onClick={onClose} className="press rounded-lg p-1.5 text-muted/50 hover:bg-subtle" aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
           </button>
         </div>
@@ -487,23 +487,23 @@ function ProductDialog({
             <input value={tagline} onChange={(e) => setTagline(e.target.value)} className={inputCls} placeholder="Short one-line description" />
           </Field>
 
-          <label className="flex items-center gap-3 rounded-xl border border-brand-900/12 px-4 py-3">
+          <label className="flex items-center gap-3 rounded-xl border border-line/12 px-4 py-3">
             <button
               type="button"
               onClick={() => setInStock((v) => !v)}
               className={`inline-flex h-6 w-11 items-center rounded-full px-0.5 transition-colors ${inStock ? "justify-end bg-brand-600" : "justify-start bg-brand-900/15"}`}
               aria-pressed={inStock}
             >
-              <span className="h-5 w-5 rounded-full bg-white shadow-sm" />
+              <span className="h-5 w-5 rounded-full bg-surface shadow-sm" />
             </button>
-            <span className="text-sm font-medium text-brand-950">
+            <span className="text-sm font-medium text-ink">
               {inStock ? "In stock" : "Out of stock"}
             </span>
           </label>
         </div>
 
-        <div className="flex justify-end gap-2 border-t border-brand-900/8 px-6 py-4">
-          <button type="button" onClick={onClose} className="press rounded-full border border-brand-900/15 bg-white px-5 py-2.5 text-sm font-semibold text-brand-900 hover:bg-brand-50">
+        <div className="flex justify-end gap-2 border-t border-line/8 px-6 py-4">
+          <button type="button" onClick={onClose} className="press rounded-full border border-line/15 bg-surface px-5 py-2.5 text-sm font-semibold text-ink hover:bg-subtle">
             Cancel
           </button>
           <button type="submit" className="press rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
@@ -516,12 +516,12 @@ function ProductDialog({
 }
 
 const inputCls =
-  "w-full rounded-xl border border-brand-900/15 bg-white px-3.5 py-2.5 text-sm text-brand-950 outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20";
+  "w-full rounded-xl border border-line/15 bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-xs font-medium text-brand-900/60">{label}</span>
+      <span className="mb-1 block text-xs font-medium text-muted/60">{label}</span>
       {children}
     </label>
   );

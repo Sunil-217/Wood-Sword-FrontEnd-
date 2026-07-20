@@ -71,7 +71,7 @@ export function Hero() {
         >
           <Link
             href="/shop"
-            className="press inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-brand-950 shadow-lg shadow-gold-500/25 transition-shadow hover:shadow-xl hover:shadow-gold-500/40"
+            className="press inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-gold-500/25 transition-shadow hover:shadow-xl hover:shadow-gold-500/40"
           >
             Shop all gear
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

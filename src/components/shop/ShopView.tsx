@@ -100,32 +100,32 @@ export function ShopView() {
 
   return (
     <Container className="py-8 sm:py-10">
-      <nav className="flex items-center gap-1.5 text-xs text-brand-900/50">
-        <Link href="/" className="hover:text-brand-700">Home</Link>
+      <nav className="flex items-center gap-1.5 text-xs text-muted/50">
+        <Link href="/" className="hover:text-accent">Home</Link>
         <span>/</span>
-        <Link href="/shop" className="hover:text-brand-700">Shop</Link>
+        <Link href="/shop" className="hover:text-accent">Shop</Link>
         {category && (
           <>
             <span>/</span>
-            <Link href={`/shop?group=${categoryMap[category].group}`} className="hover:text-brand-700">
+            <Link href={`/shop?group=${categoryMap[category].group}`} className="hover:text-accent">
               {groupMap[categoryMap[category].group].name}
             </Link>
             <span>/</span>
-            <span className="text-brand-900/80">{categoryMap[category].name}</span>
+            <span className="text-muted/80">{categoryMap[category].name}</span>
           </>
         )}
         {group && (
           <>
             <span>/</span>
-            <span className="text-brand-900/80">{groupMap[group].name}</span>
+            <span className="text-muted/80">{groupMap[group].name}</span>
           </>
         )}
       </nav>
 
       <div className="mt-3">
-        <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">{heading}</h1>
+        <h1 className="title-fluid font-display font-extrabold tracking-tight text-ink">{heading}</h1>
         <div className="seam-stitch mt-3 w-16" aria-hidden />
-        <p className="mt-2 text-sm text-brand-900/55">{blurb}</p>
+        <p className="mt-2 text-sm text-muted/55">{blurb}</p>
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[270px_1fr]">
@@ -139,9 +139,9 @@ export function ShopView() {
         </aside>
 
         <div>
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-brand-900/8 pb-4">
-            <p className="text-sm text-brand-900/60">
-              <span className="font-semibold text-brand-950">{list.length}</span>{" "}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line/8 pb-4">
+            <p className="text-sm text-muted/60">
+              <span className="font-semibold text-ink">{list.length}</span>{" "}
               {list.length === 1 ? "product" : "products"}
             </p>
             <SortSelect params={params} />
@@ -153,7 +153,7 @@ export function ShopView() {
                 <Link
                   key={chip.label}
                   href={chip.href}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1.5 text-xs font-medium text-brand-800 ring-1 ring-brand-900/8 transition-colors hover:bg-brand-100"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-subtle px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-line/8 transition-colors hover:bg-brand-100"
                 >
                   {chip.label}
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
@@ -169,15 +169,15 @@ export function ShopView() {
               <ProductGrid products={list} />
             </div>
           ) : (
-            <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-brand-900/15 bg-white/60 px-6 py-16 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-50 text-brand-500">
+            <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line/15 bg-white/60 px-6 py-16 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-subtle text-accent">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
                   <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
                   <path d="M20 20l-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
-              <h3 className="mt-4 font-display text-lg font-bold text-brand-950">No gear matches those filters</h3>
-              <p className="mt-1.5 max-w-xs text-sm text-brand-900/55">
+              <h3 className="mt-4 font-display text-lg font-bold text-ink">No gear matches those filters</h3>
+              <p className="mt-1.5 max-w-xs text-sm text-muted/55">
                 Try widening your price range or clearing a filter or two.
               </p>
               <Link href="/shop" className="press mt-5 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800">

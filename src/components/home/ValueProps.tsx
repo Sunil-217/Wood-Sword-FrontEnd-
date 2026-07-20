@@ -46,20 +46,20 @@ const props = [
 export function ValueProps() {
   return (
     <Container className="relative z-20 -mt-8">
-      <div className="grid grid-cols-2 gap-3 rounded-2xl border border-brand-900/8 bg-white p-3 shadow-xl shadow-brand-900/5 sm:gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 rounded-2xl border border-line/8 bg-surface p-3 shadow-xl shadow-brand-900/5 sm:gap-4 lg:grid-cols-4">
         {props.map((p) => (
           <div
             key={p.title}
             className="flex flex-col items-center gap-2 rounded-xl px-2 py-3 text-center sm:flex-row sm:items-center sm:gap-3 sm:px-3 sm:text-left"
           >
-            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700 sm:h-11 sm:w-11">
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-subtle text-accent sm:h-11 sm:w-11">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 {p.icon}
               </svg>
             </span>
             <div>
-              <p className="text-[13px] font-semibold text-brand-950 sm:text-sm">{p.title}</p>
-              <p className="text-xs text-brand-900/55">{p.body}</p>
+              <p className="text-[13px] font-semibold text-ink sm:text-sm">{p.title}</p>
+              <p className="text-xs text-muted/55">{p.body}</p>
             </div>
           </div>
         ))}

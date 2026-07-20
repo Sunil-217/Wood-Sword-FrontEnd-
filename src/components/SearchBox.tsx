@@ -76,8 +76,8 @@ export function SearchBox({
   return (
     <div ref={boxRef} className={`relative ${variant === "mobile" ? "w-full" : ""}`}>
       <form onSubmit={submit}>
-        <div className="flex items-center rounded-full bg-brand-50 ring-1 ring-brand-900/5 focus-within:ring-brand-500/40">
-          <span className="pl-3 text-brand-900/40">
+        <div className="flex items-center rounded-full bg-subtle ring-1 ring-line/5 focus-within:ring-brand-500/40">
+          <span className="pl-3 text-muted/40">
             <SearchIcon />
           </span>
           <input
@@ -91,7 +91,7 @@ export function SearchBox({
             onKeyDown={onKeyDown}
             placeholder="Search gear…"
             aria-label="Search products"
-            className={`bg-transparent px-2 text-sm outline-none placeholder:text-brand-900/40 ${
+            className={`bg-transparent px-2 text-sm outline-none placeholder:text-muted/40 ${
               variant === "mobile" ? "w-full py-2.5" : "w-40 py-2 lg:w-52"
             }`}
           />
@@ -100,7 +100,7 @@ export function SearchBox({
 
       {showPanel && (
         <div
-          className={`absolute z-50 mt-2 overflow-hidden rounded-2xl border border-brand-900/10 bg-white shadow-xl shadow-brand-900/10 ${
+          className={`absolute z-50 mt-2 overflow-hidden rounded-2xl border border-line/10 bg-surface shadow-xl shadow-brand-900/10 ${
             variant === "mobile" ? "inset-x-0" : "right-0 w-80"
           }`}
         >
@@ -113,32 +113,32 @@ export function SearchBox({
                     onMouseEnter={() => setActive(i)}
                     onClick={() => go(`/product/${p.slug}`)}
                     className={`flex w-full items-center gap-3 rounded-xl p-2 text-left transition-colors ${
-                      i === active ? "bg-brand-50" : "hover:bg-brand-50"
+                      i === active ? "bg-subtle" : "hover:bg-subtle"
                     }`}
                   >
-                    <span className="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-brand-900/8">
+                    <span className="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line/8">
                       <ProductArt art={p.art} accent={p.accent} label={p.name} className="h-full w-full" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-medium text-brand-950">{p.name}</span>
-                      <span className="block truncate text-xs text-brand-900/50">
+                      <span className="block truncate text-sm font-medium text-ink">{p.name}</span>
+                      <span className="block truncate text-xs text-muted/50">
                         {categoryMap[p.category].name}
                       </span>
                     </span>
-                    <span className="shrink-0 text-sm font-semibold text-brand-950">{inr(p.price)}</span>
+                    <span className="shrink-0 text-sm font-semibold text-ink">{inr(p.price)}</span>
                   </button>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="px-4 py-4 text-sm text-brand-900/55">
+            <p className="px-4 py-4 text-sm text-muted/55">
               No matches for “{query.trim()}”.
             </p>
           )}
           <button
             type="button"
             onClick={() => go(`/shop?q=${encodeURIComponent(query.trim())}`)}
-            className="flex w-full items-center justify-between border-t border-brand-900/8 bg-brand-50/50 px-4 py-3 text-sm font-semibold text-brand-800 transition-colors hover:bg-brand-50"
+            className="flex w-full items-center justify-between border-t border-line/8 bg-brand-50/50 px-4 py-3 text-sm font-semibold text-ink transition-colors hover:bg-subtle"
           >
             See all results for “{query.trim()}”
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">

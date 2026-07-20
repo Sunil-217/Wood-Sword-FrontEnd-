@@ -21,24 +21,24 @@ export function ProductPurchase({ product: base }: { product: Product }) {
   return (
     <>
       <div className="mt-5 flex flex-wrap items-baseline gap-3">
-        <span className="font-display text-3xl font-bold text-brand-950">{inr(product.price)}</span>
-        {product.mrp && <span className="text-lg text-brand-900/40 line-through">{inr(product.mrp)}</span>}
+        <span className="font-display text-3xl font-bold text-ink">{inr(product.price)}</span>
+        {product.mrp && <span className="text-lg text-muted/40 line-through">{inr(product.mrp)}</span>}
         {off && (
           <span className="rounded-full bg-ball-500/10 px-2.5 py-1 text-sm font-bold text-ball-600">
             Save {off}%
           </span>
         )}
       </div>
-      <p className="mt-1 text-xs text-brand-900/45">
+      <p className="mt-1 text-xs text-muted/45">
         Inclusive of all taxes · Free shipping over ₹2,000
       </p>
 
       <div className="my-7 h-px bg-brand-900/8" />
 
       {removed ? (
-        <div className="rounded-2xl border border-brand-900/10 bg-brand-50 p-6 text-center">
-          <p className="font-display text-lg font-bold text-brand-950">No longer available</p>
-          <p className="mt-1 text-sm text-brand-900/60">This product has been removed from the store.</p>
+        <div className="rounded-2xl border border-line/10 bg-subtle p-6 text-center">
+          <p className="font-display text-lg font-bold text-ink">No longer available</p>
+          <p className="mt-1 text-sm text-muted/60">This product has been removed from the store.</p>
           <Link
             href="/shop"
             className="press mt-4 inline-block rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"

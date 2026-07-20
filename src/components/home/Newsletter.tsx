@@ -46,7 +46,7 @@ export function Newsletter() {
               />
               <button
                 type="submit"
-                className="shrink-0 rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-brand-950 press transition-colors"
+                className="shrink-0 rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-ink press transition-colors"
               >
                 Subscribe
               </button>

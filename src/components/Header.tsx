@@ -10,6 +10,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Logo } from "./Logo";
 import { SearchBox } from "./SearchBox";
 import { AccountMenu } from "./AccountMenu";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -62,15 +63,15 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
         scrolled
-          ? "glass border-brand-900/10 shadow-sm shadow-brand-900/5"
-          : "border-transparent bg-white"
+          ? "glass border-line/10 shadow-sm shadow-brand-900/5"
+          : "border-transparent bg-surface"
       }`}
     >
       <div className="container-page flex h-16 items-center gap-4">
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(true)}
-          className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50 lg:hidden"
+          className="-ml-1 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle lg:hidden"
           aria-label="Open menu"
           aria-expanded={mobileOpen}
         >
@@ -85,7 +86,7 @@ export function Header() {
             Home
           </NavLink>
           <div className="group relative">
-            <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-brand-900 transition-colors hover:bg-brand-50">
+            <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-subtle">
               Shop
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="mt-0.5 transition-transform group-hover:rotate-180">
                 <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -93,13 +94,13 @@ export function Header() {
             </button>
             {/* Mega dropdown, grouped like the store */}
             <div className="invisible absolute left-0 top-full w-[640px] origin-top translate-y-3 scale-[0.98] pt-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
-              <div className="rounded-2xl border border-brand-900/10 bg-white p-5 shadow-xl shadow-brand-900/10">
+              <div className="rounded-2xl border border-line/10 bg-surface p-5 shadow-xl shadow-brand-900/10">
                 <div className="grid grid-cols-4 gap-5">
                   {multiGroups.map((g) => (
                     <div key={g.slug}>
                       <Link
                         href={`/shop?group=${g.slug}`}
-                        className="text-xs font-semibold uppercase tracking-wider text-brand-500 hover:text-brand-700"
+                        className="text-xs font-semibold uppercase tracking-wider text-accent hover:text-accent"
                       >
                         {g.name}
                       </Link>
@@ -108,7 +109,7 @@ export function Header() {
                           <li key={c.slug}>
                             <Link
                               href={`/shop?category=${c.slug}`}
-                              className="flex items-center gap-2 text-sm text-brand-900/75 transition-colors hover:text-brand-950"
+                              className="flex items-center gap-2 text-sm text-muted/75 transition-colors hover:text-ink"
                             >
                               <span className="inline-block h-3 w-1 rounded-full" style={{ background: c.accent }} />
                               {c.name}
@@ -119,12 +120,12 @@ export function Header() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2 border-t border-brand-900/8 pt-4">
+                <div className="mt-4 flex flex-wrap gap-2 border-t border-line/8 pt-4">
                   {singleGroups.map((g) => (
                     <Link
                       key={g.slug}
                       href={`/shop?category=${categoriesInGroup(g.slug)[0].slug}`}
-                      className="rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-semibold text-brand-800 transition-colors hover:bg-brand-100"
+                      className="rounded-full bg-subtle px-3.5 py-1.5 text-xs font-semibold text-ink transition-colors hover:bg-brand-100"
                     >
                       {g.name}
                     </Link>
@@ -154,7 +155,7 @@ export function Header() {
           {/* Wishlist */}
           <Link
             href="/wishlist"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label="Open wishlist"
           >
             <HeartIcon />
@@ -168,16 +169,19 @@ export function Header() {
           {/* Cart */}
           <Link
             href="/cart"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label="Open bag"
           >
             <BagIcon />
             {ready && count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-bold text-brand-950">
+              <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-bold text-ink">
                 {count}
               </span>
             )}
           </Link>
+
+          {/* Theme */}
+          <ThemeToggle />
 
           {/* Account */}
           <AccountMenu />
@@ -202,7 +206,7 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col bg-white shadow-2xl transition-transform duration-500 [transition-timing-function:var(--ease-spring)] ${
+          className={`absolute inset-y-0 left-0 flex w-[85%] max-w-sm flex-col bg-surface shadow-2xl transition-transform duration-500 [transition-timing-function:var(--ease-spring)] ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -211,7 +215,7 @@ export function Header() {
             <button
               onClick={closeDrawer}
               aria-label="Close menu"
-              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-950 transition-colors hover:bg-brand-50"
+              className="-ml-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             >
               <CloseIcon />
             </button>
@@ -227,13 +231,13 @@ export function Header() {
           <nav className="flex-1 overflow-y-auto px-5">
             <ul key={mobileOpen ? "open" : "closed"}>
               <li
-                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                className={`border-b border-line/8 ${mobileOpen ? "drawer-cascade" : ""}`}
                 style={{ "--i": 0 } as React.CSSProperties}
               >
                 <Link
                   href="/"
                   onClick={closeDrawer}
-                  className="block py-4 text-[17px] font-medium text-brand-950"
+                  className="block py-4 text-[17px] font-medium text-ink"
                 >
                   Home
                 </Link>
@@ -245,13 +249,13 @@ export function Header() {
                 return (
                   <li
                     key={g.slug}
-                    className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                    className={`border-b border-line/8 ${mobileOpen ? "drawer-cascade" : ""}`}
                     style={{ "--i": gi + 1 } as React.CSSProperties}
                   >
                     <button
                       onClick={() => setOpenGroup(isOpen ? null : g.slug)}
                       aria-expanded={isOpen}
-                      className="flex w-full items-center justify-between py-4 text-left text-[17px] font-medium text-brand-950"
+                      className="flex w-full items-center justify-between py-4 text-left text-[17px] font-medium text-ink"
                     >
                       {g.name}
                       <span aria-hidden>{isOpen ? <MinusIcon /> : <PlusIcon />}</span>
@@ -267,7 +271,7 @@ export function Header() {
                             <Link
                               href={`/shop?category=${c.slug}`}
                               onClick={closeDrawer}
-                              className="flex items-center gap-2.5 py-3 pl-7 text-[15px] text-brand-900/85 transition-colors hover:text-brand-950"
+                              className="flex items-center gap-2.5 py-3 pl-7 text-[15px] text-muted/85 transition-colors hover:text-ink"
                             >
                               <span
                                 className="inline-block h-3.5 w-1 rounded-full"
@@ -281,7 +285,7 @@ export function Header() {
                           <Link
                             href={`/shop?group=${g.slug}`}
                             onClick={closeDrawer}
-                            className="flex items-center gap-1.5 py-3 pl-7 text-[15px] font-semibold text-brand-700"
+                            className="flex items-center gap-1.5 py-3 pl-7 text-[15px] font-semibold text-accent"
                           >
                             All {g.name.toLowerCase()}
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
@@ -299,13 +303,13 @@ export function Header() {
               {singleGroups.map((g, si) => (
                 <li
                   key={g.slug}
-                  className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                  className={`border-b border-line/8 ${mobileOpen ? "drawer-cascade" : ""}`}
                   style={{ "--i": multiGroups.length + 1 + si } as React.CSSProperties}
                 >
                   <Link
                     href={`/shop?category=${categoriesInGroup(g.slug)[0].slug}`}
                     onClick={closeDrawer}
-                    className="block py-4 text-[17px] font-medium text-brand-950"
+                    className="block py-4 text-[17px] font-medium text-ink"
                   >
                     {g.name}
                   </Link>
@@ -313,13 +317,13 @@ export function Header() {
               ))}
 
               <li
-                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                className={`border-b border-line/8 ${mobileOpen ? "drawer-cascade" : ""}`}
                 style={{ "--i": multiGroups.length + singleGroups.length + 1 } as React.CSSProperties}
               >
                 <Link
                   href="/wishlist"
                   onClick={closeDrawer}
-                  className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
+                  className="flex items-center justify-between py-4 text-[17px] font-medium text-ink"
                 >
                   Wishlist
                   {wishReady && wishCount > 0 && (
@@ -330,17 +334,17 @@ export function Header() {
                 </Link>
               </li>
               <li
-                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                className={`border-b border-line/8 ${mobileOpen ? "drawer-cascade" : ""}`}
                 style={{ "--i": multiGroups.length + singleGroups.length + 2 } as React.CSSProperties}
               >
                 <Link
                   href="/cart"
                   onClick={closeDrawer}
-                  className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
+                  className="flex items-center justify-between py-4 text-[17px] font-medium text-ink"
                 >
                   Your Bag
                   {ready && count > 0 && (
-                    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-gold-500 px-1.5 text-xs font-bold text-brand-950">
+                    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-gold-500 px-1.5 text-xs font-bold text-ink">
                       {count}
                     </span>
                   )}
@@ -348,11 +352,11 @@ export function Header() {
               </li>
 
               {isAdmin && (
-                <li className="border-b border-brand-900/8">
+                <li className="border-b border-line/8">
                   <Link
                     href="/admin"
                     onClick={closeDrawer}
-                    className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
+                    className="flex items-center justify-between py-4 text-[17px] font-medium text-ink"
                   >
                     Admin Dashboard
                     <span className="rounded-full bg-gold-500/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-gold-700">
@@ -365,19 +369,19 @@ export function Header() {
           </nav>
 
           {/* Drawer footer — account */}
-          <div className="border-t border-brand-900/8 px-5 py-4">
+          <div className="border-t border-line/8 px-5 py-4">
             {user ? (
               <div className="flex items-center justify-between gap-3">
                 <span className="min-w-0">
-                  <span className="block text-[11px] text-brand-900/45">Signed in</span>
-                  <span className="block truncate text-sm font-semibold text-brand-950">{user.email}</span>
+                  <span className="block text-[11px] text-muted/45">Signed in</span>
+                  <span className="block truncate text-sm font-semibold text-ink">{user.email}</span>
                 </span>
                 <button
                   onClick={() => {
                     logout();
                     closeDrawer();
                   }}
-                  className="press shrink-0 rounded-full border border-brand-900/15 px-4 py-2 text-sm font-semibold text-ball-600 hover:bg-ball-500/10"
+                  className="press shrink-0 rounded-full border border-line/15 px-4 py-2 text-sm font-semibold text-ball-600 hover:bg-ball-500/10"
                 >
                   Log out
                 </button>
@@ -411,8 +415,8 @@ function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`group/nav relative rounded-full px-3 py-2 text-sm font-medium transition-colors hover:text-brand-950 ${
-        active ? "font-semibold text-brand-950" : "text-brand-900"
+      className={`group/nav relative rounded-full px-3 py-2 text-sm font-medium transition-colors hover:text-ink ${
+        active ? "font-semibold text-ink" : "text-ink"
       }`}
     >
       {children}

@@ -26,7 +26,7 @@ export function AccountMenu() {
     return (
       <Link
         href="/login"
-        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+        className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
         aria-label="Sign in"
       >
         <UserIcon />
@@ -51,10 +51,10 @@ export function AccountMenu() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-brand-900/10 bg-white shadow-xl shadow-brand-900/10">
-          <div className="border-b border-brand-900/8 px-4 py-3">
-            <p className="text-xs text-brand-900/50">Signed in as</p>
-            <p className="truncate text-sm font-semibold text-brand-950">{user.email}</p>
+        <div className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-line/10 bg-surface shadow-xl shadow-brand-900/10">
+          <div className="border-b border-line/8 px-4 py-3">
+            <p className="text-xs text-muted/50">Signed in as</p>
+            <p className="truncate text-sm font-semibold text-ink">{user.email}</p>
             {isAdmin && (
               <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-gold-500/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-gold-700">
                 Admin
@@ -111,7 +111,7 @@ function MenuLink({
     <Link
       href={href}
       onClick={onClick}
-      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-900 transition-colors hover:bg-brand-50"
+      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-subtle"
     >
       {children}
     </Link>

@@ -26,7 +26,7 @@ export function CategoryTiles() {
             <Link
               key={g.slug}
               href={href}
-              className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-brand-900/8 p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 ${
+              className={`group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-line/8 p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-900/10 ${
                 i === 0 ? "col-span-2 row-span-2 min-h-56 lg:min-h-full" : "min-h-40"
               }`}
             >

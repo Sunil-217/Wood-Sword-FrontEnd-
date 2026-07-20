@@ -68,10 +68,10 @@ export function ProductActions({ product }: { product: Product }) {
 
       {/* Quantity + Add */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
-        <div className="inline-flex items-center rounded-full border border-brand-900/15 bg-white">
+        <div className="inline-flex items-center rounded-full border border-line/15 bg-surface">
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="flex h-12 w-12 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+            className="flex h-12 w-12 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label="Decrease quantity"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>
@@ -79,7 +79,7 @@ export function ProductActions({ product }: { product: Product }) {
           <span className="w-8 text-center font-semibold tabular-nums">{qty}</span>
           <button
             onClick={() => setQty((q) => Math.min(20, q + 1))}
-            className="flex h-12 w-12 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+            className="flex h-12 w-12 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label="Increase quantity"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" /></svg>
@@ -98,12 +98,12 @@ export function ProductActions({ product }: { product: Product }) {
       {product.inStock ? (
         <button
           onClick={handleBuyNow}
-          className="press w-full rounded-full border border-brand-900/15 bg-white px-6 py-3.5 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
+          className="press w-full rounded-full border border-line/15 bg-surface px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-subtle"
         >
           Buy it now
         </button>
       ) : (
-        <p className="rounded-xl bg-brand-50 px-4 py-3 text-center text-sm text-brand-900/60">
+        <p className="rounded-xl bg-subtle px-4 py-3 text-center text-sm text-muted/60">
           This item is currently out of stock — check back soon.
         </p>
       )}
@@ -125,10 +125,10 @@ function Selector({
   return (
     <div>
       <div className="mb-2.5 flex items-center gap-2">
-        <span className="text-xs font-semibold uppercase tracking-wider text-brand-900/50">
+        <span className="text-xs font-semibold uppercase tracking-wider text-muted/50">
           {label}
         </span>
-        {value && <span className="text-sm font-medium text-brand-950">{value}</span>}
+        {value && <span className="text-sm font-medium text-ink">{value}</span>}
       </div>
       <div className="flex flex-wrap gap-2">
         {options.map((opt) => {
@@ -141,7 +141,7 @@ function Selector({
               className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
                 active
                   ? "border-brand-900 bg-brand-900 text-white"
-                  : "border-brand-900/15 bg-white text-brand-900/80 hover:border-brand-900/40"
+                  : "border-line/15 bg-surface text-muted/80 hover:border-line/40"
               }`}
             >
               {opt}

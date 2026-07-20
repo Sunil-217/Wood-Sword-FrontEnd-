@@ -31,7 +31,7 @@ export function WishlistButton({
       className={`press inline-flex h-9 w-9 items-center justify-center rounded-full backdrop-blur transition-colors ${
         active
           ? "bg-ball-500 text-white"
-          : "bg-white/85 text-brand-900 hover:bg-white"
+          : "bg-white/85 text-ink hover:bg-surface"
       } ${className}`}
     >
       <svg width="17" height="17" viewBox="0 0 24 24" fill={active ? "currentColor" : "none"}>

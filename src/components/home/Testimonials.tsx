@@ -44,7 +44,7 @@ export function Testimonials() {
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {quotes.map((q, i) => (
           <Reveal key={q.name} delay={i * 90}>
-            <figure className="flex h-full flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm">
+            <figure className="flex h-full flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm">
               {/* player-card header strip */}
               <figcaption
                 className="relative flex items-center gap-3 px-5 py-4 text-white"
@@ -63,13 +63,13 @@ export function Testimonials() {
                 </span>
               </figcaption>
 
-              <blockquote className="flex-1 px-5 pt-4 text-sm leading-relaxed text-brand-900/75">
+              <blockquote className="flex-1 px-5 pt-4 text-sm leading-relaxed text-muted/75">
                 &ldquo;{q.text}&rdquo;
               </blockquote>
 
               <div className="flex items-center justify-between px-5 pb-4 pt-4">
                 <Rating value={q.rating} />
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-900/35">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted/35">
                   Verified buyer
                 </span>
               </div>

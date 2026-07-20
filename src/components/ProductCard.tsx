@@ -24,7 +24,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { base, variant } = splitName(product.name);
 
   return (
-    <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-brand-900/15 hover:shadow-xl hover:shadow-brand-900/10">
+    <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
       <Link href={href} className="relative block aspect-square overflow-hidden">
         <ProductArt
           art={product.art}
@@ -55,15 +55,15 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col p-3 sm:p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-500">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
           {product.brand}
         </p>
-        <h3 className="mt-0.5 line-clamp-2 min-h-[2.4em] font-display text-[15px] font-semibold leading-snug text-brand-950">
+        <h3 className="mt-0.5 line-clamp-2 min-h-[2.4em] font-display text-[15px] font-semibold leading-snug text-ink">
           <Link href={href} className="after:absolute after:inset-0 after:content-['']">
             {base}
           </Link>
         </h3>
-        <p className="mt-1 line-clamp-1 text-xs text-brand-900/55">
+        <p className="mt-1 line-clamp-1 text-xs text-muted/55">
           {variant ?? product.tagline}
         </p>
 
@@ -73,11 +73,11 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mt-auto flex items-end justify-between gap-1.5 pt-3">
           <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0">
-            <span className="font-display text-base font-bold text-brand-950 sm:text-lg">
+            <span className="font-display text-base font-bold text-ink sm:text-lg">
               {inr(product.price)}
             </span>
             {product.mrp && (
-              <span className="text-xs text-brand-900/40 line-through sm:text-sm">
+              <span className="text-xs text-muted/40 line-through sm:text-sm">
                 {inr(product.mrp)}
               </span>
             )}

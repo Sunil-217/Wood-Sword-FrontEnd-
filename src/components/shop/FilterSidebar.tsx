@@ -67,7 +67,7 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
       {/* Mobile toggle */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="mb-4 flex w-full items-center justify-between rounded-xl border border-brand-900/12 bg-white px-4 py-3 text-sm font-semibold text-brand-900 lg:hidden"
+        className="mb-4 flex w-full items-center justify-between rounded-xl border border-line/12 bg-surface px-4 py-3 text-sm font-semibold text-ink lg:hidden"
       >
         <span className="flex items-center gap-2">
           <FilterIcon />
@@ -79,10 +79,10 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
       </button>
 
       <div
-        className={`${open ? "block" : "hidden"} space-y-7 overscroll-contain rounded-2xl border border-brand-900/8 bg-white p-5 lg:block lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto`}
+        className={`${open ? "block" : "hidden"} space-y-7 overscroll-contain rounded-2xl border border-line/8 bg-surface p-5 lg:block lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto`}
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-base font-bold text-brand-950">Filters</h2>
+          <h2 className="font-display text-base font-bold text-ink">Filters</h2>
           {activeCount > 0 && (
             <Link href={clearHref} className="text-xs font-semibold text-ball-500 hover:underline">
               Clear all
@@ -129,12 +129,12 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                     className={`flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
                       groupActive
                         ? "bg-brand-900 text-white"
-                        : "text-brand-900/50 hover:bg-brand-50 hover:text-brand-900/80"
+                        : "text-muted/50 hover:bg-subtle hover:text-muted/80"
                     }`}
                   >
                     {g.name}
                     <span className="flex items-center gap-2">
-                      <span className={groupActive ? "text-white/60" : "text-brand-900/35"}>
+                      <span className={groupActive ? "text-white/60" : "text-muted/35"}>
                         {groupCount}
                       </span>
                       <svg
@@ -208,15 +208,15 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                   key={b.value}
                   href={hrefWith({ price: active ? undefined : b.value })}
                   className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors ${
-                    active ? "text-brand-950" : "text-brand-900/75 hover:bg-brand-50"
+                    active ? "text-ink" : "text-muted/75 hover:bg-subtle"
                   }`}
                 >
                   <span
                     className={`inline-flex h-4 w-4 items-center justify-center rounded-full border ${
-                      active ? "border-brand-700 bg-brand-700" : "border-brand-900/30"
+                      active ? "border-brand-700 bg-brand-700" : "border-line/30"
                     }`}
                   >
-                    {active && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
+                    {active && <span className="h-1.5 w-1.5 rounded-full bg-surface" />}
                   </span>
                   {b.label}
                 </Link>
@@ -239,7 +239,7 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                     className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                       active
                         ? "border-brand-900 bg-brand-900 text-white"
-                        : "border-brand-900/15 text-brand-900/80 hover:border-brand-900/40"
+                        : "border-line/15 text-muted/80 hover:border-line/40"
                     }`}
                   >
                     {s}
@@ -264,7 +264,7 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                     className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
                       active
                         ? "border-brand-900 bg-brand-900 text-white"
-                        : "border-brand-900/15 text-brand-900/80 hover:border-brand-900/40"
+                        : "border-line/15 text-muted/80 hover:border-line/40"
                     }`}
                   >
                     {h}
@@ -300,14 +300,14 @@ function CategoryRow({
       className={`flex items-center justify-between rounded-lg py-1.5 pr-2.5 text-sm transition-colors ${
         indent ? "pl-4" : "pl-2.5"
       } ${
-        active ? "bg-brand-900 font-semibold text-white" : "text-brand-900/80 hover:bg-brand-50"
+        active ? "bg-brand-900 font-semibold text-white" : "text-muted/80 hover:bg-subtle"
       }`}
     >
       <span className="flex items-center gap-2">
         <span className="inline-block h-3 w-1 rounded-full" style={{ background: accent }} />
         {label}
       </span>
-      <span className={active ? "text-white/60" : "text-brand-900/40"}>{count}</span>
+      <span className={active ? "text-white/60" : "text-muted/40"}>{count}</span>
     </Link>
   );
 }
@@ -315,7 +315,7 @@ function CategoryRow({
 function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-brand-900/50">
+      <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-muted/50">
         {title}
       </h3>
       {children}

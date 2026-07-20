@@ -17,22 +17,22 @@ export function SectionHeading({
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-500">
+          <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent">
             <StumpsIcon />
             {eyebrow}
           </p>
         )}
-        <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-brand-950 sm:text-3xl">
+        <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
           {title}
         </h2>
         {/* ball-seam stitch underline */}
         <div className="seam-stitch mt-2.5 w-16" aria-hidden />
-        {subtitle && <p className="mt-2 text-sm text-brand-900/55">{subtitle}</p>}
+        {subtitle && <p className="mt-2 text-sm text-muted/55">{subtitle}</p>}
       </div>
       {href && linkLabel && (
         <Link
           href={href}
-          className="press inline-flex items-center gap-1 rounded-full border border-brand-900/12 px-4 py-2 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
+          className="press inline-flex items-center gap-1 rounded-full border border-line/12 px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-subtle"
         >
           {linkLabel}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none">

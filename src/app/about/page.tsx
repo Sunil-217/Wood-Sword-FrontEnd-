@@ -36,7 +36,7 @@ export default function AboutPage() {
         <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-40" />
         <Container className="relative py-16 text-center sm:py-20">
           <div className="mx-auto flex justify-center">
-            <span className="inline-flex items-center justify-center rounded-2xl bg-white p-2.5">
+            <span className="inline-flex items-center justify-center rounded-2xl bg-surface p-2.5">
               <ShieldMark className="h-12 w-auto" />
             </span>
           </div>
@@ -57,12 +57,12 @@ export default function AboutPage() {
       <Container className="py-16 sm:py-20">
         {/* Story */}
         <div className="mx-auto max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-wider text-brand-500">Our story</p>
-          <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-brand-950 sm:text-3xl">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent">Our story</p>
+          <h2 className="mt-2 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
             From the willow bench to your bag
           </h2>
           <div className="seam-stitch mt-3 w-16" aria-hidden />
-          <div className="mt-5 space-y-4 text-sm leading-relaxed text-brand-900/70">
+          <div className="mt-5 space-y-4 text-sm leading-relaxed text-muted/70">
             <p>
               MM Sports started with a simple frustration — brilliant bats being
               sold for double their worth once they passed through distributors
@@ -81,9 +81,9 @@ export default function AboutPage() {
         {/* Values */}
         <div className="mt-14 grid gap-4 sm:grid-cols-2">
           {values.map((v) => (
-            <div key={v.title} className="rounded-2xl border border-brand-900/8 bg-white p-6 shadow-sm">
-              <h3 className="font-display text-lg font-bold text-brand-950">{v.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-900/65">{v.body}</p>
+            <div key={v.title} className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm">
+              <h3 className="font-display text-lg font-bold text-ink">{v.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted/65">{v.body}</p>
             </div>
           ))}
         </div>
@@ -95,7 +95,7 @@ export default function AboutPage() {
             <p className="mt-1.5 text-sm text-brand-100/70">Explore the full 2026 range.</p>
           </div>
           <div className="flex gap-3">
-            <Link href="/shop" className="press rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-brand-950 transition-transform">
+            <Link href="/shop" className="press rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-ink transition-transform">
               Shop all gear
             </Link>
             <Link href="/contact" className="press rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">

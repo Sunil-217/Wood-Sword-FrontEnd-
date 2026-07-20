@@ -21,10 +21,10 @@ export function Rating({
           return <Star key={i} px={px} fill={fill} />;
         })}
       </div>
-      <span className="text-xs font-medium text-brand-800/70">
+      <span className="text-xs font-medium text-ink/70">
         {value.toFixed(1)}
         {reviews != null && (
-          <span className="text-brand-800/45"> ({reviews})</span>
+          <span className="text-ink/45"> ({reviews})</span>
         )}
       </span>
       <span className="sr-only">
