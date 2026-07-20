@@ -35,17 +35,17 @@ export const groups: Group[] = [
     accent: "#a3521c",
   },
   {
-    slug: "luggage",
-    name: "Luggage",
-    blurb: "Duffle bags, trolley kit bags and bat covers.",
+    slug: "full-kit-bags",
+    name: "Full Kit Bags",
+    blurb: "Complete kit bags for boys, youth and adults.",
     art: "bag",
     accent: "#184530",
   },
   {
-    slug: "cricket-balls",
-    name: "Cricket Balls",
-    blurb: "Leather match balls for red and white-ball cricket.",
-    art: "ball",
+    slug: "ipl-kit-bags",
+    name: "IPL Kit Bags",
+    blurb: "Supporter kit bags in all 10 team colours.",
+    art: "bag",
     accent: "#b92b22",
   },
   {
@@ -89,10 +89,10 @@ export const categories: Category[] = [
   { slug: "other-protection", group: "protection", name: "Other Protection", blurb: "Arm, chest and thigh guards.", art: "pads", accent: "#7c5cbf" },
   { slug: "wk-gloves", group: "wicket-keeping", name: "WK Gloves", blurb: "Armour-GK keeping gloves.", art: "keeping", accent: "#a3521c" },
   { slug: "wk-leg-guards", group: "wicket-keeping", name: "WK Leg Guards", blurb: "Armour-LK keeping pads.", art: "pads", accent: "#8a5a2b" },
-  { slug: "duffle-bags", group: "luggage", name: "Duffle Bags", blurb: "Wheelie duffles that swallow full kits.", art: "bag", accent: "#184530" },
-  { slug: "trolley-bags", group: "luggage", name: "Trolley Bags", blurb: "Rolling kit bags for heavy loads.", art: "bag", accent: "#256e49" },
-  { slug: "bat-covers", group: "luggage", name: "Bat Covers", blurb: "Padded covers for your willow.", art: "bag", accent: "#3a3f4a" },
-  { slug: "cricket-balls", group: "cricket-balls", name: "Cricket Balls", blurb: "Cannon leather balls, red and white.", art: "ball", accent: "#b92b22" },
+  { slug: "boys-kit", group: "full-kit-bags", name: "Boys Kit", blurb: "Compact kit bags sized for juniors.", art: "bag", accent: "#184530" },
+  { slug: "youth-kit", group: "full-kit-bags", name: "Youth Kit", blurb: "Roomy kit bags for growing cricketers.", art: "bag", accent: "#256e49" },
+  { slug: "adult-kit", group: "full-kit-bags", name: "Adult Kit", blurb: "Full-size wheelie bags for seniors.", art: "bag", accent: "#3a3f4a" },
+  { slug: "ipl-kit-bags", group: "ipl-kit-bags", name: "IPL Kit Bags", blurb: "Supporter kit bags in all 10 team colours.", art: "bag", accent: "#b92b22" },
   { slug: "accessories", group: "accessories", name: "Accessories", blurb: "Grips, tapes, mallets, shoes and more.", art: "misc", accent: "#7c5cbf" },
   { slug: "bundles", group: "bundles", name: "Bundles", blurb: "Kit bundles for teams and individuals.", art: "bag", accent: "#0f766e" },
   { slug: "clothing", group: "clothing", name: "Clothing", blurb: "Caps, pants and tees.", art: "jersey", accent: "#2f6fb0" },
@@ -346,6 +346,55 @@ function legGuard(
       "Moulded knee roll",
       "Quick-release straps",
       "Small Boys to Large",
+    ],
+  });
+}
+
+/* ------------------- IPL Kit Bags (fan / supporter) ------------------- */
+
+interface IplTeam {
+  team: string;
+  short: string;
+  colours: string;
+  accent: string;
+  price: number;
+  mrp: number;
+  badge?: Badge;
+}
+
+// All 10 current IPL franchises, in team colours. These are supporter /
+// fan kit bags themed in each team's colours — not official licensed merch.
+const IPL_TEAMS: IplTeam[] = [
+  { team: "Chennai Super Kings", short: "CSK", colours: "Yellow / Blue", accent: "#eab308", price: 3499, mrp: 4499, badge: "Bestseller" },
+  { team: "Mumbai Indians", short: "MI", colours: "Blue / Gold", accent: "#1f6fb2", price: 3499, mrp: 4499, badge: "Bestseller" },
+  { team: "Royal Challengers Bengaluru", short: "RCB", colours: "Red / Black", accent: "#cf1b2b", price: 3299, mrp: 4299 },
+  { team: "Kolkata Knight Riders", short: "KKR", colours: "Purple / Gold", accent: "#6b3fa0", price: 3299, mrp: 4299 },
+  { team: "Sunrisers Hyderabad", short: "SRH", colours: "Orange / Black", accent: "#f26522", price: 3199, mrp: 3999 },
+  { team: "Delhi Capitals", short: "DC", colours: "Navy / Red", accent: "#17449b", price: 3199, mrp: 3999 },
+  { team: "Rajasthan Royals", short: "RR", colours: "Pink / Blue", accent: "#d6478e", price: 3299, mrp: 4199 },
+  { team: "Punjab Kings", short: "PBKS", colours: "Red / Silver", accent: "#b01e28", price: 3199, mrp: 3999 },
+  { team: "Gujarat Titans", short: "GT", colours: "Navy / Gold", accent: "#16233f", price: 3399, mrp: 4299, badge: "New" },
+  { team: "Lucknow Super Giants", short: "LSG", colours: "Teal / Navy", accent: "#0f7d8f", price: 3399, mrp: 4299, badge: "New" },
+];
+
+function iplBag(t: IplTeam): Product {
+  return P({
+    name: `${t.team} Kit Bag`,
+    category: "ipl-kit-bags",
+    art: "bag",
+    price: t.price,
+    mrp: t.mrp,
+    badge: t.badge,
+    accent: t.accent,
+    colors: [t.colours],
+    sizes: ["Youth", "Senior", "Team"],
+    tagline: `${t.short} supporter kit bag · team colours`,
+    description: `A wheelie kit bag decked out in ${t.team} colours for the die-hard ${t.short} fan. Cavernous main compartment, ventilated boot pocket and rugged inline wheels — carry your kit and your colours to the ground.`,
+    features: [
+      `${t.short} team-colour design`,
+      "Holds 2 bats + full kit",
+      "Ventilated boot pocket",
+      "Rugged inline wheels",
     ],
   });
 }
@@ -659,106 +708,99 @@ export const products: Product[] = [
     features: ["Agile low profile", "Foam bolsters", "Twin straps", "Boys to Large"],
   }),
 
-  /* ---- Luggage ---- */
+  /* ---- Full Kit Bags · Boys ---- */
   P({
-    name: "DVX2 Duffle Wheelie Cricket Kit Bag (Black-Gold)",
-    category: "duffle-bags",
-    price: 3499,
-    mrp: 5499,
-    colors: ["Black-Gold"],
+    name: "Junior Pro Boys Kit Bag",
+    category: "boys-kit",
+    art: "bag",
+    price: 1999,
+    mrp: 2499,
+    colors: ["Green / Gold", "Blue / Black"],
     sizes: ["One Size"],
-    accent: "#3a3f4a",
-    inStock: false,
-    tagline: "Wheelie duffle · swallows a full kit",
+    accent: "#184530",
+    tagline: "Boys kit bag · holds 1 bat + kit",
     description:
-      "The DVX2 duffle wheelie — a cavernous main compartment on rugged inline wheels, with a ventilated boot pocket and padded pull handle.",
-    features: ["Rugged inline wheels", "Ventilated boot pocket", "Holds 2 bats + full kit", "Padded pull handle"],
+      "The Junior Pro — a right-sized kit bag for young cricketers. Padded shoulder straps, a ventilated boot pocket and room for a bat, pads and gloves.",
+    features: ["Boys sizing", "Holds 1 bat + kit", "Ventilated boot pocket", "Padded straps"],
   }),
   P({
-    name: "Cricket Kit Bag with Trolley",
-    category: "trolley-bags",
-    price: 9890,
-    colors: ["Blue", "Green"],
-    sizes: ["Junior", "Senior", "Team"],
-    tagline: "Rolling team kit bag",
+    name: "Academy Boys Kit Bag",
+    category: "boys-kit",
+    art: "bag",
+    price: 1699,
+    colors: ["Green / Gold", "Red / Navy"],
+    sizes: ["One Size"],
+    accent: "#256e49",
+    tagline: "Boys kit bag · compact 40L",
     description:
-      "Our trolley kit bag rolls the whole squad's gear to the ground — reinforced base, telescopic handle and three sizes up to full Team.",
-    features: ["Telescopic trolley handle", "Reinforced base", "Junior / Senior / Team sizes", "Heavy-duty zips"],
-  }),
-  P({
-    name: "Spartan Cricket Bat Cover",
-    category: "bat-covers",
-    brand: "Spartan",
-    price: 1890,
-    colors: ["Black"],
-    sizes: ["Junior", "Senior"],
-    accent: "#3a3f4a",
-    tagline: "Padded single-bat cover",
-    description:
-      "A padded Spartan bat cover that keeps your willow safe in transit — plush lining, tough outer and a comfortable carry strap.",
-    features: ["Padded plush lining", "Tough water-resistant outer", "Carry strap", "Junior & Senior"],
+      "A compact 40L academy bag for training days — light to carry, easy to pack and tough enough for the school run.",
+    features: ["Boys sizing", "Compact 40L", "Separate shoe pocket", "Water-resistant base"],
   }),
 
-  /* ---- Cricket Balls (Cannon series) ---- */
+  /* ---- Full Kit Bags · Youth ---- */
   P({
-    name: "Cannon 100 Leather Cricket Ball (Red)",
-    category: "cricket-balls",
-    price: 249,
-    colors: ["Red"],
-    sizes: ["Standard"],
-    tagline: "Practice leather ball · red",
-    description:
-      "The Cannon 100 in red — an honest practice leather ball for nets and throwdowns, machine-stitched for consistency.",
-    features: ["Machine-stitched seam", "2-piece leather", "Nets & practice", "Sold singly"],
-  }),
-  P({
-    name: "Cannon 100 Leather Cricket Ball (White)",
-    category: "cricket-balls",
-    price: 275,
-    colors: ["White"],
-    sizes: ["Standard"],
-    accent: "#8a8f99",
-    tagline: "Practice leather ball · white",
-    description:
-      "The Cannon 100 in white — an honest practice leather ball for limited-overs nets, machine-stitched for consistency.",
-    features: ["Machine-stitched seam", "2-piece leather", "White-ball practice", "Sold singly"],
-  }),
-  P({
-    name: "Cannon 300 Leather Cricket Ball (Red)",
-    category: "cricket-balls",
-    price: 299,
-    colors: ["Red"],
-    sizes: ["Standard"],
+    name: "Voyager Youth Kit Bag",
+    category: "youth-kit",
+    art: "bag",
+    price: 2999,
+    mrp: 3799,
+    colors: ["Green / Gold", "Black / Grey"],
+    sizes: ["One Size"],
+    accent: "#184530",
     badge: "Bestseller",
-    tagline: "Club match ball · red",
+    tagline: "Youth wheelie · holds 2 bats + kit",
     description:
-      "The Cannon 300 in red — a club match ball with a cork core and hand-finished seam that holds shape past 30 overs.",
-    features: ["Cork & wool core", "Hand-finished seam", "Club match grade", "Sold singly"],
+      "The Voyager — a youth wheelie with a cavernous main compartment, ventilated boot pocket and rugged inline wheels that survive the roughest ground.",
+    features: ["Youth sizing", "Holds 2 bats + full kit", "Reinforced inline wheels", "Ventilated boot pocket"],
   }),
   P({
-    name: "Cannon 300 Leather Cricket Ball (White)",
-    category: "cricket-balls",
-    price: 325,
-    colors: ["White"],
-    sizes: ["Standard"],
-    accent: "#8a8f99",
-    tagline: "Club match ball · white",
+    name: "Trailblazer Youth Kit Bag",
+    category: "youth-kit",
+    art: "bag",
+    price: 2499,
+    mrp: 2999,
+    colors: ["Navy / Red", "Green / Gold"],
+    sizes: ["One Size"],
+    accent: "#256e49",
+    tagline: "Youth wheelie · 60L",
     description:
-      "The Cannon 300 in white — a club match ball for limited-overs cricket, lacquered to stay visible under lights.",
-    features: ["Cork & wool core", "Bright lacquer finish", "Limited-overs grade", "Sold singly"],
+      "A 60L youth wheelie that carries the whole match-day kit with room to spare, on smooth-rolling wheels.",
+    features: ["Youth sizing", "60L wheelie", "Smooth inline wheels", "Padded pull handle"],
   }),
+
+  /* ---- Full Kit Bags · Adult ---- */
   P({
-    name: "Cannon 500 Leather Cricket Ball (Red)",
-    category: "cricket-balls",
-    price: 399,
-    colors: ["Red"],
-    sizes: ["Standard"],
+    name: "Titan Adult Kit Bag",
+    category: "adult-kit",
+    art: "bag",
+    price: 4499,
+    mrp: 5499,
+    colors: ["Green / Gold", "Black / Grey"],
+    sizes: ["One Size"],
+    accent: "#3a3f4a",
     badge: "Pro",
-    tagline: "Premium match ball · alum-tanned",
+    tagline: "Adult wheelie · holds 3 bats + full kit",
     description:
-      "The Cannon 500 — our premium 4-piece match ball. Alum-tanned leather and a proud hand-stitched seam for 40+ over spells.",
-    features: ["4-piece alum-tanned leather", "Proud hand-stitched seam", "Tournament grade", "Sold singly"],
+      "The Titan — our biggest wheelie. Three-bat capacity, a ventilated boot pocket and a padded accessory compartment, all on heavy-duty inline wheels.",
+    features: ["Adult sizing", "Holds 3 bats + full kit", "Heavy-duty inline wheels", "Padded accessory pocket"],
   }),
+  P({
+    name: "Matchday Adult Kit Bag",
+    category: "adult-kit",
+    art: "bag",
+    price: 3499,
+    mrp: 3999,
+    colors: ["Green / Gold", "Navy / Red"],
+    sizes: ["One Size"],
+    accent: "#256e49",
+    tagline: "Adult wheelie · 90L",
+    description:
+      "A 90L adult wheelie built for the weekly commute to the ground — tough zips, a separate shoe pocket and a water-resistant base.",
+    features: ["Adult sizing", "90L capacity", "Separate shoe pocket", "Water-resistant base"],
+  }),
+
+  /* ---- IPL Kit Bags · all 10 team colours (fan / supporter bags) ---- */
+  ...IPL_TEAMS.map(iplBag),
 
   /* ---- Accessories ---- */
   P({
