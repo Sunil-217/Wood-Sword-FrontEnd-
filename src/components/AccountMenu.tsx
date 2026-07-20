@@ -68,6 +68,10 @@ export function AccountMenu() {
                 Admin Dashboard
               </MenuLink>
             )}
+            <MenuLink href="/orders" onClick={() => setOpen(false)}>
+              <BoxIcon />
+              Your Orders
+            </MenuLink>
             <MenuLink href="/wishlist" onClick={() => setOpen(false)}>
               <HeartIcon />
               Wishlist
@@ -142,6 +146,13 @@ function BagIcon() {
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
       <path d="M6 8h12l-1 12H7L6 8z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
       <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
+  );
+}
+function BoxIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+      <path d="M5 7l1.5 12h11L19 7M4 7h16M9 10v6M15 10v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

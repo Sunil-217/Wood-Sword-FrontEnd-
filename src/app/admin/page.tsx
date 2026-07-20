@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useAuth } from "@/context/AuthContext";
 import { useCatalog, type NewProductInput, type Override } from "@/context/CatalogContext";
+import { useOrders, ORDER_STATUSES, type Order, type OrderStatus } from "@/context/OrdersContext";
 import { categories, categoryMap } from "@/lib/catalog";
 import { inr } from "@/lib/format";
 import type { Badge, CategorySlug, Product } from "@/lib/types";
@@ -40,7 +41,9 @@ export default function AdminPage() {
 
 function Dashboard({ email, onLogout }: { email: string; onLogout: () => void }) {
   const { products, edited, updateProduct, addProduct, deleteProduct, resetAll } = useCatalog();
+  const { orders, updateStatus } = useOrders();
   const router = useRouter();
+  const [tab, setTab] = useState<"products" | "orders">("products");
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<"all" | CategorySlug>("all");
   const [editing, setEditing] = useState<Editing>(null);
@@ -116,6 +119,30 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
         </p>
       )}
 
+      {/* Tabs */}
+      <div className="mt-6 inline-flex rounded-full border border-brand-900/10 bg-brand-50 p-1">
+        {(["products", "orders"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`press rounded-full px-4 py-2 text-sm font-semibold capitalize transition-colors ${
+              tab === t ? "bg-brand-900 text-white" : "text-brand-900/60 hover:text-brand-900"
+            }`}
+          >
+            {t}
+            {t === "orders" && orders.length > 0 && (
+              <span className={`ml-1.5 ${tab === t ? "text-white/60" : "text-brand-900/40"}`}>
+                {orders.length}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {tab === "orders" && <OrdersPanel orders={orders} updateStatus={updateStatus} />}
+
+      {tab === "products" && (
+      <>
       {/* Toolbar */}
       <div className="mt-6 flex flex-wrap items-center gap-3 border-b border-brand-900/8 pb-4">
         <div className="flex flex-1 items-center rounded-full bg-brand-50 ring-1 ring-brand-900/5 focus-within:ring-brand-500/40">
@@ -244,6 +271,8 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
           </tbody>
         </table>
       </div>
+      </>
+      )}
 
       {editing && (
         <ProductDialog
@@ -260,6 +289,80 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
         />
       )}
     </Container>
+  );
+}
+
+function OrdersPanel({
+  orders,
+  updateStatus,
+}: {
+  orders: Order[];
+  updateStatus: (id: string, status: OrderStatus) => void;
+}) {
+  const revenue = orders.reduce((n, o) => n + o.total, 0);
+  const pending = orders.filter((o) => o.status !== "Delivered").length;
+
+  if (orders.length === 0) {
+    return (
+      <div className="mt-6 rounded-2xl border border-dashed border-brand-900/15 bg-white/60 px-6 py-16 text-center">
+        <h3 className="font-display text-lg font-bold text-brand-950">No orders yet</h3>
+        <p className="mt-1.5 text-sm text-brand-900/55">
+          Orders placed at checkout will appear here for you to manage.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+        <Stat label="Orders" value={String(orders.length)} />
+        <Stat label="Revenue" value={inr(revenue)} />
+        <Stat label="To fulfil" value={String(pending)} tone={pending ? "bad" : "good"} />
+      </div>
+
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-brand-900/8 bg-white">
+        <table className="w-full min-w-[720px] text-left text-sm">
+          <thead>
+            <tr className="border-b border-brand-900/8 text-xs uppercase tracking-wider text-brand-900/45">
+              <th className="px-4 py-3 font-semibold">Order</th>
+              <th className="px-4 py-3 font-semibold">Date</th>
+              <th className="px-4 py-3 font-semibold">Customer</th>
+              <th className="px-4 py-3 font-semibold">Items</th>
+              <th className="px-4 py-3 font-semibold">Total</th>
+              <th className="px-4 py-3 font-semibold">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((o) => (
+              <tr key={o.id} className="border-b border-brand-900/6 last:border-0 hover:bg-brand-50/40">
+                <td className="px-4 py-3 font-semibold text-brand-950">{o.id}</td>
+                <td className="px-4 py-3 text-brand-900/60">
+                  {new Date(o.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                </td>
+                <td className="px-4 py-3">
+                  <span className="block max-w-[180px] truncate text-brand-950">{o.name || "—"}</span>
+                  <span className="block max-w-[180px] truncate text-xs text-brand-900/50">{o.email}</span>
+                </td>
+                <td className="px-4 py-3 text-brand-900/70">{o.items.reduce((n, l) => n + l.qty, 0)}</td>
+                <td className="px-4 py-3 font-semibold text-brand-950">{inr(o.total)}</td>
+                <td className="px-4 py-3">
+                  <select
+                    value={o.status}
+                    onChange={(e) => updateStatus(o.id, e.target.value as OrderStatus)}
+                    className="cursor-pointer rounded-full border border-brand-900/15 bg-white py-1.5 pl-3 pr-7 text-xs font-semibold text-brand-900 outline-none hover:border-brand-900/30"
+                  >
+                    {ORDER_STATUSES.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
+import { useOrders } from "@/context/OrdersContext";
+import { useAuth } from "@/context/AuthContext";
 import { inr } from "@/lib/format";
 
 const FREE_SHIPPING = 2000;
@@ -16,6 +18,8 @@ type Pay = "cod" | "upi" | "card";
 
 export default function CheckoutPage() {
   const { lines, subtotal, count, clear, ready } = useCart();
+  const { addOrder } = useOrders();
+  const { user } = useAuth();
   const [ship, setShip] = useState<Ship>("standard");
   const [pay, setPay] = useState<Pay>("cod");
   const [placed, setPlaced] = useState<string | null>(null);
@@ -46,12 +50,12 @@ export default function CheckoutPage() {
           <p className="mt-1 text-xs text-brand-900/45">
             Demo storefront — no payment was taken and nothing will ship.
           </p>
-          <div className="mt-6 flex justify-center gap-3">
-            <Link href="/shop" className="press rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
-              Keep shopping
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Link href="/orders" className="press rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
+              View your orders
             </Link>
-            <Link href="/" className="press rounded-full border border-brand-900/15 bg-white px-6 py-3 text-sm font-semibold text-brand-900 hover:bg-brand-50">
-              Go home
+            <Link href="/shop" className="press rounded-full border border-brand-900/15 bg-white px-6 py-3 text-sm font-semibold text-brand-900 hover:bg-brand-50">
+              Keep shopping
             </Link>
           </div>
         </div>
@@ -78,12 +82,26 @@ export default function CheckoutPage() {
   const shipping = ship === "express" ? EXPRESS_FEE : shippingBase;
   const total = subtotal + shipping;
 
-  function placeOrder(e: React.FormEvent) {
+  function placeOrder(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Order number: date-free, from a random block (demo only)
-    const n = Math.floor(100000 + Math.random() * 900000);
+    const fd = new FormData(e.currentTarget);
+    const get = (k: string) => String(fd.get(k) ?? "").trim();
+    const address = [get("address"), get("city"), get("state"), get("pincode")]
+      .filter(Boolean)
+      .join(", ");
+    const order = addOrder({
+      email: user?.email || get("email"),
+      name: get("name"),
+      address,
+      items: lines,
+      subtotal,
+      shipping,
+      total,
+      shippingMethod: ship === "express" ? "Express (1–2 days)" : "Standard (3–5 days)",
+      paymentMethod: pay === "cod" ? "Cash on Delivery" : pay === "upi" ? "UPI" : "Card",
+    });
     clear();
-    setPlaced(`MM-${n}`);
+    setPlaced(order.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

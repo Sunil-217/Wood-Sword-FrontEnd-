@@ -27,12 +27,12 @@ export function Footer() {
       ],
     },
     {
-      title: "Support",
+      title: "Company",
       links: [
-        { label: "Shipping & Returns", href: "/shop" },
+        { label: "About us", href: "/about" },
+        { label: "Contact us", href: "/contact" },
+        { label: "Your Orders", href: "/orders" },
         { label: "Knocking-in Service", href: "/shop?category=bats" },
-        { label: "Size Guide", href: "/shop" },
-        { label: "Contact us", href: "/shop" },
       ],
     },
   ];

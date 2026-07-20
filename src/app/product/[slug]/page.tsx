@@ -7,6 +7,7 @@ import { Rating } from "@/components/ui/Rating";
 import { ProductBadge } from "@/components/ui/Badge";
 import { ProductGrid } from "@/components/ProductGrid";
 import { ProductPurchase } from "@/components/product/ProductPurchase";
+import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
 import { discountPct } from "@/lib/format";
 
@@ -139,6 +140,9 @@ export default async function ProductPage({
           </div>
         </div>
       </div>
+
+      {/* Reviews */}
+      <ProductReviews product={product} />
 
       {/* Related */}
       {related.length > 0 && (

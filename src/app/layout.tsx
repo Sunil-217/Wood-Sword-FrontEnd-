@@ -5,6 +5,8 @@ import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { CatalogProvider } from "@/context/CatalogContext";
+import { OrdersProvider } from "@/context/OrdersContext";
+import { ReviewsProvider } from "@/context/ReviewsContext";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -58,16 +60,20 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-sand-50 text-brand-950">
         <AuthProvider>
           <CatalogProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <AnnouncementBar />
-                <Header />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <Toaster />
-                <BackToTop />
-              </WishlistProvider>
-            </CartProvider>
+            <OrdersProvider>
+              <ReviewsProvider>
+                <CartProvider>
+                  <WishlistProvider>
+                    <AnnouncementBar />
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                    <Toaster />
+                    <BackToTop />
+                  </WishlistProvider>
+                </CartProvider>
+              </ReviewsProvider>
+            </OrdersProvider>
           </CatalogProvider>
         </AuthProvider>
       </body>
