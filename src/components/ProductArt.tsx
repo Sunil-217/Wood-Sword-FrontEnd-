@@ -20,7 +20,7 @@ export function ProductArt({
     backgroundImage: `radial-gradient(120% 100% at 20% 0%,
       color-mix(in srgb, ${accent} 10%, #ffffff) 0%,
       color-mix(in srgb, ${accent} 26%, #f4f2ec) 48%,
-      color-mix(in srgb, ${accent} 55%, #17281e) 100%)`,
+      color-mix(in srgb, ${accent} 55%, #12233c) 100%)`,
   };
 
   return (
@@ -54,7 +54,7 @@ export function ProductArt({
           cy="294"
           rx="104"
           ry="15"
-          fill="#0a2016"
+          fill="#0b1524"
           opacity="0.2"
         />
         {/* artwork fills the tile */}

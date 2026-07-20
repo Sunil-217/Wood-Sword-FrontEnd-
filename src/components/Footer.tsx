@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { Container } from "./ui/Container";
+import { ShieldMark } from "./Logo";
 
 export function Footer() {
   const groupHref = (slug: string) => {
@@ -52,15 +53,11 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <rect x="10.6" y="3" width="2.8" height="15" rx="1.4" fill="#f0c14e" transform="rotate(-32 12 12)" />
-                  <rect x="10.6" y="6" width="2.8" height="12" rx="1.4" fill="#ffffff" transform="rotate(32 12 12)" />
-                  <circle cx="17" cy="6.4" r="2.3" fill="#f0c14e" />
-                </svg>
+              <span className="inline-flex items-center justify-center rounded-lg bg-white p-1 shadow-sm">
+                <ShieldMark className="h-8 w-auto" />
               </span>
               <span className="font-display text-lg font-extrabold tracking-tight text-white">
-                WOOD<span className="text-gold-400">SWORD</span>
+                MM<span className="text-ball-400"> SPORTS</span>
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-brand-100/60">
@@ -101,7 +98,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Woodsword Cricket. Demo store — sample data.</p>
+          <p>© {new Date().getFullYear()} MM Sports. Demo store — sample data.</p>
           <p className="flex items-center gap-4">
             <span>Secure checkout</span>
             <span>·</span>

@@ -175,7 +175,7 @@ function P(p: Partial): Product {
     id,
     slug: id,
     name: p.name,
-    brand: p.brand ?? "Woodsword",
+    brand: p.brand ?? "MM Sports",
     category: p.category,
     art: p.art ?? cat.art,
     price: p.price,

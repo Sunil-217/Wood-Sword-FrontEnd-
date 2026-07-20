@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  WOODSWORD — Design System v2                                       */
+/*  MM SPORTS — Design System v2                                        */
 /*  Cricket theme · production motion system                           */
 /* ------------------------------------------------------------------ */
 
@@ -11,30 +11,30 @@
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
 
-  /* Brand — forest / pitch green */
-  --color-brand-50: #f0f7f2;
-  --color-brand-100: #dcefe1;
-  --color-brand-200: #bbdfc6;
-  --color-brand-300: #8ec7a2;
-  --color-brand-400: #5aa87b;
-  --color-brand-500: #368a5d;
-  --color-brand-600: #256e49;
-  --color-brand-700: #1d573b;
-  --color-brand-800: #184530;
-  --color-brand-900: #123626;
-  --color-brand-950: #0a2016;
+  /* Brand — crest navy */
+  --color-brand-50: #eef2f8;
+  --color-brand-100: #d9e2ef;
+  --color-brand-200: #b6c7de;
+  --color-brand-300: #8aa3c4;
+  --color-brand-400: #5a78a3;
+  --color-brand-500: #3a5885;
+  --color-brand-600: #2b4269;
+  --color-brand-700: #223454;
+  --color-brand-800: #1a2a43;
+  --color-brand-900: #142236;
+  --color-brand-950: #0b1524;
 
-  /* Gold — willow / trophy accent */
+  /* Gold — trophy accent */
   --color-gold-300: #f6d488;
   --color-gold-400: #f0c14e;
   --color-gold-500: #e0a82e;
   --color-gold-600: #c8901c;
   --color-gold-700: #a37014;
 
-  /* Cricket-ball red (sale / alerts) */
-  --color-ball-400: #e5675b;
-  --color-ball-500: #d63a2f;
-  --color-ball-600: #b92b22;
+  /* Crest red (sale / alerts / M) */
+  --color-ball-400: #e0574f;
+  --color-ball-500: #c9202f;
+  --color-ball-600: #a81a28;
 
   /* Warm neutrals */
   --color-sand-50: #faf9f6;
@@ -49,7 +49,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #14231b;
+  --foreground: #0e1a2b;
 }
 
 * {
@@ -353,9 +353,9 @@ h2 {
 .stadium {
   background:
     radial-gradient(120% 90% at 85% -10%, rgba(240, 193, 78, 0.14) 0%, transparent 55%),
-    radial-gradient(110% 80% at 8% -14%, rgba(240, 193, 78, 0.1) 0%, transparent 50%),
-    radial-gradient(140% 120% at 50% 120%, rgba(54, 138, 93, 0.28) 0%, transparent 60%),
-    linear-gradient(178deg, #060f0a 0%, var(--color-brand-950) 45%, #0c2418 100%);
+    radial-gradient(110% 80% at 8% -14%, rgba(201, 32, 47, 0.12) 0%, transparent 50%),
+    radial-gradient(140% 120% at 50% 120%, rgba(58, 88, 133, 0.32) 0%, transparent 60%),
+    linear-gradient(178deg, #060c16 0%, var(--color-brand-950) 45%, #12233c 100%);
 }
 
 /* ------------------------------------------------------------------ */
@@ -389,7 +389,7 @@ h2 {
 .scoreboard {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-    #06120c;
+    #0b1524;
   border: 1px solid rgba(240, 193, 78, 0.22);
   box-shadow:
     inset 0 0 24px rgba(0, 0, 0, 0.55),

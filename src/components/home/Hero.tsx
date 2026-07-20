@@ -127,8 +127,8 @@ function StandsLayer() {
       aria-hidden
     >
       {/* stand tiers — kept low so they never crowd the copy */}
-      <path d="M0 520 Q720 440 1440 520 L1440 700 L0 700 Z" fill="#07150d" opacity="0.9" />
-      <path d="M0 488 Q720 408 1440 488 L1440 520 Q720 440 0 520 Z" fill="#0a1d12" opacity="0.75" />
+      <path d="M0 520 Q720 440 1440 520 L1440 700 L0 700 Z" fill="#0a1526" opacity="0.9" />
+      <path d="M0 488 Q720 408 1440 488 L1440 520 Q720 440 0 520 Z" fill="#10203a" opacity="0.75" />
 
       {/* floodlight shafts from off-screen towers — no cropped lamp
           heads to read as noise at odd viewport sizes */}

@@ -32,7 +32,7 @@ export function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-gold-500/15 bg-[#06120c] text-brand-50"
+      className="border-b border-gold-500/15 bg-[#0b1524] text-brand-50"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
