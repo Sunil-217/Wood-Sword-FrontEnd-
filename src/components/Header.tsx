@@ -84,6 +84,9 @@ export function Header() {
 
         {/* Desktop nav */}
         <nav className="ml-4 hidden items-center gap-1 lg:flex">
+          <NavLink href="/" active={pathname === "/"}>
+            Home
+          </NavLink>
           <div className="group relative">
             <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-brand-900 transition-colors hover:bg-brand-50">
               Shop
@@ -347,17 +350,30 @@ export function Header() {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+  active = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  active?: boolean;
+}) {
   return (
     <Link
       href={href}
-      className="group/nav relative rounded-full px-3 py-2 text-sm font-medium text-brand-900 transition-colors hover:text-brand-950"
+      aria-current={active ? "page" : undefined}
+      className={`group/nav relative rounded-full px-3 py-2 text-sm font-medium transition-colors hover:text-brand-950 ${
+        active ? "font-semibold text-brand-950" : "text-brand-900"
+      }`}
     >
       {children}
-      {/* animated underline */}
+      {/* animated underline — stays lit on the current page */}
       <span
         aria-hidden
-        className="absolute inset-x-3 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-gold-500 transition-transform duration-300 [transition-timing-function:var(--ease-spring)] group-hover/nav:scale-x-100"
+        className={`absolute inset-x-3 -bottom-0.5 h-0.5 origin-left rounded-full bg-gold-500 transition-transform duration-300 [transition-timing-function:var(--ease-spring)] ${
+          active ? "scale-x-100" : "scale-x-0 group-hover/nav:scale-x-100"
+        }`}
       />
     </Link>
   );
