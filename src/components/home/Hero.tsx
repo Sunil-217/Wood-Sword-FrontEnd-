@@ -97,8 +97,8 @@ export function Hero() {
           <ScoreCell label="Average rating">
             <CountUp value={4.8} decimals={1} suffix="★" />
           </ScoreCell>
-          <ScoreCell label="Hr dispatch">
-            <CountUp value={48} />
+          <ScoreCell label="Dispatch time">
+            <CountUp value={48} suffix="h" />
           </ScoreCell>
         </div>
       </Container>
@@ -126,39 +126,14 @@ function StandsLayer() {
       className="h-full w-full"
       aria-hidden
     >
-      {/* stand tiers */}
-      <path d="M0 470 Q720 380 1440 470 L1440 700 L0 700 Z" fill="#07150d" opacity="0.9" />
-      <path d="M0 430 Q720 340 1440 430 L1440 470 Q720 380 0 470 Z" fill="#0a1d12" opacity="0.8" />
-      {/* crowd shimmer rows */}
-      {[446, 458].map((y, r) => (
-        <g key={y} opacity={0.22 - r * 0.06}>
-          {Array.from({ length: 48 }).map((_, i) => (
-            <circle key={i} cx={18 + i * 30} cy={y - Math.sin(i / 4) * 16} r="2.2" fill="#f0c14e" />
-          ))}
-        </g>
-      ))}
+      {/* stand tiers — kept low so they never crowd the copy */}
+      <path d="M0 520 Q720 440 1440 520 L1440 700 L0 700 Z" fill="#07150d" opacity="0.9" />
+      <path d="M0 488 Q720 408 1440 488 L1440 520 Q720 440 0 520 Z" fill="#0a1d12" opacity="0.75" />
 
-      {/* floodlight towers */}
-      {[180, 1260].map((x) => (
-        <g key={x}>
-          {/* light cone */}
-          <polygon
-            points={`${x},130 ${x - 190},640 ${x + 190},640`}
-            fill="url(#ws-cone)"
-            className="animate-glow"
-          />
-          {/* pole */}
-          <rect x={x - 4} y={170} width="8" height="300" rx="3" fill="#0f241a" />
-          {/* head */}
-          <rect x={x - 42} y={104} width="84" height="52" rx="12" fill="#0f241a" />
-          {[0, 1, 2].map((cx) => (
-            <g key={cx}>
-              <circle cx={x - 22 + cx * 22} cy={122} r="7" fill="#f6d488" opacity="0.95" />
-              <circle cx={x - 22 + cx * 22} cy={140} r="7" fill="#f0c14e" opacity="0.8" />
-            </g>
-          ))}
-        </g>
-      ))}
+      {/* floodlight shafts from off-screen towers — no cropped lamp
+          heads to read as noise at odd viewport sizes */}
+      <polygon points="60,-80 -260,660 380,660" fill="url(#ws-cone)" className="animate-glow" />
+      <polygon points="1380,-80 1060,660 1700,660" fill="url(#ws-cone)" className="animate-glow" />
 
       <defs>
         <linearGradient id="ws-cone" x1="0" y1="0" x2="0" y2="1">

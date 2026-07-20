@@ -11,7 +11,7 @@ export function AnnouncementBar() {
   return (
     <div className="relative overflow-hidden border-b border-gold-500/15 bg-[#06120c] text-brand-50">
       {/* LIVE chip, pinned left like a score ticker */}
-      <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 bg-[#06120c] pl-3 pr-2 sm:pl-4">
+      <div className="absolute inset-y-0 left-0 z-10 flex items-center gap-1.5 bg-[#06120c] pl-3 pr-3 sm:pl-4">
         <span className="relative flex h-1.5 w-1.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ball-500 opacity-70" />
           <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-ball-500" />
@@ -19,11 +19,11 @@ export function AnnouncementBar() {
         <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-gold-400">
           Live
         </span>
-        {/* fade edge */}
-        <span className="pointer-events-none absolute left-full top-0 h-full w-8 bg-gradient-to-r from-[#06120c] to-transparent" />
+        {/* wide fade so scrolling text dissolves instead of clipping mid-word */}
+        <span className="pointer-events-none absolute left-full top-0 h-full w-14 bg-gradient-to-r from-[#06120c] via-[#06120c]/80 to-transparent" />
       </div>
 
-      <div className="animate-marquee flex w-max whitespace-nowrap py-2 pl-24">
+      <div className="animate-marquee flex w-max whitespace-nowrap py-2 pl-32">
         {track.map((text, i) => (
           <span
             key={i}
