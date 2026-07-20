@@ -5,6 +5,7 @@ import { ProductArt } from "./ProductArt";
 import { Rating } from "./ui/Rating";
 import { ProductBadge } from "./ui/Badge";
 import { QuickAdd } from "./QuickAdd";
+import { WishlistButton } from "./WishlistButton";
 
 /**
  * Card titles drop a trailing "(variant)" so grid rows stay tidy —
@@ -35,18 +36,23 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {product.badge && <ProductBadge kind={product.badge} />}
           {off && !product.badge && <ProductBadge kind="Sale" />}
+          {off && (
+            <span className="rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-ball-600 shadow-sm backdrop-blur">
+              -{off}%
+            </span>
+          )}
         </div>
         {!product.inStock && (
           <span className="absolute inset-x-3 bottom-3 rounded-full bg-brand-950/80 px-3 py-1.5 text-center text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur">
             Out of stock
           </span>
         )}
-        {off && (
-          <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-ball-600 shadow-sm backdrop-blur">
-            -{off}%
-          </span>
-        )}
       </Link>
+
+      {/* wishlist heart — above the card-wide link overlay */}
+      <div className="absolute right-3 top-3 z-10">
+        <WishlistButton slug={product.slug} name={base} />
+      </div>
 
       <div className="flex flex-1 flex-col p-3 sm:p-4">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-500">

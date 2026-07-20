@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -22,7 +23,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://woodsword.example.com"),
+  metadataBase: new URL("https://wood-sword.vercel.app"),
   title: {
     default: "MM Sports Cricket — Pro-grade cricket equipment",
     template: "%s · MM Sports Cricket",
@@ -54,12 +55,14 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-sand-50 text-brand-950">
         <CartProvider>
-          <AnnouncementBar />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <Toaster />
-          <BackToTop />
+          <WishlistProvider>
+            <AnnouncementBar />
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <Toaster />
+            <BackToTop />
+          </WishlistProvider>
         </CartProvider>
       </body>
     </html>

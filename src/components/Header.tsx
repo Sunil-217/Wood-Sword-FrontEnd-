@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { Logo } from "./Logo";
+import { SearchBox } from "./SearchBox";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
   const { count, ready } = useCart();
+  const { count: wishCount, ready: wishReady } = useWishlist();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -49,13 +50,6 @@ export function Header() {
 
   function closeDrawer() {
     setMobileOpen(false);
-  }
-
-  function submitSearch(e: React.FormEvent) {
-    e.preventDefault();
-    const q = query.trim();
-    router.push(q ? `/shop?q=${encodeURIComponent(q)}` : "/shop");
-    closeDrawer();
   }
 
   const multiGroups = groups.filter((g) => categoriesInGroup(g.slug).length > 1);
@@ -148,21 +142,25 @@ export function Header() {
           <NavLink href="/shop">All Gear</NavLink>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2">
-          {/* Search (desktop) */}
-          <form onSubmit={submitSearch} className="hidden md:block">
-            <div className="flex items-center rounded-full bg-brand-50 ring-1 ring-brand-900/5 focus-within:ring-brand-500/40">
-              <span className="pl-3 text-brand-900/40">
-                <SearchIcon />
+        <div className="ml-auto flex items-center gap-1.5">
+          {/* Search (desktop) with autocomplete */}
+          <div className="hidden md:block">
+            <SearchBox />
+          </div>
+
+          {/* Wishlist */}
+          <Link
+            href="/wishlist"
+            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-brand-900 transition-colors hover:bg-brand-50"
+            aria-label="Open wishlist"
+          >
+            <HeartIcon />
+            {wishReady && wishCount > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ball-500 px-1 text-[11px] font-bold text-white">
+                {wishCount}
               </span>
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search gear…"
-                className="w-40 bg-transparent px-2 py-2 text-sm outline-none placeholder:text-brand-900/40 lg:w-52"
-              />
-            </div>
-          </form>
+            )}
+          </Link>
 
           {/* Cart */}
           <Link
@@ -214,20 +212,10 @@ export function Header() {
             <Logo onNavigate={closeDrawer} className="scale-90" />
           </div>
 
-          {/* Search */}
-          <form onSubmit={submitSearch} className="px-5 pb-4 pt-2">
-            <div className="flex items-center rounded-full bg-brand-50 ring-1 ring-brand-900/5 focus-within:ring-brand-500/40">
-              <span className="pl-3 text-brand-900/40">
-                <SearchIcon />
-              </span>
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search gear…"
-                className="w-full bg-transparent px-2 py-2.5 text-sm outline-none placeholder:text-brand-900/40"
-              />
-            </div>
-          </form>
+          {/* Search with autocomplete */}
+          <div className="px-5 pb-4 pt-2">
+            <SearchBox variant="mobile" onNavigate={closeDrawer} />
+          </div>
 
           {/* Nav list — items cascade in when the drawer opens */}
           <nav className="flex-1 overflow-y-auto px-5">
@@ -323,6 +311,23 @@ export function Header() {
                 style={{ "--i": multiGroups.length + singleGroups.length + 1 } as React.CSSProperties}
               >
                 <Link
+                  href="/wishlist"
+                  onClick={closeDrawer}
+                  className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
+                >
+                  Wishlist
+                  {wishReady && wishCount > 0 && (
+                    <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-ball-500 px-1.5 text-xs font-bold text-white">
+                      {wishCount}
+                    </span>
+                  )}
+                </Link>
+              </li>
+              <li
+                className={`border-b border-brand-900/8 ${mobileOpen ? "drawer-cascade" : ""}`}
+                style={{ "--i": multiGroups.length + singleGroups.length + 2 } as React.CSSProperties}
+              >
+                <Link
                   href="/cart"
                   onClick={closeDrawer}
                   className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
@@ -379,11 +384,15 @@ function NavLink({
   );
 }
 
-function SearchIcon() {
+function HeartIcon() {
   return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
-      <path d="M20 20l-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 20.5l-1.45-1.32C5.4 14.5 2 11.4 2 7.6 2 4.8 4.2 2.7 7 2.7c1.55 0 3.04.72 4 1.86.96-1.14 2.45-1.86 4-1.86 2.8 0 5 2.1 5 4.9 0 3.8-3.4 6.9-8.55 11.58L12 20.5z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
