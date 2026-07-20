@@ -82,14 +82,12 @@ export const groupMap: Record<GroupSlug, Group> = Object.fromEntries(
 export const categories: Category[] = [
   { slug: "english-willow-bats", group: "bats", name: "English Willow", blurb: "Tournament-grade English willow bats.", art: "bat", accent: "#c8901c" },
   { slug: "kashmir-willow-bats", group: "bats", name: "Kashmir Willow", blurb: "Durable Kashmir willow for leather ball.", art: "bat", accent: "#b98328" },
-  { slug: "tennis-bats", group: "bats", name: "Tennis / Scoop", blurb: "Scooped bats for tennis & tape ball.", art: "bat", accent: "#e0a82e" },
-  { slug: "custom-bats", group: "bats", name: "Custom Bats", blurb: "Made-to-order, built to your spec.", art: "bat", accent: "#a37014" },
+  { slug: "fine-wood-willow-bats", group: "bats", name: "Fine Wood Willow", blurb: "Light, forgiving willow for club & tape ball.", art: "bat", accent: "#e0a82e" },
   { slug: "batting-gloves", group: "protection", name: "Batting Gloves", blurb: "The Armour-GX batting glove series.", art: "gloves", accent: "#256e49" },
   { slug: "leg-guards", group: "protection", name: "Batting Leg Guards", blurb: "Armour-LX pads, light and tough.", art: "pads", accent: "#2f6fb0" },
   { slug: "helmets", group: "protection", name: "Helmets", blurb: "Head protection that takes the knocks.", art: "helmet", accent: "#3b4252" },
   { slug: "other-protection", group: "protection", name: "Other Protection", blurb: "Arm, chest and thigh guards.", art: "pads", accent: "#7c5cbf" },
   { slug: "wk-gloves", group: "wicket-keeping", name: "WK Gloves", blurb: "Armour-GK keeping gloves.", art: "keeping", accent: "#a3521c" },
-  { slug: "wk-inners", group: "wicket-keeping", name: "WK Inners", blurb: "Cotton and chamois inners.", art: "keeping", accent: "#b5652a" },
   { slug: "wk-leg-guards", group: "wicket-keeping", name: "WK Leg Guards", blurb: "Armour-LK keeping pads.", art: "pads", accent: "#8a5a2b" },
   { slug: "duffle-bags", group: "luggage", name: "Duffle Bags", blurb: "Wheelie duffles that swallow full kits.", art: "bag", accent: "#184530" },
   { slug: "trolley-bags", group: "luggage", name: "Trolley Bags", blurb: "Rolling kit bags for heavy loads.", art: "bag", accent: "#256e49" },
@@ -250,22 +248,27 @@ function kwBat(
   });
 }
 
-function scoopBat(color: string): Product {
+function fineWoodBat(
+  name: string,
+  price: number,
+  mrp: number | undefined,
+  note: string,
+  badge?: Badge,
+): Product {
   return P({
-    name: `${color} Scoop Kashmir Willow Bat`,
-    category: "tennis-bats",
-    price: 1649,
-    mrp: 2499,
-    accent: accentFor(color, "#e0a82e"),
-    colors: [color],
-    sizes: ['34"', '35"'],
-    tagline: "Grade 2 Kashmir willow · scooped back",
-    description: `A scooped-back Kashmir willow bat in ${color.toLowerCase()} — feather-light pick-up made for tennis and tape-ball cricket, with a full face for big swings.`,
+    name: `${name} Fine Wood Willow Bat`,
+    category: "fine-wood-willow-bats",
+    price,
+    mrp,
+    sizes: ["Size 6", "Harrow", "Men's"],
+    badge,
+    tagline: "Fine wood willow · club & tape ball",
+    description: `The ${name} is a fine wood willow bat — ${note}. A light, forgiving pick-up that's just as happy against a leather ball on a Sunday as a tennis ball in the gully.`,
     features: [
-      "Scooped back, ultra-light pick-up",
-      "Grade 2 Kashmir willow",
-      'Available 34" and 35"',
-      "Tennis & tape ball",
+      "Seasoned fine wood willow",
+      "Light, forgiving pick-up",
+      "Full profile with thick edges",
+      "Leather & tennis ball ready",
     ],
   });
 }
@@ -374,30 +377,11 @@ export const products: Product[] = [
   kwBat("Prince", 2399, undefined, "Grade 2", "Mid-Low"),
   kwBat("Raw", 1949, 2499, "Grade 3", "Full Spine (Mid-Swell)"),
 
-  /* ---- Bats · Tennis / Scoop ---- */
-  scoopBat("Black"),
-  scoopBat("Blue"),
-  scoopBat("Green"),
-  scoopBat("Red"),
-
-  /* ---- Bats · Custom ---- */
-  P({
-    name: "Custom Bat (Made to Order)",
-    category: "custom-bats",
-    price: 11221,
-    badge: "Pro",
-    sizes: ["Size 1", "Size 2", "Size 3", "Size 4", "Size 5", "Size 6", "Harrow", "Men's"],
-    colors: ["Black"],
-    tagline: "Your spec, hand-built in Meerut",
-    description:
-      "Choose your grade (Grade 1–4 or Pro Grade), weight, profile and size — our craftsmen press, shape and knock-in a bat that's yours alone. Price varies with grade; from ₹11,221.",
-    features: [
-      "Grades 1–4 and Pro Grade",
-      "All sizes, 1 through Men's",
-      "Hand-pressed and knocked-in",
-      "Monarchy range finish",
-    ],
-  }),
+  /* ---- Bats · Fine Wood Willow ---- */
+  fineWoodBat("Sixer", 1899, 2499, "our best-value all-rounder with a big middle", "Bestseller"),
+  fineWoodBat("Slogger", 1649, 2299, "a high-middle profile built for clean hitting"),
+  fineWoodBat("Rookie", 1349, 1799, "a lighter junior-friendly starter bat"),
+  fineWoodBat("Gully King", 1149, 1599, "the go-to bat for street and gully cricket"),
 
   /* ---- Protection · Batting Gloves (Armour-GX series) ---- */
   glove("GX1", "3.0", "Black-Gold", 1699),
@@ -636,43 +620,6 @@ export const products: Product[] = [
     description:
       "Our tournament-grade keeping glove for serious stumpers — premium leather palm, deep pocket and six colourways.",
     features: ["Premium leather palm", "Deep catching pocket", "Six colourways", "Boys to Large"],
-  }),
-
-  /* ---- Wicket Keeping · Inners ---- */
-  P({
-    name: "Armour-IK1 Wicket Keeping Inners (White-Grey)",
-    category: "wk-inners",
-    price: 399,
-    colors: ["White-Grey"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    tagline: "Padded chamois inners",
-    description:
-      "The Armour-IK1 — padded chamois-palm inners that take the sting out of a long day behind the stumps.",
-    features: ["Padded chamois palm", "Sweat-absorbing cotton", "Full-finger fit", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-IK2 Wicket Keeping Inners (White-Blue)",
-    category: "wk-inners",
-    price: 199,
-    colors: ["White-Blue"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#2f6fb0",
-    tagline: "Cotton keeping inners",
-    description:
-      "The Armour-IK2 — breathable cotton inners that keep your keeping gloves dry and fresh.",
-    features: ["Breathable cotton", "Machine washable", "Snug fit", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-IK2 Wicket Keeping Inners (White-Red)",
-    category: "wk-inners",
-    price: 199,
-    colors: ["White-Red"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#b92b22",
-    tagline: "Cotton keeping inners",
-    description:
-      "The Armour-IK2 — breathable cotton inners that keep your keeping gloves dry and fresh.",
-    features: ["Breathable cotton", "Machine washable", "Snug fit", "Boys to Large"],
   }),
 
   /* ---- Wicket Keeping · Leg Guards ---- */
