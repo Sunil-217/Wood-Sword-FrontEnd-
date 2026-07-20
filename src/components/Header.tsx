@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
 import { Logo } from "./Logo";
 import { SearchBox } from "./SearchBox";
+import { AccountMenu } from "./AccountMenu";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,6 +18,7 @@ export function Header() {
   const pathname = usePathname();
   const { count, ready } = useCart();
   const { count: wishCount, ready: wishReady } = useWishlist();
+  const { user, isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -175,6 +178,9 @@ export function Header() {
               </span>
             )}
           </Link>
+
+          {/* Account */}
+          <AccountMenu />
         </div>
       </div>
 
@@ -340,14 +346,51 @@ export function Header() {
                   )}
                 </Link>
               </li>
+
+              {isAdmin && (
+                <li className="border-b border-brand-900/8">
+                  <Link
+                    href="/admin"
+                    onClick={closeDrawer}
+                    className="flex items-center justify-between py-4 text-[17px] font-medium text-brand-950"
+                  >
+                    Admin Dashboard
+                    <span className="rounded-full bg-gold-500/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-gold-700">
+                      Admin
+                    </span>
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
 
-          {/* Drawer footer */}
+          {/* Drawer footer — account */}
           <div className="border-t border-brand-900/8 px-5 py-4">
-            <p className="text-xs text-brand-900/50">
-              Free shipping over ₹2,000 · WhatsApp support 7 days a week
-            </p>
+            {user ? (
+              <div className="flex items-center justify-between gap-3">
+                <span className="min-w-0">
+                  <span className="block text-[11px] text-brand-900/45">Signed in</span>
+                  <span className="block truncate text-sm font-semibold text-brand-950">{user.email}</span>
+                </span>
+                <button
+                  onClick={() => {
+                    logout();
+                    closeDrawer();
+                  }}
+                  className="press shrink-0 rounded-full border border-brand-900/15 px-4 py-2 text-sm font-semibold text-ball-600 hover:bg-ball-500/10"
+                >
+                  Log out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={closeDrawer}
+                className="press flex items-center justify-center gap-2 rounded-full bg-brand-900 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
+              >
+                Sign in
+              </Link>
+            )}
           </div>
         </div>
       </div>

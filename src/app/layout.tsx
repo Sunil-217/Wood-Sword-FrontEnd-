@@ -3,6 +3,8 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
+import { AuthProvider } from "@/context/AuthContext";
+import { CatalogProvider } from "@/context/CatalogContext";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -54,16 +56,20 @@ export default function RootLayout({
       className={`${inter.variable} ${sora.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-sand-50 text-brand-950">
-        <CartProvider>
-          <WishlistProvider>
-            <AnnouncementBar />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <Toaster />
-            <BackToTop />
-          </WishlistProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CatalogProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <AnnouncementBar />
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <Toaster />
+                <BackToTop />
+              </WishlistProvider>
+            </CartProvider>
+          </CatalogProvider>
+        </AuthProvider>
       </body>
     </html>
   );

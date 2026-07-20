@@ -6,9 +6,9 @@ import { ProductArt } from "@/components/ProductArt";
 import { Rating } from "@/components/ui/Rating";
 import { ProductBadge } from "@/components/ui/Badge";
 import { ProductGrid } from "@/components/ProductGrid";
-import { ProductActions } from "@/components/product/ProductActions";
+import { ProductPurchase } from "@/components/product/ProductPurchase";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
-import { discountPct, inr } from "@/lib/format";
+import { discountPct } from "@/lib/format";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -104,24 +104,7 @@ export default async function ProductPage({
             <Rating value={product.rating} reviews={product.reviews} size="md" />
           </div>
 
-          <div className="mt-5 flex flex-wrap items-baseline gap-3">
-            <span className="font-display text-3xl font-bold text-brand-950">
-              {inr(product.price)}
-            </span>
-            {product.mrp && (
-              <span className="text-lg text-brand-900/40 line-through">{inr(product.mrp)}</span>
-            )}
-            {off && (
-              <span className="rounded-full bg-ball-500/10 px-2.5 py-1 text-sm font-bold text-ball-600">
-                Save {off}%
-              </span>
-            )}
-          </div>
-          <p className="mt-1 text-xs text-brand-900/45">Inclusive of all taxes · Free shipping over ₹2,000</p>
-
-          <div className="my-7 h-px bg-brand-900/8" />
-
-          <ProductActions product={product} />
+          <ProductPurchase product={product} />
 
           {/* Trust row */}
           <div className="mt-7 grid grid-cols-3 gap-3">
