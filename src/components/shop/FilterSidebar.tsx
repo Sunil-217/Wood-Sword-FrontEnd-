@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { buildQuery, PRICE_BUCKETS, parseList, toggleInList } from "@/lib/filters";
 import { categoriesInGroup, categoryMap, groups } from "@/lib/catalog";
 import type { CategorySlug } from "@/lib/types";
@@ -16,22 +16,28 @@ interface Props {
 export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts }: Props) {
   const [open, setOpen] = useState(false);
 
-  // The group owning the active category (or the active group) starts expanded.
+  // The group owning the active category (or the active group) is open by
+  // default; `overrides` records the user's explicit open/close clicks so the
+  // toggle always works, active group included.
   const activeGroup =
     params.group ??
     (params.category ? categoryMap[params.category as CategorySlug]?.group : undefined);
-  const [expanded, setExpanded] = useState<Set<string>>(
-    () => new Set(activeGroup ? [activeGroup] : []),
-  );
+  const [overrides, setOverrides] = useState<Record<string, boolean>>({});
 
-  function toggleGroup(slug: string) {
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
+  function toggleGroup(slug: string, defaultOpen: boolean) {
+    setOverrides((prev) => ({ ...prev, [slug]: !(prev[slug] ?? defaultOpen) }));
+  }
+
+  // Navigating into a group re-opens it even if it was collapsed earlier.
+  useEffect(() => {
+    if (!activeGroup) return;
+    setOverrides((prev) => {
+      if (!(activeGroup in prev)) return prev;
+      const next = { ...prev };
+      delete next[activeGroup];
       return next;
     });
-  }
+  }, [activeGroup]);
 
   const activeSizes = parseList(params.size);
   const activeHands = parseList(params.hand);
@@ -111,38 +117,26 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                   />
                 );
               }
-              const isExpanded = expanded.has(g.slug) || groupActive;
+              const defaultOpen = g.slug === activeGroup;
+              const isExpanded = overrides[g.slug] ?? defaultOpen;
               return (
                 <div key={g.slug}>
-                  <div
-                    className={`flex items-center justify-between gap-1 rounded-lg pr-1 transition-colors ${
-                      groupActive ? "bg-brand-900" : "hover:bg-brand-50"
+                  {/* whole header is the dropdown toggle */}
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(g.slug, defaultOpen)}
+                    aria-expanded={isExpanded}
+                    className={`flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                      groupActive
+                        ? "bg-brand-900 text-white"
+                        : "text-brand-900/50 hover:bg-brand-50 hover:text-brand-900/80"
                     }`}
                   >
-                    <Link
-                      href={hrefWith({
-                        group: groupActive ? undefined : g.slug,
-                        category: undefined,
-                        size: undefined,
-                        hand: undefined,
-                      })}
-                      className={`flex flex-1 items-center justify-between px-2.5 py-2 text-xs font-semibold uppercase tracking-wider ${
-                        groupActive ? "text-white" : "text-brand-900/50"
-                      }`}
-                    >
-                      {g.name}
+                    {g.name}
+                    <span className="flex items-center gap-2">
                       <span className={groupActive ? "text-white/60" : "text-brand-900/35"}>
                         {groupCount}
                       </span>
-                    </Link>
-                    <button
-                      onClick={() => toggleGroup(g.slug)}
-                      aria-expanded={isExpanded}
-                      aria-label={`${isExpanded ? "Collapse" : "Expand"} ${g.name}`}
-                      className={`press flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${
-                        groupActive ? "text-white/70" : "text-brand-900/45 hover:text-brand-900"
-                      }`}
-                    >
                       <svg
                         width="13"
                         height="13"
@@ -152,14 +146,30 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
                       >
                         <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </button>
-                  </div>
+                    </span>
+                  </button>
                   <div
                     className={`grid transition-[grid-template-rows] duration-300 ease-out ${
                       isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                     }`}
                   >
                     <ul className="mt-1 space-y-0.5 overflow-hidden">
+                      {/* filter by the whole group */}
+                      <li>
+                        <CategoryRow
+                          href={hrefWith({
+                            group: groupActive ? undefined : g.slug,
+                            category: undefined,
+                            size: undefined,
+                            hand: undefined,
+                          })}
+                          active={groupActive}
+                          accent={g.accent}
+                          label={`All ${g.name}`}
+                          count={groupCount}
+                          indent
+                        />
+                      </li>
                       {leaves.map((c) => {
                         const active = params.category === c.slug;
                         return (
