@@ -38,6 +38,16 @@ export function Footer() {
 
   return (
     <footer className="mt-24 bg-brand-950 text-brand-100">
+      {/* boundary rope along the top edge */}
+      <div
+        aria-hidden
+        className="h-1.5"
+        style={{
+          background:
+            "repeating-linear-gradient(-55deg, #e0a82e 0 6px, #a37014 6px 12px)",
+          opacity: 0.7,
+        }}
+      />
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">

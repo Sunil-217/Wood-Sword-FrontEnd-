@@ -1,124 +1,219 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { ProductArt } from "@/components/ProductArt";
 import { ParallaxScene } from "@/components/ParallaxScene";
 import { CountUp } from "@/components/CountUp";
 
 export function Hero() {
   return (
     <section className="stadium relative overflow-hidden text-white">
-      {/* pitch texture + floodlight glows */}
-      <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-40" />
-      <div className="animate-glow pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-gold-500/15 blur-3xl" />
-      <div className="animate-glow pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-gold-400/10 blur-3xl" style={{ animationDelay: "3.5s" }} />
-      <div className="pointer-events-none absolute -bottom-40 left-1/4 h-96 w-96 rounded-full bg-brand-500/25 blur-3xl" />
+      {/* ---- Stadium scene (parallax layers, anchored to the bottom) ---- */}
+      <ParallaxScene className="absolute inset-0">
+        {/* floodlight glows */}
+        <div className="animate-glow pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-gold-400/10 blur-3xl" />
+        <div
+          className="animate-glow pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-gold-400/10 blur-3xl"
+          style={{ animationDelay: "3.5s" }}
+        />
 
-      <Container className="relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
-        <div>
-          <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-brand-100/90 backdrop-blur">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
-            </span>
-            New season · 2026 range now live
-          </span>
-          <h1
-            className="hero-fluid animate-rise mt-5 font-display font-extrabold tracking-tight"
-            style={{ animationDelay: "80ms" }}
-          >
-            Gear built to be
-            <span className="block bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600 bg-clip-text text-transparent">
-              played, not admired.
-            </span>
-          </h1>
-          <p
-            className="animate-rise mt-5 max-w-md text-base leading-relaxed text-brand-100/70"
-            style={{ animationDelay: "160ms" }}
-          >
-            Pro-grade cricket bats, gloves, pads and helmets — hand-crafted in
-            Meerut and shipped factory-direct across India. Kit up like the pros
-            without the pro-shop markup.
-          </p>
-          <div
-            className="animate-rise mt-8 flex flex-wrap items-center gap-3"
-            style={{ animationDelay: "240ms" }}
-          >
-            <Link
-              href="/shop"
-              className="press inline-flex items-center gap-2 rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-brand-950 shadow-lg shadow-gold-500/25 transition-shadow hover:shadow-xl hover:shadow-gold-500/40"
-            >
-              Shop all gear
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-            <Link
-              href="/shop?group=bats"
-              className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-            >
-              Explore bats
-            </Link>
-          </div>
-          <dl
-            className="animate-rise mt-10 flex gap-8"
-            style={{ animationDelay: "320ms" }}
-          >
-            <div>
-              <dt className="font-display text-2xl font-bold text-white">
-                <CountUp value={25} suffix="k+" />
-              </dt>
-              <dd className="text-xs text-brand-100/60">Cricketers kitted</dd>
-            </div>
-            <div>
-              <dt className="font-display text-2xl font-bold text-white">
-                <CountUp value={4.8} decimals={1} suffix="★" />
-              </dt>
-              <dd className="text-xs text-brand-100/60">Average rating</dd>
-            </div>
-            <div>
-              <dt className="font-display text-2xl font-bold text-white">
-                <CountUp value={48} suffix="h" />
-              </dt>
-              <dd className="text-xs text-brand-100/60">Dispatch, pan-India</dd>
-            </div>
-          </dl>
+        {/* stands + floodlight towers */}
+        <div data-depth="0.22" className="absolute inset-0 will-change-transform">
+          <StandsLayer />
         </div>
 
-        {/* Floating gear scene with pointer parallax */}
-        <ParallaxScene className="relative hidden animate-rise lg:block" >
-          <div className="relative mx-auto aspect-square max-w-md 2xl:max-w-lg">
-            {/* bat — hero layer */}
-            <div data-depth="0.35" className="absolute left-0 top-6 w-3/5 will-change-transform">
-              <div className="animate-float rotate-[-6deg] overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
-                <ProductArt art="bat" accent="#e0a82e" className="aspect-square" label="Cricket bat" />
-              </div>
-            </div>
-            {/* helmet */}
-            <div data-depth="0.55" className="absolute bottom-0 right-2 w-1/2 will-change-transform">
-              <div className="animate-float rotate-[7deg] overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40" style={{ animationDelay: "1.2s" }}>
-                <ProductArt art="helmet" accent="#3b4252" className="aspect-square" label="Helmet" />
-              </div>
-            </div>
-            {/* gloves */}
-            <div data-depth="0.8" className="absolute bottom-6 left-2 w-2/5 will-change-transform">
-              <div className="animate-float rotate-[-9deg] overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40" style={{ animationDelay: "1.8s" }}>
-                <ProductArt art="gloves" accent="#256e49" className="aspect-square" label="Batting gloves" />
-              </div>
-            </div>
-            {/* animated cricket ball */}
-            <div data-depth="1.1" className="absolute right-4 top-2 w-28 will-change-transform">
-              <div className="animate-ball-bounce">
-                <BallSVG />
-              </div>
-              <div className="animate-ball-shadow mx-auto mt-2 h-3 w-20 rounded-full bg-black/50 blur-[6px]" />
-            </div>
-          </div>
-        </ParallaxScene>
-      </Container>
+        {/* ground + pitch + stumps */}
+        <div data-depth="0.1" className="absolute inset-0 will-change-transform">
+          <PitchLayer />
+        </div>
 
-      {/* bottom hairline fade into the page */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-white/10" />
+        {/* match ball, mid-bounce */}
+        <div
+          data-depth="0.55"
+          className="absolute bottom-14 right-[10%] w-14 will-change-transform sm:w-16 lg:bottom-20 lg:w-20"
+        >
+          <div className="animate-ball-bounce">
+            <BallSVG />
+          </div>
+          <div className="animate-ball-shadow mx-auto mt-1.5 h-2 w-12 rounded-full bg-black/55 blur-[5px]" />
+        </div>
+      </ParallaxScene>
+
+      {/* ---- Copy, centred at the crease ---- */}
+      <Container className="relative z-10 flex flex-col items-center pb-40 pt-16 text-center sm:pt-20 lg:pb-48 lg:pt-24">
+        <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-brand-100/90 backdrop-blur">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
+          </span>
+          New season · 2026 range now live
+        </span>
+
+        <h1
+          className="hero-fluid animate-rise mt-6 max-w-4xl font-display font-extrabold tracking-tight"
+          style={{ animationDelay: "80ms" }}
+        >
+          Gear built to be{" "}
+          <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600 bg-clip-text text-transparent">
+            played, not admired.
+          </span>
+        </h1>
+
+        <p
+          className="animate-rise mt-5 max-w-xl text-base leading-relaxed text-brand-100/70"
+          style={{ animationDelay: "160ms" }}
+        >
+          Pro-grade cricket bats, gloves, pads and helmets — hand-crafted in
+          Meerut and shipped factory-direct across India.
+        </p>
+
+        <div
+          className="animate-rise mt-8 flex flex-wrap items-center justify-center gap-3"
+          style={{ animationDelay: "240ms" }}
+        >
+          <Link
+            href="/shop"
+            className="press inline-flex items-center gap-2 rounded-full bg-gold-500 px-7 py-3.5 text-sm font-semibold text-brand-950 shadow-lg shadow-gold-500/25 transition-shadow hover:shadow-xl hover:shadow-gold-500/40"
+          >
+            Shop all gear
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+          <Link
+            href="/shop?group=bats"
+            className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+          >
+            Explore bats
+          </Link>
+        </div>
+
+        {/* Scoreboard stats */}
+        <div
+          className="scoreboard animate-rise mt-12 inline-flex divide-x divide-gold-500/15 rounded-2xl"
+          style={{ animationDelay: "320ms" }}
+        >
+          <ScoreCell label="Cricketers kitted">
+            <CountUp value={25} suffix="k+" />
+          </ScoreCell>
+          <ScoreCell label="Average rating">
+            <CountUp value={4.8} decimals={1} suffix="★" />
+          </ScoreCell>
+          <ScoreCell label="Hr dispatch">
+            <CountUp value={48} />
+          </ScoreCell>
+        </div>
+      </Container>
     </section>
+  );
+}
+
+function ScoreCell({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="px-5 py-4 sm:px-8">
+      <p className="scoreboard-digits text-2xl font-bold sm:text-3xl">{children}</p>
+      <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-100/45">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+/** Far stands silhouette + floodlight towers with light cones. */
+function StandsLayer() {
+  return (
+    <svg
+      viewBox="0 0 1440 700"
+      preserveAspectRatio="xMidYMax slice"
+      className="h-full w-full"
+      aria-hidden
+    >
+      {/* stand tiers */}
+      <path d="M0 470 Q720 380 1440 470 L1440 700 L0 700 Z" fill="#07150d" opacity="0.9" />
+      <path d="M0 430 Q720 340 1440 430 L1440 470 Q720 380 0 470 Z" fill="#0a1d12" opacity="0.8" />
+      {/* crowd shimmer rows */}
+      {[446, 458].map((y, r) => (
+        <g key={y} opacity={0.22 - r * 0.06}>
+          {Array.from({ length: 48 }).map((_, i) => (
+            <circle key={i} cx={18 + i * 30} cy={y - Math.sin(i / 4) * 16} r="2.2" fill="#f0c14e" />
+          ))}
+        </g>
+      ))}
+
+      {/* floodlight towers */}
+      {[180, 1260].map((x) => (
+        <g key={x}>
+          {/* light cone */}
+          <polygon
+            points={`${x},130 ${x - 190},640 ${x + 190},640`}
+            fill="url(#ws-cone)"
+            className="animate-glow"
+          />
+          {/* pole */}
+          <rect x={x - 4} y={170} width="8" height="300" rx="3" fill="#0f241a" />
+          {/* head */}
+          <rect x={x - 42} y={104} width="84" height="52" rx="12" fill="#0f241a" />
+          {[0, 1, 2].map((cx) => (
+            <g key={cx}>
+              <circle cx={x - 22 + cx * 22} cy={122} r="7" fill="#f6d488" opacity="0.95" />
+              <circle cx={x - 22 + cx * 22} cy={140} r="7" fill="#f0c14e" opacity="0.8" />
+            </g>
+          ))}
+        </g>
+      ))}
+
+      <defs>
+        <linearGradient id="ws-cone" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f6d488" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#f6d488" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+/** Outfield, perspective pitch, creases and stumps. */
+function PitchLayer() {
+  return (
+    <svg
+      viewBox="0 0 1440 700"
+      preserveAspectRatio="xMidYMax slice"
+      className="h-full w-full"
+      aria-hidden
+    >
+      {/* outfield */}
+      <ellipse cx="720" cy="810" rx="980" ry="260" fill="#0c2a1a" />
+      <ellipse cx="720" cy="830" rx="980" ry="260" fill="#0e3120" opacity="0.7" />
+      {/* mow rings */}
+      <ellipse cx="720" cy="815" rx="760" ry="190" fill="none" stroke="#1a4a30" strokeWidth="26" opacity="0.35" />
+      <ellipse cx="720" cy="820" rx="540" ry="130" fill="none" stroke="#1a4a30" strokeWidth="26" opacity="0.3" />
+
+      {/* pitch (perspective) */}
+      <path d="M652 545 L788 545 L872 700 L568 700 Z" fill="#a8946a" opacity="0.6" />
+      <path d="M652 545 L788 545 L872 700 L568 700 Z" fill="url(#ws-pitch-light)" />
+
+      {/* popping crease */}
+      <line x1="642" y1="575" x2="798" y2="575" stroke="#f4efe2" strokeWidth="2.5" opacity="0.75" />
+      {/* return creases */}
+      <line x1="664" y1="556" x2="656" y2="592" stroke="#f4efe2" strokeWidth="2" opacity="0.55" />
+      <line x1="776" y1="556" x2="784" y2="592" stroke="#f4efe2" strokeWidth="2" opacity="0.55" />
+
+      {/* stumps at the far end */}
+      <g>
+        {[706, 720, 734].map((x) => (
+          <rect key={x} x={x - 2.2} y={505} width="4.4" height="34" rx="2" fill="#f4e8c8" />
+        ))}
+        <rect x="702" y="502" width="17" height="3.4" rx="1.6" fill="#e0a82e" />
+        <rect x="721" y="502" width="17" height="3.4" rx="1.6" fill="#e0a82e" />
+        {/* stump glow */}
+        <ellipse cx="720" cy="522" rx="34" ry="20" fill="#f6d488" opacity="0.1" />
+      </g>
+
+      <defs>
+        <linearGradient id="ws-pitch-light" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f6d488" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#f6d488" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
   );
 }
 
@@ -126,10 +221,8 @@ export function Hero() {
 function BallSVG() {
   return (
     <svg viewBox="0 0 120 120" className="h-full w-full drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)]">
-      {/* leather */}
       <circle cx="60" cy="60" r="52" fill="#c23227" />
       <circle cx="60" cy="60" r="52" fill="url(#ws-ball-light)" />
-      {/* spinning seam group */}
       <g className="animate-seam-spin" style={{ transformOrigin: "60px 60px" }}>
         <path d="M60 10 q30 50 0 100" fill="none" stroke="#f6e7d8" strokeWidth="2.5" opacity="0.9" />
         <path d="M60 10 q26 50 0 100" fill="none" stroke="#8f1f16" strokeWidth="1.2" opacity="0.8" />
@@ -151,7 +244,6 @@ function BallSVG() {
           );
         })}
       </g>
-      {/* highlight */}
       <ellipse cx="42" cy="38" rx="18" ry="12" fill="#ffffff" opacity="0.28" />
       <defs>
         <radialGradient id="ws-ball-light" cx="0.35" cy="0.3" r="1">

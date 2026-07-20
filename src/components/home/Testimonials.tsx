@@ -7,25 +7,25 @@ const quotes = [
   {
     name: "Arjun Nair",
     role: "Club opener · Kochi",
+    number: 7,
     rating: 5,
     text: "The Vanguard Pro pings like bats twice its price. Knocked-in on arrival — I scored 74 with it the first weekend.",
-    initials: "AN",
     accent: "#c8901c",
   },
   {
     name: "Sameer Kulkarni",
     role: "Wicket-keeper · Pune",
+    number: 23,
     rating: 5,
     text: "Catchmaster gloves swallowed everything behind the stumps all season. The web is stupidly tacky in the best way.",
-    initials: "SK",
     accent: "#a3521c",
   },
   {
     name: "Rehan Shaikh",
     role: "U-19 coach · Mumbai",
+    number: 11,
     rating: 4.5,
     text: "Kitted out my whole academy squad — honest gear, quick WhatsApp support, and the youth sizes actually fit properly.",
-    initials: "RS",
     accent: "#256e49",
   },
 ];
@@ -44,43 +44,35 @@ export function Testimonials() {
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {quotes.map((q, i) => (
           <Reveal key={q.name} delay={i * 90}>
-            <figure className="flex h-full flex-col rounded-2xl border border-brand-900/8 bg-white p-6 shadow-sm">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="text-gold-500"
-                aria-hidden
+            <figure className="flex h-full flex-col overflow-hidden rounded-2xl border border-brand-900/8 bg-white shadow-sm">
+              {/* player-card header strip */}
+              <figcaption
+                className="relative flex items-center gap-3 px-5 py-4 text-white"
+                style={{
+                  background: `linear-gradient(120deg, color-mix(in srgb, ${q.accent} 55%, #0a2016) 0%, #0a2016 100%)`,
+                }}
               >
-                <path
-                  d="M10 7H6a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a2 2 0 0 1-2 2m14-12h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a2 2 0 0 1-2 2"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <blockquote className="mt-3 flex-1 text-sm leading-relaxed text-brand-900/75">
-                {q.text}
-              </blockquote>
-              <figcaption className="mt-5 flex items-center gap-3 border-t border-brand-900/8 pt-4">
-                <span
-                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ background: q.accent }}
-                >
-                  {q.initials}
+                <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-30" />
+                {/* jersey number */}
+                <span className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10 font-display text-lg font-extrabold text-gold-300 ring-1 ring-white/20">
+                  {q.number}
                 </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-sm font-semibold text-brand-950">
-                    {q.name}
-                  </span>
-                  <span className="block truncate text-xs text-brand-900/50">{q.role}</span>
-                </span>
-                <span className="ml-auto shrink-0">
-                  <Rating value={q.rating} />
+                <span className="relative min-w-0">
+                  <span className="block truncate text-sm font-bold">{q.name}</span>
+                  <span className="block truncate text-xs text-white/60">{q.role}</span>
                 </span>
               </figcaption>
+
+              <blockquote className="flex-1 px-5 pt-4 text-sm leading-relaxed text-brand-900/75">
+                &ldquo;{q.text}&rdquo;
+              </blockquote>
+
+              <div className="flex items-center justify-between px-5 pb-4 pt-4">
+                <Rating value={q.rating} />
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-900/35">
+                  Verified buyer
+                </span>
+              </div>
             </figure>
           </Reveal>
         ))}

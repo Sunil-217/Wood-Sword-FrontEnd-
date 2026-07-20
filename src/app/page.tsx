@@ -6,6 +6,7 @@ import { PromoBand } from "@/components/home/PromoBand";
 import { Testimonials } from "@/components/home/Testimonials";
 import { Newsletter } from "@/components/home/Newsletter";
 import { Reveal } from "@/components/Reveal";
+import { BoundaryRope } from "@/components/BoundaryRope";
 
 export default function HomePage() {
   return (
@@ -15,12 +16,14 @@ export default function HomePage() {
       <Reveal>
         <CategoryTiles />
       </Reveal>
+      <BoundaryRope />
       <Reveal>
         <FeaturedProducts />
       </Reveal>
       <Reveal>
         <PromoBand />
       </Reveal>
+      <BoundaryRope />
       <Testimonials />
       <Reveal>
         <Newsletter />

@@ -97,6 +97,7 @@ export default async function ProductPage({
           <h1 className="title-fluid mt-1.5 font-display font-extrabold tracking-tight text-brand-950">
             {product.name}
           </h1>
+          <div className="seam-stitch mt-3 w-16" aria-hidden />
           <p className="mt-2 text-sm text-brand-900/60">{product.tagline}</p>
 
           <div className="mt-3">

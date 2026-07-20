@@ -157,7 +157,8 @@ export default async function ShopPage({
         <h1 className="title-fluid font-display font-extrabold tracking-tight text-brand-950">
           {heading}
         </h1>
-        <p className="mt-1.5 text-sm text-brand-900/55">{blurb}</p>
+        <div className="seam-stitch mt-3 w-16" aria-hidden />
+        <p className="mt-2 text-sm text-brand-900/55">{blurb}</p>
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[270px_1fr]">

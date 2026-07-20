@@ -375,6 +375,60 @@ h2 {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Cricket identity details                                           */
+/* ------------------------------------------------------------------ */
+
+/* Ball-seam stitch — a red stitched accent line */
+.seam-stitch {
+  height: 3px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-ball-500) 0 7px,
+    transparent 7px 12px
+  );
+}
+
+/* Boundary rope — twisted gold rope divider */
+.boundary-rope {
+  height: 5px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(
+    -55deg,
+    var(--color-gold-500) 0 6px,
+    var(--color-gold-700) 6px 12px
+  );
+  opacity: 0.55;
+}
+
+/* Scoreboard panel — LED-board numerals on matte black-green */
+.scoreboard {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+    #06120c;
+  border: 1px solid rgba(240, 193, 78, 0.22);
+  box-shadow:
+    inset 0 0 24px rgba(0, 0, 0, 0.55),
+    0 12px 32px rgba(0, 0, 0, 0.35);
+}
+.scoreboard-digits {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: var(--color-gold-400);
+  text-shadow: 0 0 14px rgba(240, 193, 78, 0.45);
+}
+
+/* Faint pitch-crease line art for light sections */
+.crease-lines {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-brand-900) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-brand-900) 4%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(80% 70% at 50% 30%, black 0%, transparent 100%);
+}
+
+/* ------------------------------------------------------------------ */
 /*  Reduced motion: calm everything down                               */
 /* ------------------------------------------------------------------ */
 

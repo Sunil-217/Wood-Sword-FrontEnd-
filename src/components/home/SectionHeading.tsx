@@ -17,19 +17,22 @@ export function SectionHeading({
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
         {eyebrow && (
-          <p className="text-xs font-semibold uppercase tracking-wider text-brand-500">
+          <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-brand-500">
+            <StumpsIcon />
             {eyebrow}
           </p>
         )}
         <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-brand-950 sm:text-3xl">
           {title}
         </h2>
-        {subtitle && <p className="mt-1.5 text-sm text-brand-900/55">{subtitle}</p>}
+        {/* ball-seam stitch underline */}
+        <div className="seam-stitch mt-2.5 w-16" aria-hidden />
+        {subtitle && <p className="mt-2 text-sm text-brand-900/55">{subtitle}</p>}
       </div>
       {href && linkLabel && (
         <Link
           href={href}
-          className="inline-flex items-center gap-1 rounded-full border border-brand-900/12 px-4 py-2 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
+          className="press inline-flex items-center gap-1 rounded-full border border-brand-900/12 px-4 py-2 text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50"
         >
           {linkLabel}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
@@ -38,5 +41,14 @@ export function SectionHeading({
         </Link>
       )}
     </div>
+  );
+}
+
+function StumpsIcon() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M7 21V8M12 21V8M17 21V8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M6 6h5.2M12.8 6H18" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
   );
 }
