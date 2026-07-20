@@ -86,7 +86,7 @@ export function Hero() {
 
         {/* Floating gear scene with pointer parallax */}
         <ParallaxScene className="relative hidden animate-rise lg:block" >
-          <div className="relative mx-auto aspect-square max-w-md">
+          <div className="relative mx-auto aspect-square max-w-md 2xl:max-w-lg">
             {/* bat — hero layer */}
             <div data-depth="0.35" className="absolute left-0 top-6 w-3/5 will-change-transform">
               <div className="animate-float rotate-[-6deg] overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">

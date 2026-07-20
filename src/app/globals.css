@@ -120,22 +120,13 @@ h2 {
   border-radius: 4px;
 }
 
-/* Page container */
+/* Page container — fluid, fills the screen with proportional gutters.
+   Caps at 120rem so ultra-wide monitors don't stretch the grid. */
 .container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 80rem;
-  padding-inline: 1rem;
-}
-@media (min-width: 640px) {
-  .container-page {
-    padding-inline: 1.5rem;
-  }
-}
-@media (min-width: 1024px) {
-  .container-page {
-    padding-inline: 2rem;
-  }
+  max-width: 120rem;
+  padding-inline: clamp(1rem, 3.5vw, 4.25rem);
 }
 
 /* ------------------------------------------------------------------ */
