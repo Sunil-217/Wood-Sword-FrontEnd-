@@ -170,22 +170,6 @@ h2 {
 /*  Keyframes                                                          */
 /* ------------------------------------------------------------------ */
 
-/* Marquee for the announcement bar */
-@keyframes ws-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-.animate-marquee {
-  animation: ws-marquee 30s linear infinite;
-}
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
 /* Gentle rise-in used for hero copy */
 @keyframes ws-rise {
   from {
@@ -433,7 +417,6 @@ h2 {
 /* ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
   .animate-float,
   .animate-rise,
   .animate-toast-in,
