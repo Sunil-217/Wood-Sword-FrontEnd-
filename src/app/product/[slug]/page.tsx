@@ -2,14 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { ProductArt } from "@/components/ProductArt";
 import { Rating } from "@/components/ui/Rating";
-import { ProductBadge } from "@/components/ui/Badge";
 import { ProductGrid } from "@/components/ProductGrid";
+import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductPurchase } from "@/components/product/ProductPurchase";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
-import { discountPct } from "@/lib/format";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -38,7 +36,6 @@ export default async function ProductPage({
   const product = getProduct(slug);
   if (!product) notFound();
 
-  const off = discountPct(product.price, product.mrp);
   const category = categoryMap[product.category];
   const related = relatedProducts(product, 4);
 
@@ -58,37 +55,8 @@ export default async function ProductPage({
       </nav>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-14">
-        {/* Gallery */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="relative overflow-hidden rounded-3xl border border-line/8 shadow-sm">
-            <ProductArt
-              art={product.art}
-              accent={product.accent}
-              label={product.name}
-              className="aspect-square w-full"
-            />
-            <div className="absolute left-4 top-4 flex gap-2">
-              {product.badge && <ProductBadge kind={product.badge} />}
-              {off && <ProductBadge kind="Sale" />}
-            </div>
-          </div>
-          <div className="mt-3 grid grid-cols-4 gap-3">
-            {["Front", "Face", "Back", "Detail"].map((view, i) => (
-              <div
-                key={view}
-                className="relative overflow-hidden rounded-xl border border-line/8"
-                title={view}
-              >
-                <ProductArt
-                  art={product.art}
-                  accent={mixShade(product.accent, i)}
-                  label={`${product.name} ${view}`}
-                  className="aspect-square w-full"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Gallery (client — reflects admin-uploaded photos) */}
+        <ProductGallery product={product} />
 
         {/* Info */}
         <div>
@@ -157,33 +125,4 @@ export default async function ProductPage({
       )}
     </Container>
   );
-}
-
-/** Slightly vary the accent so gallery thumbnails read as alternate views. */
-function mixShade(hex: string, i: number): string {
-  const tones = [
-    hex,
-    blend(hex, "#ffffff", 0.16),
-    blend(hex, "#0b1524", 0.18),
-    blend(hex, "#ffffff", 0.28),
-  ];
-  return tones[i] ?? hex;
-}
-
-function blend(a: string, b: string, t: number): string {
-  const pa = parse(a);
-  const pb = parse(b);
-  const r = Math.round(pa[0] + (pb[0] - pa[0]) * t);
-  const g = Math.round(pa[1] + (pb[1] - pa[1]) * t);
-  const bl = Math.round(pa[2] + (pb[2] - pa[2]) * t);
-  return `#${[r, g, bl].map((n) => n.toString(16).padStart(2, "0")).join("")}`;
-}
-
-function parse(hex: string): [number, number, number] {
-  const h = hex.replace("#", "");
-  return [
-    parseInt(h.slice(0, 2), 16),
-    parseInt(h.slice(2, 4), 16),
-    parseInt(h.slice(4, 6), 16),
-  ];
 }

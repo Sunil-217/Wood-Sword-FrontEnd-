@@ -8,6 +8,7 @@ import { ProductArt } from "@/components/ProductArt";
 import { useAuth } from "@/context/AuthContext";
 import { useCatalog, type NewProductInput, type Override } from "@/context/CatalogContext";
 import { useOrders, ORDER_STATUSES, type Order, type OrderStatus } from "@/context/OrdersContext";
+import { useCoupons, couponLabel, type CouponType } from "@/context/CouponsContext";
 import { categories, categoryMap } from "@/lib/catalog";
 import { inr } from "@/lib/format";
 import type { Badge, CategorySlug, Product } from "@/lib/types";
@@ -42,8 +43,9 @@ export default function AdminPage() {
 function Dashboard({ email, onLogout }: { email: string; onLogout: () => void }) {
   const { products, edited, updateProduct, addProduct, deleteProduct, resetAll } = useCatalog();
   const { orders, updateStatus } = useOrders();
+  const couponsApi = useCoupons();
   const router = useRouter();
-  const [tab, setTab] = useState<"products" | "orders">("products");
+  const [tab, setTab] = useState<"products" | "orders" | "coupons">("products");
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<"all" | CategorySlug>("all");
   const [editing, setEditing] = useState<Editing>(null);
@@ -121,7 +123,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
 
       {/* Tabs */}
       <div className="mt-6 inline-flex rounded-full border border-line/10 bg-subtle p-1">
-        {(["products", "orders"] as const).map((t) => (
+        {(["products", "orders", "coupons"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -140,6 +142,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
       </div>
 
       {tab === "orders" && <OrdersPanel orders={orders} updateStatus={updateStatus} />}
+      {tab === "coupons" && <CouponsPanel api={couponsApi} />}
 
       {tab === "products" && (
       <>
@@ -203,7 +206,7 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <span className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-line/8">
-                      <ProductArt art={p.art} accent={p.accent} label={p.name} className="h-full w-full" />
+                      <ProductArt art={p.art} accent={p.accent} image={p.image} label={p.name} className="h-full w-full" />
                     </span>
                     <span className="min-w-0">
                       <span className="block max-w-[220px] truncate font-medium text-ink">{p.name}</span>
@@ -366,6 +369,98 @@ function OrdersPanel({
   );
 }
 
+function CouponsPanel({ api }: { api: ReturnType<typeof useCoupons> }) {
+  const { coupons, upsert, remove, toggle } = api;
+  const [code, setCode] = useState("");
+  const [type, setType] = useState<CouponType>("percent");
+  const [value, setValue] = useState("10");
+
+  function add(e: React.FormEvent) {
+    e.preventDefault();
+    const c = code.trim().toUpperCase();
+    if (!c) return;
+    upsert({ code: c, type, value: Math.max(0, Number(value) || 0), active: true });
+    setCode("");
+    setValue(type === "percent" ? "10" : "500");
+  }
+
+  return (
+    <>
+      <form onSubmit={add} className="mt-6 flex flex-wrap items-end gap-3 rounded-2xl border border-line/8 bg-surface p-4">
+        <label className="flex-1 min-w-[140px]">
+          <span className="mb-1 block text-xs font-medium text-muted/60">Code</span>
+          <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="SUMMER20" className={inputCls} />
+        </label>
+        <label>
+          <span className="mb-1 block text-xs font-medium text-muted/60">Type</span>
+          <select value={type} onChange={(e) => setType(e.target.value as CouponType)} className={inputCls}>
+            <option value="percent">% off</option>
+            <option value="flat">₹ flat off</option>
+            <option value="freeship">Free shipping</option>
+          </select>
+        </label>
+        {type !== "freeship" && (
+          <label className="w-28">
+            <span className="mb-1 block text-xs font-medium text-muted/60">{type === "percent" ? "Percent" : "Amount ₹"}</span>
+            <input type="number" min={0} value={value} onChange={(e) => setValue(e.target.value)} className={inputCls} />
+          </label>
+        )}
+        <button type="submit" className="press rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
+          Add coupon
+        </button>
+      </form>
+
+      <div className="mt-4 overflow-x-auto rounded-2xl border border-line/8 bg-surface">
+        <table className="w-full min-w-[520px] text-left text-sm">
+          <thead>
+            <tr className="border-b border-line/8 text-xs uppercase tracking-wider text-muted/45">
+              <th className="px-4 py-3 font-semibold">Code</th>
+              <th className="px-4 py-3 font-semibold">Discount</th>
+              <th className="px-4 py-3 font-semibold">Active</th>
+              <th className="px-4 py-3 text-right font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coupons.map((c) => (
+              <tr key={c.code} className="border-b border-line/6 last:border-0 hover:bg-subtle/40">
+                <td className="px-4 py-3">
+                  <span className="rounded bg-brand-900 px-2 py-1 font-mono text-xs font-bold text-white">{c.code}</span>
+                </td>
+                <td className="px-4 py-3 text-muted/70">{couponLabel(c)}</td>
+                <td className="px-4 py-3">
+                  <button
+                    onClick={() => toggle(c.code)}
+                    aria-pressed={c.active}
+                    className={`inline-flex h-6 w-11 items-center rounded-full px-0.5 transition-colors ${c.active ? "justify-end bg-brand-600" : "justify-start bg-brand-900/15"}`}
+                  >
+                    <span className="h-5 w-5 rounded-full bg-surface shadow-sm" />
+                  </button>
+                </td>
+                <td className="px-4 py-3 text-right">
+                  <button
+                    onClick={() => remove(c.code)}
+                    className="press rounded-lg p-2 text-ball-500 hover:bg-ball-500/10"
+                    aria-label={`Delete ${c.code}`}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {coupons.length === 0 && (
+              <tr>
+                <td colSpan={4} className="px-4 py-10 text-center text-sm text-muted/45">No coupons yet.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
 function Stat({
   label,
   value,
@@ -406,6 +501,20 @@ function ProductDialog({
   const [badge, setBadge] = useState<Badge | "None">(p?.badge ?? "None");
   const [inStock, setInStock] = useState(p?.inStock ?? true);
   const [tagline, setTagline] = useState(p?.tagline ?? "");
+  const [image, setImage] = useState<string | undefined>(p?.image);
+  const [imgBusy, setImgBusy] = useState(false);
+
+  async function onPickImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImgBusy(true);
+    try {
+      setImage(await downscaleImage(file, 640, 0.72));
+    } catch {
+      /* ignore */
+    }
+    setImgBusy(false);
+  }
 
   function save(e: React.FormEvent) {
     e.preventDefault();
@@ -420,6 +529,7 @@ function ProductDialog({
         badge: badgeVal,
         inStock,
         tagline: tagline.trim(),
+        image,
       });
     } else {
       onSaveNew({
@@ -430,6 +540,7 @@ function ProductDialog({
         badge: badgeVal,
         inStock,
         tagline: tagline.trim(),
+        image,
       });
     }
   }
@@ -487,6 +598,37 @@ function ProductDialog({
             <input value={tagline} onChange={(e) => setTagline(e.target.value)} className={inputCls} placeholder="Short one-line description" />
           </Field>
 
+          {/* Product photo */}
+          <div>
+            <span className="mb-1 block text-xs font-medium text-muted/60">Product photo</span>
+            <div className="flex items-center gap-3">
+              <span className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-line/10 bg-subtle">
+                {image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={image} alt="preview" className="h-full w-full object-cover" />
+                ) : (
+                  <span className="flex h-full w-full items-center justify-center text-[10px] text-muted/45">SVG art</span>
+                )}
+              </span>
+              <div className="flex flex-1 flex-wrap gap-2">
+                <label className="press cursor-pointer rounded-full border border-line/15 bg-surface px-4 py-2 text-sm font-semibold text-ink hover:bg-subtle">
+                  {imgBusy ? "Processing…" : image ? "Change photo" : "Upload photo"}
+                  <input type="file" accept="image/*" onChange={onPickImage} className="hidden" />
+                </label>
+                {image && (
+                  <button
+                    type="button"
+                    onClick={() => setImage(undefined)}
+                    className="press rounded-full px-3 py-2 text-sm font-semibold text-ball-500 hover:bg-ball-500/10"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
+            <p className="mt-1.5 text-[11px] text-muted/45">Auto-resized to ~640px and saved in this browser.</p>
+          </div>
+
           <label className="flex items-center gap-3 rounded-xl border border-line/12 px-4 py-3">
             <button
               type="button"
@@ -525,4 +667,30 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       {children}
     </label>
   );
+}
+
+/** Read a File, downscale it to `max` px on the long edge, return a JPEG data URL. */
+function downscaleImage(file: File, max: number, quality: number): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("read failed"));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("decode failed"));
+      img.onload = () => {
+        const scale = Math.min(1, max / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return reject(new Error("no ctx"));
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
 }

@@ -8,6 +8,9 @@ import { AuthProvider } from "@/context/AuthContext";
 import { CatalogProvider } from "@/context/CatalogContext";
 import { OrdersProvider } from "@/context/OrdersContext";
 import { ReviewsProvider } from "@/context/ReviewsContext";
+import { CouponsProvider } from "@/context/CouponsContext";
+import { QuickViewProvider } from "@/context/QuickViewContext";
+import { QuickViewModal } from "@/components/QuickViewModal";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -67,16 +70,21 @@ export default function RootLayout({
           <CatalogProvider>
             <OrdersProvider>
               <ReviewsProvider>
-                <CartProvider>
-                  <WishlistProvider>
-                    <AnnouncementBar />
-                    <Header />
-                    <main className="flex-1">{children}</main>
-                    <Footer />
-                    <Toaster />
-                    <BackToTop />
-                  </WishlistProvider>
-                </CartProvider>
+                <CouponsProvider>
+                  <CartProvider>
+                    <WishlistProvider>
+                      <QuickViewProvider>
+                        <AnnouncementBar />
+                        <Header />
+                        <main className="flex-1">{children}</main>
+                        <Footer />
+                        <Toaster />
+                        <BackToTop />
+                        <QuickViewModal />
+                      </QuickViewProvider>
+                    </WishlistProvider>
+                  </CartProvider>
+                </CouponsProvider>
               </ReviewsProvider>
             </OrdersProvider>
           </CatalogProvider>

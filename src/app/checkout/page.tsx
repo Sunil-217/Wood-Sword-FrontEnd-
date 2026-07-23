@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrdersContext";
+import { useCoupons } from "@/context/CouponsContext";
 import { useAuth } from "@/context/AuthContext";
 import { inr } from "@/lib/format";
 
@@ -19,6 +20,7 @@ type Pay = "cod" | "upi" | "card";
 export default function CheckoutPage() {
   const { lines, subtotal, count, clear, ready } = useCart();
   const { addOrder } = useOrders();
+  const { applied, resultFor, clearApplied } = useCoupons();
   const { user } = useAuth();
   const [ship, setShip] = useState<Ship>("standard");
   const [pay, setPay] = useState<Pay>("cod");
@@ -78,9 +80,11 @@ export default function CheckoutPage() {
     );
   }
 
-  const shippingBase = subtotal >= FREE_SHIPPING ? 0 : STANDARD_FEE;
+  const coupon = resultFor(subtotal);
+  const freeShip = subtotal >= FREE_SHIPPING || coupon.freeShipping;
+  const shippingBase = freeShip ? 0 : STANDARD_FEE;
   const shipping = ship === "express" ? EXPRESS_FEE : shippingBase;
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - coupon.discount + shipping);
 
   function placeOrder(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -95,12 +99,15 @@ export default function CheckoutPage() {
       address,
       items: lines,
       subtotal,
+      discount: coupon.discount,
+      coupon: coupon.code,
       shipping,
       total,
       shippingMethod: ship === "express" ? "Express (1–2 days)" : "Standard (3–5 days)",
       paymentMethod: pay === "cod" ? "Cash on Delivery" : pay === "upi" ? "UPI" : "Card",
     });
     clear();
+    clearApplied();
     setPlaced(order.id);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -178,7 +185,7 @@ export default function CheckoutPage() {
               {lines.map((line) => (
                 <li key={line.id} className="flex items-center gap-3">
                   <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-line/8">
-                    <ProductArt art={line.art} accent={line.accent} label={line.name} className="h-full w-full" />
+                    <ProductArt art={line.art} accent={line.accent} image={line.image} label={line.name} className="h-full w-full" />
                     <span className="absolute -right-1.5 -top-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-900 px-1 text-[10px] font-bold text-white">
                       {line.qty}
                     </span>
@@ -199,6 +206,12 @@ export default function CheckoutPage() {
                 <dt>Subtotal ({count})</dt>
                 <dd className="font-medium text-ink">{inr(subtotal)}</dd>
               </div>
+              {coupon.discount > 0 && (
+                <div className="flex justify-between text-accent">
+                  <dt>Discount ({applied?.code})</dt>
+                  <dd className="font-medium">−{inr(coupon.discount)}</dd>
+                </div>
+              )}
               <div className="flex justify-between text-muted/70">
                 <dt>Shipping</dt>
                 <dd className="font-medium text-ink">

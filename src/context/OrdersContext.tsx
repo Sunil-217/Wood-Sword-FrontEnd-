@@ -23,6 +23,8 @@ export interface Order {
   address: string;
   items: CartLine[];
   subtotal: number;
+  discount: number;
+  coupon: string | null;
   shipping: number;
   total: number;
   shippingMethod: string;
@@ -36,6 +38,8 @@ export interface NewOrderInput {
   address: string;
   items: CartLine[];
   subtotal: number;
+  discount: number;
+  coupon: string | null;
   shipping: number;
   total: number;
   shippingMethod: string;

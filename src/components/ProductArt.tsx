@@ -10,12 +10,28 @@ export function ProductArt({
   accent,
   className = "",
   label,
+  image,
 }: {
   art: ArtKind;
   accent: string;
   className?: string;
   label?: string;
+  image?: string;
 }) {
+  // An uploaded photo takes over the whole panel.
+  if (image) {
+    return (
+      <div className={`relative isolate overflow-hidden bg-subtle ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt={label ?? "product photo"}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
+
   const panel: React.CSSProperties = {
     backgroundImage: `radial-gradient(120% 100% at 20% 0%,
       color-mix(in srgb, ${accent} 10%, #ffffff) 0%,

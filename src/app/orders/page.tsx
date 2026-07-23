@@ -105,11 +105,16 @@ function OrderCard({ order }: { order: Order }) {
           <span className="font-display text-base font-bold text-ink">{inr(order.total)}</span>
         </div>
       </div>
+      {/* Tracking timeline */}
+      <div className="px-5 pt-5">
+        <OrderTracker status={order.status} />
+      </div>
+
       <div className="flex flex-wrap gap-4 px-5 py-4">
         {order.items.map((line) => (
           <div key={line.id} className="flex items-center gap-3">
             <span className="h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-line/8">
-              <ProductArt art={line.art} accent={line.accent} label={line.name} className="h-full w-full" />
+              <ProductArt art={line.art} accent={line.accent} image={line.image} label={line.name} className="h-full w-full" />
             </span>
             <span className="min-w-0">
               <span className="block max-w-[180px] truncate text-sm font-medium text-ink">{line.name}</span>
@@ -120,7 +125,44 @@ function OrderCard({ order }: { order: Order }) {
       </div>
       <div className="border-t border-line/8 px-5 py-3 text-xs text-muted/55">
         Shipping to {order.address || "—"} · {order.shippingMethod} · {order.paymentMethod}
+        {order.coupon ? ` · ${order.coupon} applied` : ""}
       </div>
+    </div>
+  );
+}
+
+const STEPS: OrderStatus[] = ["Pending", "Packed", "Shipped", "Delivered"];
+
+function OrderTracker({ status }: { status: OrderStatus }) {
+  const current = STEPS.indexOf(status);
+  return (
+    <div className="flex items-center">
+      {STEPS.map((step, i) => {
+        const done = i <= current;
+        return (
+          <div key={step} className={`flex items-center ${i < STEPS.length - 1 ? "flex-1" : ""}`}>
+            <div className="flex flex-col items-center gap-1.5">
+              <span
+                className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold transition-colors ${
+                  done ? "bg-brand-600 text-white" : "bg-subtle text-muted/50"
+                }`}
+              >
+                {i < current ? (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  i + 1
+                )}
+              </span>
+              <span className={`text-[10px] font-semibold ${done ? "text-ink" : "text-muted/45"}`}>{step}</span>
+            </div>
+            {i < STEPS.length - 1 && (
+              <span className={`mx-1 mb-4 h-0.5 flex-1 rounded-full ${i < current ? "bg-brand-600" : "bg-subtle"}`} />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -15,7 +15,7 @@ const STORAGE_KEY = "mmsports-catalog-v1";
 
 /** Admin-editable fields layered over a base product. */
 export type Override = Partial<
-  Pick<Product, "name" | "price" | "mrp" | "badge" | "inStock" | "tagline">
+  Pick<Product, "name" | "price" | "mrp" | "badge" | "inStock" | "tagline" | "image">
 > & { deleted?: boolean };
 
 interface Persisted {
@@ -31,6 +31,7 @@ export interface NewProductInput {
   badge?: Badge;
   inStock: boolean;
   tagline: string;
+  image?: string;
 }
 
 interface CatalogApi {
@@ -129,6 +130,7 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
       description: input.tagline || "Product added from the admin dashboard.",
       features: ["Added via admin", "Demo product"],
       inStock: input.inStock,
+      image: input.image,
     };
     setAdded((prev) => [product, ...prev]);
   }, []);

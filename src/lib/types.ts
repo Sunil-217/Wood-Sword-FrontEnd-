@@ -65,6 +65,8 @@ export interface Product {
   description: string;
   features: string[];
   inStock: boolean;
+  /** Optional uploaded photo (data URL); falls back to SVG artwork. */
+  image?: string;
 }
 
 export interface Group {
@@ -96,5 +98,6 @@ export interface CartLine {
   size?: string;
   color?: string;
   hand?: string;
+  image?: string;
   qty: number;
 }

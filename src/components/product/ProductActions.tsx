@@ -7,7 +7,13 @@ import { showToast } from "@/components/Toaster";
 import { inr } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
-export function ProductActions({ product }: { product: Product }) {
+export function ProductActions({
+  product,
+  onDone,
+}: {
+  product: Product;
+  onDone?: () => void;
+}) {
   const { addLine } = useCart();
   const router = useRouter();
 
@@ -27,6 +33,7 @@ export function ProductActions({ product }: { product: Product }) {
       art: product.art,
       accent: product.accent,
       price: product.price,
+      image: product.image,
       size,
       color,
       hand,
@@ -37,10 +44,12 @@ export function ProductActions({ product }: { product: Product }) {
   function handleAdd() {
     addLine(buildLine());
     showToast(`${product.name} added to your bag`);
+    onDone?.();
   }
 
   function handleBuyNow() {
     addLine(buildLine());
+    onDone?.();
     router.push("/cart");
   }
 

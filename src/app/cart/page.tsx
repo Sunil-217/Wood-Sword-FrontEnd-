@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
+import { useCoupons, couponLabel } from "@/context/CouponsContext";
 import { inr } from "@/lib/format";
 
 const FREE_SHIPPING = 2000;
@@ -11,6 +13,9 @@ const SHIPPING_FEE = 99;
 
 export default function CartPage() {
   const { lines, subtotal, count, setQty, remove, clear, ready } = useCart();
+  const { applied, apply, clearApplied, resultFor } = useCoupons();
+  const [code, setCode] = useState("");
+  const [codeErr, setCodeErr] = useState<string | null>(null);
 
   if (!ready) {
     return (
@@ -48,11 +53,22 @@ export default function CartPage() {
     );
   }
 
-  const freeShippingHit = subtotal >= FREE_SHIPPING;
+  const coupon = resultFor(subtotal);
+  const freeShippingHit = subtotal >= FREE_SHIPPING || coupon.freeShipping;
   const shipping = freeShippingHit ? 0 : SHIPPING_FEE;
   const remaining = Math.max(0, FREE_SHIPPING - subtotal);
   const progress = Math.min(100, (subtotal / FREE_SHIPPING) * 100);
-  const total = subtotal + shipping;
+  const total = Math.max(0, subtotal - coupon.discount + shipping);
+
+  function applyCode(e: React.FormEvent) {
+    e.preventDefault();
+    const res = apply(code);
+    if (!res.ok) setCodeErr(res.error ?? "Invalid code");
+    else {
+      setCodeErr(null);
+      setCode("");
+    }
+  }
 
   return (
     <Container className="py-8 sm:py-10">
@@ -95,7 +111,7 @@ export default function CartPage() {
                   href={`/product/${line.slug}`}
                   className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line/8 sm:h-24 sm:w-24"
                 >
-                  <ProductArt art={line.art} accent={line.accent} label={line.name} className="h-full w-full" />
+                  <ProductArt art={line.art} accent={line.accent} image={line.image} label={line.name} className="h-full w-full" />
                 </Link>
 
                 <div className="flex flex-1 flex-col">
@@ -162,11 +178,57 @@ export default function CartPage() {
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm">
             <h2 className="font-display text-lg font-bold text-ink">Order summary</h2>
+
+            {/* Promo code */}
+            <div className="mt-4">
+              {applied ? (
+                <div className="flex items-center justify-between gap-2 rounded-xl border border-brand-600/30 bg-brand-50 px-3 py-2.5">
+                  <span className="flex items-center gap-2 text-sm">
+                    <span className="rounded bg-brand-900 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                      {applied.code}
+                    </span>
+                    <span className="font-medium text-accent">{couponLabel(applied)} applied</span>
+                  </span>
+                  <button onClick={clearApplied} className="text-xs font-semibold text-ball-500 hover:underline">
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={applyCode} className="flex gap-2">
+                  <input
+                    value={code}
+                    onChange={(e) => {
+                      setCode(e.target.value.toUpperCase());
+                      setCodeErr(null);
+                    }}
+                    placeholder="Promo code"
+                    className="min-w-0 flex-1 rounded-xl border border-line/15 bg-surface px-3 py-2.5 text-sm uppercase tracking-wide outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  />
+                  <button
+                    type="submit"
+                    className="press shrink-0 rounded-xl bg-brand-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
+                  >
+                    Apply
+                  </button>
+                </form>
+              )}
+              {codeErr && <p className="mt-1.5 text-xs text-ball-600">{codeErr}</p>}
+              {!applied && (
+                <p className="mt-1.5 text-[11px] text-muted/45">Try MM10, FLAT500 or FREESHIP</p>
+              )}
+            </div>
+
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between text-muted/70">
                 <dt>Subtotal ({count} {count === 1 ? "item" : "items"})</dt>
                 <dd className="font-medium text-ink">{inr(subtotal)}</dd>
               </div>
+              {coupon.discount > 0 && (
+                <div className="flex justify-between text-accent">
+                  <dt>Discount ({applied?.code})</dt>
+                  <dd className="font-medium">−{inr(coupon.discount)}</dd>
+                </div>
+              )}
               <div className="flex justify-between text-muted/70">
                 <dt>Shipping</dt>
                 <dd className="font-medium text-ink">

@@ -6,6 +6,7 @@ import { Rating } from "./ui/Rating";
 import { ProductBadge } from "./ui/Badge";
 import { QuickAdd } from "./QuickAdd";
 import { WishlistButton } from "./WishlistButton";
+import { QuickViewButton } from "./QuickViewButton";
 
 /**
  * Card titles drop a trailing "(variant)" so grid rows stay tidy —
@@ -25,10 +26,11 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
-      <Link href={href} className="relative block aspect-square overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <ProductArt
           art={product.art}
           accent={product.accent}
+          image={product.image}
           label={product.name}
           className="h-full w-full transform-gpu transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.07]"
         />
@@ -42,15 +44,20 @@ export function ProductCard({ product }: { product: Product }) {
             </span>
           )}
         </div>
-        {!product.inStock && (
+        {!product.inStock ? (
           <span className="absolute inset-x-3 bottom-3 rounded-full bg-brand-950/80 px-3 py-1.5 text-center text-[11px] font-semibold uppercase tracking-wide text-white backdrop-blur">
             Out of stock
           </span>
+        ) : (
+          /* quick view — reveals on hover (desktop), above the card link */
+          <div className="pointer-events-none absolute inset-x-3 bottom-3 z-20 hidden translate-y-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:translate-y-0 group-hover:opacity-100 sm:block">
+            <QuickViewButton product={product} />
+          </div>
         )}
-      </Link>
+      </div>
 
       {/* wishlist heart — above the card-wide link overlay */}
-      <div className="absolute right-3 top-3 z-10">
+      <div className="absolute right-3 top-3 z-20">
         <WishlistButton slug={product.slug} name={base} />
       </div>
 
@@ -94,6 +101,7 @@ export function ProductCard({ product }: { product: Product }) {
                   art: product.art,
                   accent: product.accent,
                   price: product.price,
+                  image: product.image,
                   size: product.sizes[0],
                   color: product.colors[0],
                   hand: product.hands?.[0],

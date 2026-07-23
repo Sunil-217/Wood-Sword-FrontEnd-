@@ -16,6 +16,7 @@ export interface QuickAddProduct {
   size?: string;
   color?: string;
   hand?: string;
+  image?: string;
 }
 
 export function QuickAdd({ product }: { product: QuickAddProduct }) {
@@ -37,6 +38,7 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
       art: product.art,
       accent: product.accent,
       price: product.price,
+      image: product.image,
       size: product.size,
       color: product.color,
       hand: product.hand,
