@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
-import { ShieldMark } from "@/components/Logo";
+import { WordMark } from "@/components/Logo";
 
 export const metadata: Metadata = {
   title: "About us",
@@ -36,9 +36,7 @@ export default function AboutPage() {
         <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-40" />
         <Container className="relative py-16 text-center sm:py-20">
           <div className="mx-auto flex justify-center">
-            <span className="inline-flex items-center justify-center rounded-2xl bg-surface p-2.5">
-              <ShieldMark className="h-12 w-auto" />
-            </span>
+            <WordMark className="h-12 w-auto" />
           </div>
           <h1 className="hero-fluid mx-auto mt-6 max-w-3xl font-display font-extrabold tracking-tight">
             One stop shop for all your{" "}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { Container } from "./ui/Container";
-import { ShieldMark } from "./Logo";
+import { WordMark } from "./Logo";
 
 export function Footer() {
   const groupHref = (slug: string) => {
@@ -52,14 +52,7 @@ export function Footer() {
       <Container className="py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center justify-center rounded-lg bg-surface p-1 shadow-sm">
-                <ShieldMark className="h-8 w-auto" />
-              </span>
-              <span className="font-display text-lg font-extrabold tracking-tight text-white">
-                ONEUP<span className="text-ball-400"> SPORTS</span>
-              </span>
-            </div>
+            <WordMark className="h-9 w-auto" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-brand-100/60">
               Exclusive sports store in Chennai — cricket, badminton, football,
               table tennis, fitness and leisure gear. Worldwide shipping available.
