@@ -12,6 +12,9 @@ import { SearchBox } from "./SearchBox";
 import { AccountMenu } from "./AccountMenu";
 import { ThemeToggle } from "./ThemeToggle";
 
+/** Categories shown per group in the desktop mega menu before "+N more". */
+const MEGA_LEAF_LIMIT = 6;
+
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
@@ -93,32 +96,47 @@ export function Header() {
               </svg>
             </button>
             {/* Mega dropdown, grouped like the store */}
-            <div className="invisible absolute left-0 top-full w-[640px] origin-top translate-y-3 scale-[0.98] pt-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
+            <div className="invisible absolute left-0 top-full w-[820px] origin-top translate-y-3 scale-[0.98] pt-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
               <div className="rounded-2xl border border-line/10 bg-surface p-5 shadow-xl shadow-brand-900/10">
-                <div className="grid grid-cols-4 gap-5">
-                  {multiGroups.map((g) => (
-                    <div key={g.slug}>
-                      <Link
-                        href={`/shop?group=${g.slug}`}
-                        className="text-xs font-semibold uppercase tracking-wider text-accent hover:text-accent"
-                      >
-                        {g.name}
-                      </Link>
-                      <ul className="mt-2.5 space-y-1.5">
-                        {categoriesInGroup(g.slug).map((c) => (
-                          <li key={c.slug}>
-                            <Link
-                              href={`/shop?category=${c.slug}`}
-                              className="flex items-center gap-2 text-sm text-muted/75 transition-colors hover:text-ink"
-                            >
-                              <span className="inline-block h-3 w-1 rounded-full" style={{ background: c.accent }} />
-                              {c.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-5 gap-x-5 gap-y-6">
+                  {multiGroups.map((g) => {
+                    const leaves = categoriesInGroup(g.slug);
+                    const shown = leaves.slice(0, MEGA_LEAF_LIMIT);
+                    const rest = leaves.length - shown.length;
+                    return (
+                      <div key={g.slug}>
+                        <Link
+                          href={`/shop?group=${g.slug}`}
+                          className="text-xs font-semibold uppercase tracking-wider text-accent hover:text-accent"
+                        >
+                          {g.name}
+                        </Link>
+                        <ul className="mt-2.5 space-y-1.5">
+                          {shown.map((c) => (
+                            <li key={c.slug}>
+                              <Link
+                                href={`/shop?category=${c.slug}`}
+                                className="flex items-center gap-2 text-sm text-muted/75 transition-colors hover:text-ink"
+                              >
+                                <span className="inline-block h-3 w-1 rounded-full" style={{ background: c.accent }} />
+                                {c.name}
+                              </Link>
+                            </li>
+                          ))}
+                          {rest > 0 && (
+                            <li>
+                              <Link
+                                href={`/shop?group=${g.slug}`}
+                                className="pl-3 text-sm font-semibold text-accent transition-opacity hover:opacity-80"
+                              >
+                                +{rest} more
+                              </Link>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2 border-t border-line/8 pt-4">
                   {singleGroups.map((g) => (
@@ -140,9 +158,9 @@ export function Header() {
               </div>
             </div>
           </div>
-          <NavLink href="/shop?group=bats">Bats</NavLink>
-          <NavLink href="/shop?group=protection">Protection</NavLink>
-          <NavLink href="/shop?group=wicket-keeping">Keeping</NavLink>
+          <NavLink href="/shop?group=cricket">Cricket</NavLink>
+          <NavLink href="/shop?group=badminton">Badminton</NavLink>
+          <NavLink href="/shop?group=shoes">Shoes</NavLink>
           <NavLink href="/shop">All Gear</NavLink>
         </nav>
 

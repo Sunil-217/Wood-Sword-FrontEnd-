@@ -35,7 +35,7 @@ function LoginForm() {
     <div className="mx-auto w-full max-w-md">
       <div className="mb-6 flex flex-col items-center text-center">
         <ShieldMark className="h-12 w-auto" />
-        <h1 className="mt-4 font-display text-2xl font-bold text-ink">Sign in to MM Sports</h1>
+        <h1 className="mt-4 font-display text-2xl font-bold text-ink">Sign in to Oneup Sports</h1>
         <p className="mt-1.5 text-sm text-muted/55">
           Access your bag, wishlist and orders.
         </p>

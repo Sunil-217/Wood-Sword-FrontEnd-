@@ -14,11 +14,11 @@ export function Newsletter() {
         <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-80 -translate-x-1/2 rounded-full bg-gold-500/20 blur-3xl" />
         <div className="relative mx-auto max-w-lg">
           <h2 className="font-display text-2xl font-bold sm:text-3xl">
-            Join the MM Sports dressing room
+            Join the Oneup Sports dressing room
           </h2>
           <p className="mt-3 text-sm text-brand-100/70">
-            Early access to new gear, restock alerts and members-only pricing.
-            No spam — just cricket.
+            Early access to new gear, restock alerts and members-only pricing
+            across every sport we stock. No spam.
           </p>
 
           {done ? (

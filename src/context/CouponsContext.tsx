@@ -9,8 +9,8 @@ import {
   useState,
 } from "react";
 
-const STORAGE_KEY = "mmsports-coupons-v1";
-const APPLIED_KEY = "mmsports-coupon-applied";
+const STORAGE_KEY = "oneup-coupons-v1";
+const APPLIED_KEY = "oneup-coupon-applied";
 
 export type CouponType = "percent" | "flat" | "freeship";
 

@@ -116,7 +116,7 @@ export function ProductReviews({ product }: { product: Product }) {
             <div className="flex h-full min-h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-line/15 bg-white/60 p-8 text-center">
               <p className="font-display text-lg font-bold text-ink">Be the first to review</p>
               <p className="mt-1.5 max-w-xs text-sm text-muted/55">
-                Bought this? Share your thoughts to help other cricketers choose.
+                Bought this? Share your thoughts to help other players choose.
               </p>
             </div>
           ) : (

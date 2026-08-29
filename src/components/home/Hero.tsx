@@ -44,16 +44,16 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold-400 opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-gold-400" />
           </span>
-          New season · 2026 range now live
+          New season · 2026 range now live across 14 sports
         </span>
 
         <h1
           className="hero-fluid animate-rise mt-6 max-w-4xl font-display font-extrabold tracking-tight"
           style={{ animationDelay: "80ms" }}
         >
-          Gear built to be{" "}
+          One stop shop for all your{" "}
           <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600 bg-clip-text text-transparent">
-            played, not admired.
+            sporting requirements.
           </span>
         </h1>
 
@@ -61,8 +61,8 @@ export function Hero() {
           className="animate-rise mt-5 max-w-xl text-base leading-relaxed text-brand-100/70"
           style={{ animationDelay: "160ms" }}
         >
-          Pro-grade cricket bats, gloves, pads and helmets — hand-crafted in
-          Meerut and shipped factory-direct across India.
+          Cricket, badminton, football, table tennis, fitness, swimming and
+          more — an exclusive sports store in Chennai, shipping worldwide.
         </p>
 
         <div
@@ -79,10 +79,10 @@ export function Hero() {
             </svg>
           </Link>
           <Link
-            href="/shop?group=bats"
+            href="/shop?group=cricket"
             className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
-            Explore bats
+            Explore cricket
           </Link>
         </div>
 
@@ -91,7 +91,7 @@ export function Hero() {
           className="scoreboard animate-rise mt-12 inline-flex divide-x divide-gold-500/15 rounded-2xl"
           style={{ animationDelay: "320ms" }}
         >
-          <ScoreCell label="Cricketers kitted">
+          <ScoreCell label="Athletes kitted">
             <CountUp value={25} suffix="k+" />
           </ScoreCell>
           <ScoreCell label="Average rating">
@@ -127,8 +127,8 @@ function StandsLayer() {
       aria-hidden
     >
       {/* stand tiers — kept low so they never crowd the copy */}
-      <path d="M0 520 Q720 440 1440 520 L1440 700 L0 700 Z" fill="#0a1526" opacity="0.9" />
-      <path d="M0 488 Q720 408 1440 488 L1440 520 Q720 440 0 520 Z" fill="#10203a" opacity="0.75" />
+      <path d="M0 520 Q720 440 1440 520 L1440 700 L0 700 Z" fill="#1a0509" opacity="0.9" />
+      <path d="M0 488 Q720 408 1440 488 L1440 520 Q720 440 0 520 Z" fill="#3a0c14" opacity="0.75" />
 
       {/* floodlight shafts from off-screen towers — no cropped lamp
           heads to read as noise at odd viewport sizes */}

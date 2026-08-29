@@ -1,8 +1,12 @@
-# 🏏 Woodsword Cricket — Storefront
+# 🏆 Oneup Sports — Storefront
 
-A premium, front-end-only cricket-equipment store, inspired by the layout of
-[wood-swordcricket.com](https://wood-swordcricket.com). Built with **Next.js 16
+A premium, front-end-only multi-sport equipment store, modelled on
+[oneupsports.in](https://oneupsports.in). Built with **Next.js 16
 (App Router)**, **TypeScript**, and **Tailwind CSS v4**.
+
+Fourteen sport departments — cricket, badminton, football, basketball,
+volleyball, table tennis, shoes, fitness, leisure, swimming, skating,
+throw ball, tennikoit and accessories — across 46 categories.
 
 > Demo project with **sample data** — nothing is scraped from the reference
 > site, and checkout is not wired to a real payment provider.
@@ -18,8 +22,8 @@ A premium, front-end-only cricket-equipment store, inspired by the layout of
 - **Cart** — client-side cart with **localStorage** persistence, quantity edits,
   free-shipping progress bar, order summary and a demo checkout.
 - **Design system** — custom forest-green + gold palette, Sora/Inter type,
-  fully responsive, accessible, self-contained **SVG product artwork** (no
-  external image dependencies).
+  fully responsive, accessible, self-contained **SVG product artwork** for every
+  sport (no external image dependencies).
 
 ## 🚀 Getting started
 
@@ -66,8 +70,12 @@ src/
 
 All products and categories live in [`src/lib/catalog.ts`](src/lib/catalog.ts).
 Add or edit entries there — each product picks an `art` kind (`bat`, `gloves`,
-`pads`, `helmet`, `ball`, `keeping`, `bag`, `jersey`, `misc`) and an `accent`
-colour that tints its artwork.
+`pads`, `helmet`, `ball`, `keeping`, `bag`, `jersey`, `racquet`, `shuttle`,
+`football`, `basketball`, `volleyball`, `tt-bat`, `tt-table`, `shoe`, `skate`,
+`swim`, `yoga`, `dumbbell`, `carrom`, `chess`, `dart`, `grip`, `socks`, `cap`,
+`bottle`, `misc`) and an `accent` colour that tints its artwork. Categories
+default the art kind, sizes, hands and marketing copy, so most products are a
+one-line seed: `bat("SG KLR ULTIMATE", 27999, { badge: "Bestseller" })`.
 
 ## 📌 Notes / next steps
 

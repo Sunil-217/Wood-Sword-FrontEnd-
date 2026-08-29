@@ -17,11 +17,11 @@ export function PromoBand() {
               Custom English willow bats
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-brand-100/70">
-              Pick your cleft, weight, profile and stickers. Our Meerut
-              craftsmen build it by hand and knock it in before it ships.
+              Pick your cleft, weight, profile and stickers. We shape it, ping-test
+              it and knock it in by hand before it ships — free of charge.
             </p>
             <Link
-              href="/shop?category=bats"
+              href="/shop?category=cricket-bats"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-ink press transition-colors"
             >
               Start your build
@@ -40,20 +40,20 @@ export function PromoBand() {
           <div className="pointer-events-none absolute -left-10 -bottom-10 h-56 w-56 rounded-full bg-brand-500/10 blur-2xl" />
           <div className="relative max-w-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-accent">
-              Save when you kit up
+              Free stringing on every racquet
             </p>
             <h3 className="mt-2 font-display text-2xl font-bold text-ink sm:text-3xl">
-              Protection bundles from ₹4,999
+              Yonex &amp; Li-Ning from ₹4,390
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-muted/60">
-              Helmet, gloves and pads matched and bundled — everything you need
-              to face the quicks, for less than buying separately.
+              Astrox, Arcsaber, Turbo Z and Armour — strung to your tension in
+              store, with feather and nylon shuttles to match.
             </p>
             <Link
-              href="/shop?category=helmets"
+              href="/shop?group=badminton"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white press transition-colors"
             >
-              Shop protection
+              Shop badminton
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -61,10 +61,10 @@ export function PromoBand() {
           </div>
           <div className="pointer-events-none absolute -bottom-4 -right-2 flex w-32 gap-1 opacity-40 sm:w-60 sm:opacity-100">
             <div className="w-1/2 rotate-[8deg]">
-              <ProductArt art="helmet" accent="#3b4252" className="aspect-square rounded-2xl" label="Helmet" />
+              <ProductArt art="racquet" accent="#0f766e" className="aspect-square rounded-2xl" label="Racquet" />
             </div>
             <div className="w-1/2 -rotate-[6deg]">
-              <ProductArt art="pads" accent="#2f6fb0" className="aspect-square rounded-2xl" label="Pads" />
+              <ProductArt art="shuttle" accent="#5b6472" className="aspect-square rounded-2xl" label="Shuttlecock" />
             </div>
           </div>
         </div>

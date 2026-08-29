@@ -11,7 +11,7 @@ import {
 } from "react";
 import type { CartLine } from "@/lib/types";
 
-const STORAGE_KEY = "woodsword-cart-v1";
+const STORAGE_KEY = "oneup-cart-v1";
 
 type Action =
   | { type: "hydrate"; lines: CartLine[] }

@@ -32,7 +32,7 @@ export function Footer() {
         { label: "About us", href: "/about" },
         { label: "Contact us", href: "/contact" },
         { label: "Your Orders", href: "/orders" },
-        { label: "Knocking-in Service", href: "/shop?category=bats" },
+        { label: "Knocking-in Service", href: "/shop?category=cricket-bats" },
       ],
     },
   ];
@@ -57,15 +57,20 @@ export function Footer() {
                 <ShieldMark className="h-8 w-auto" />
               </span>
               <span className="font-display text-lg font-extrabold tracking-tight text-white">
-                MM<span className="text-ball-400"> SPORTS</span>
+                ONEUP<span className="text-ball-400"> SPORTS</span>
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-brand-100/60">
-              Pro-grade cricket equipment, crafted in Meerut and shipped across
-              India. Gear built to be played — not just admired.
+              Exclusive sports store in Chennai — cricket, badminton, football,
+              table tennis, fitness and leisure gear. Worldwide shipping available.
             </p>
+            <address className="mt-4 space-y-1 text-sm not-italic leading-relaxed text-brand-100/60">
+              <p>No.37, Ramachandra Road, Nehru Nagar, Chromepet, Chennai&nbsp;600&nbsp;044</p>
+              <p>+91 80561 26269 · +91 90438 84205</p>
+              <p>support@oneupsports.in · MON–SUN 11:00&nbsp;AM–09:00&nbsp;PM</p>
+            </address>
             <div className="mt-5 flex gap-3">
-              {["Instagram", "YouTube", "X"].map((s) => (
+              {["Facebook", "Instagram", "WhatsApp"].map((s) => (
                 <span
                   key={s}
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-xs font-semibold text-brand-100/70 ring-1 ring-white/10"
@@ -98,11 +103,11 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} MM Sports. Demo store — sample data.</p>
+          <p>© {new Date().getFullYear()} Oneup Sports. Demo store — sample data.</p>
           <p className="flex items-center gap-4">
             <span>Secure checkout</span>
             <span>·</span>
-            <span>Made for cricketers</span>
+            <span>Made for every sport</span>
           </p>
         </div>
       </Container>

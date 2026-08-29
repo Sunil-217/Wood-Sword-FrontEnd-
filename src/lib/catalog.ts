@@ -9,65 +9,107 @@ import type {
 } from "./types";
 
 /* ------------------------------------------------------------------ */
-/*  Groups (top-level menu, mirrors the reference store)               */
+/*  Groups (top-level menu — one per sport / department)               */
 /* ------------------------------------------------------------------ */
 
 export const groups: Group[] = [
   {
-    slug: "bats",
-    name: "Bats",
-    blurb: "English willow, Kashmir willow, scoop & custom bats.",
+    slug: "cricket",
+    name: "Cricket",
+    blurb: "Bats, balls, protection, kit bags and whites.",
     art: "bat",
     accent: "#c8901c",
   },
   {
-    slug: "protection",
-    name: "Protection",
-    blurb: "Gloves, leg guards, helmets and body protection.",
-    art: "gloves",
+    slug: "badminton",
+    name: "Badminton",
+    blurb: "Racquets, shuttles, grips and kit bags.",
+    art: "racquet",
+    accent: "#0f766e",
+  },
+  {
+    slug: "football",
+    name: "Football",
+    blurb: "Match & training balls and keeper gloves.",
+    art: "football",
     accent: "#256e49",
   },
   {
-    slug: "wicket-keeping",
-    name: "Wicket Keeping",
-    blurb: "Keeping gloves, inners and leg guards.",
-    art: "keeping",
+    slug: "basketball",
+    name: "Basketball",
+    blurb: "Indoor and outdoor basketballs.",
+    art: "basketball",
+    accent: "#c2571f",
+  },
+  {
+    slug: "volleyball",
+    name: "Volleyball",
+    blurb: "Soft-touch match and training volleyballs.",
+    art: "volleyball",
+    accent: "#2f6fb0",
+  },
+  {
+    slug: "table-tennis",
+    name: "Table Tennis",
+    blurb: "Bats, balls and full-size tournament tables.",
+    art: "tt-bat",
+    accent: "#b92b22",
+  },
+  {
+    slug: "shoes",
+    name: "Shoes",
+    blurb: "Sport-specific footwear for every surface.",
+    art: "shoe",
+    accent: "#3a3f4a",
+  },
+  {
+    slug: "fitness",
+    name: "Fitness",
+    blurb: "Yoga, strength training and body supports.",
+    art: "dumbbell",
+    accent: "#7c5cbf",
+  },
+  {
+    slug: "leisure",
+    name: "Leisure Sports",
+    blurb: "Carrom, chess and darts for indoors.",
+    art: "carrom",
     accent: "#a3521c",
   },
   {
-    slug: "full-kit-bags",
-    name: "Full Kit Bags",
-    blurb: "Complete kit bags for boys, youth and adults.",
-    art: "bag",
-    accent: "#184530",
+    slug: "swimming",
+    name: "Swimming",
+    blurb: "Jammers, trunks, goggles and caps.",
+    art: "swim",
+    accent: "#1f8fb2",
   },
   {
-    slug: "ipl-kit-bags",
-    name: "IPL Kit Bags",
-    blurb: "Supporter kit bags in all 10 team colours.",
-    art: "bag",
-    accent: "#b92b22",
+    slug: "skating",
+    name: "Skating",
+    blurb: "Skateboards, quad skates and inline skates.",
+    art: "skate",
+    accent: "#d6478e",
+  },
+  {
+    slug: "throwball",
+    name: "Throw Ball",
+    blurb: "Match throw balls and nets.",
+    art: "volleyball",
+    accent: "#d8a415",
+  },
+  {
+    slug: "tennikoit",
+    name: "Tennikoit",
+    blurb: "Rubber tennikoit rings and nets.",
+    art: "misc",
+    accent: "#87a832",
   },
   {
     slug: "accessories",
     name: "Accessories",
-    blurb: "Grips, tapes, mallets, shoes and essentials.",
-    art: "misc",
-    accent: "#7c5cbf",
-  },
-  {
-    slug: "bundles",
-    name: "Bundles",
-    blurb: "Team and individual kit bundles that save money.",
-    art: "bag",
-    accent: "#0f766e",
-  },
-  {
-    slug: "clothing",
-    name: "Clothing",
-    blurb: "Caps, pants and tees for training and match day.",
-    art: "jersey",
-    accent: "#2f6fb0",
+    blurb: "Grips, pumps, bottles, socks and spares.",
+    art: "grip",
+    accent: "#5b6472",
   },
 ];
 
@@ -80,22 +122,73 @@ export const groupMap: Record<GroupSlug, Group> = Object.fromEntries(
 /* ------------------------------------------------------------------ */
 
 export const categories: Category[] = [
-  { slug: "english-willow-bats", group: "bats", name: "English Willow", blurb: "Tournament-grade English willow bats.", art: "bat", accent: "#c8901c" },
-  { slug: "kashmir-willow-bats", group: "bats", name: "Kashmir Willow", blurb: "Durable Kashmir willow for leather ball.", art: "bat", accent: "#b98328" },
-  { slug: "fine-wood-willow-bats", group: "bats", name: "Fine Wood Willow", blurb: "Light, forgiving willow for club & tape ball.", art: "bat", accent: "#e0a82e" },
-  { slug: "batting-gloves", group: "protection", name: "Batting Gloves", blurb: "The Armour-GX batting glove series.", art: "gloves", accent: "#256e49" },
-  { slug: "leg-guards", group: "protection", name: "Batting Leg Guards", blurb: "Armour-LX pads, light and tough.", art: "pads", accent: "#2f6fb0" },
-  { slug: "helmets", group: "protection", name: "Helmets", blurb: "Head protection that takes the knocks.", art: "helmet", accent: "#3b4252" },
-  { slug: "other-protection", group: "protection", name: "Other Protection", blurb: "Arm, chest and thigh guards.", art: "pads", accent: "#7c5cbf" },
-  { slug: "wk-gloves", group: "wicket-keeping", name: "WK Gloves", blurb: "Armour-GK keeping gloves.", art: "keeping", accent: "#a3521c" },
-  { slug: "wk-leg-guards", group: "wicket-keeping", name: "WK Leg Guards", blurb: "Armour-LK keeping pads.", art: "pads", accent: "#8a5a2b" },
-  { slug: "boys-kit", group: "full-kit-bags", name: "Boys Kit", blurb: "Compact kit bags sized for juniors.", art: "bag", accent: "#184530" },
-  { slug: "youth-kit", group: "full-kit-bags", name: "Youth Kit", blurb: "Roomy kit bags for growing cricketers.", art: "bag", accent: "#256e49" },
-  { slug: "adult-kit", group: "full-kit-bags", name: "Adult Kit", blurb: "Full-size wheelie bags for seniors.", art: "bag", accent: "#3a3f4a" },
-  { slug: "ipl-kit-bags", group: "ipl-kit-bags", name: "IPL Kit Bags", blurb: "Supporter kit bags in all 10 team colours.", art: "bag", accent: "#b92b22" },
-  { slug: "accessories", group: "accessories", name: "Accessories", blurb: "Grips, tapes, mallets, shoes and more.", art: "misc", accent: "#7c5cbf" },
-  { slug: "bundles", group: "bundles", name: "Bundles", blurb: "Kit bundles for teams and individuals.", art: "bag", accent: "#0f766e" },
-  { slug: "clothing", group: "clothing", name: "Clothing", blurb: "Caps, pants and tees.", art: "jersey", accent: "#2f6fb0" },
+  /* Cricket */
+  { slug: "cricket-bats", group: "cricket", name: "Bats", blurb: "English & Kashmir willow from SG, SS, GN, NB and more.", art: "bat", accent: "#c8901c" },
+  { slug: "cricket-balls", group: "cricket", name: "Balls", blurb: "Leather, season and practice cricket balls.", art: "ball", accent: "#b92b22" },
+  { slug: "batting-gloves", group: "cricket", name: "Batting Gloves", blurb: "Test, match and academy batting gloves.", art: "gloves", accent: "#256e49" },
+  { slug: "batting-pads", group: "cricket", name: "Batting Pads", blurb: "Leg guards from boys to men's, LH & RH.", art: "pads", accent: "#2f6fb0" },
+  { slug: "cricket-helmets", group: "cricket", name: "Helmets", blurb: "Steel-grille helmets from Shrey, SS and DSC.", art: "helmet", accent: "#3b4252" },
+  { slug: "wk-gloves", group: "cricket", name: "WK Gloves", blurb: "Wicket-keeping gloves and inners.", art: "keeping", accent: "#a3521c" },
+  { slug: "wk-pads", group: "cricket", name: "WK Pads", blurb: "Lightweight keeping leg guards.", art: "pads", accent: "#8a5a2b" },
+  { slug: "cricket-guards", group: "cricket", name: "Guards & Protection", blurb: "Chest, thigh, arm and abdominal guards.", art: "pads", accent: "#7c5cbf" },
+  { slug: "cricket-kit-bags", group: "cricket", name: "Kit Bags", blurb: "Duffle, wheelie and junior kit bags.", art: "bag", accent: "#184530" },
+  { slug: "cricket-apparel", group: "cricket", name: "Apparel", blurb: "Whites, coloured kit, skins and compression.", art: "jersey", accent: "#2f6fb0" },
+  { slug: "cricket-caps", group: "cricket", name: "Caps & Hats", blurb: "Match caps, sun hats and headbands.", art: "cap", accent: "#27436e" },
+  { slug: "cricket-stumps", group: "cricket", name: "Stumps", blurb: "Wooden and spring-back stump sets.", art: "misc", accent: "#a3521c" },
+  { slug: "bat-care", group: "cricket", name: "Bat Care & Grips", blurb: "Grips, anti-scuff, toe guards and mallets.", art: "grip", accent: "#d8a415" },
+
+  /* Badminton */
+  { slug: "badminton-racquets", group: "badminton", name: "Racquets", blurb: "Yonex, Li-Ning and FZ Forza racquets.", art: "racquet", accent: "#0f766e" },
+  { slug: "shuttlecocks", group: "badminton", name: "Shuttlecocks", blurb: "Feather and nylon shuttles by speed.", art: "shuttle", accent: "#5b6472" },
+  { slug: "badminton-grips", group: "badminton", name: "Grips & Strings", blurb: "Replacement grips, overgrips and string.", art: "grip", accent: "#87a832" },
+  { slug: "badminton-kit-bags", group: "badminton", name: "Kit Bags", blurb: "Thermal racquet bags and backpacks.", art: "bag", accent: "#27436e" },
+
+  /* Football */
+  { slug: "football-balls", group: "football", name: "Footballs", blurb: "Match and trainer footballs, size 3–5.", art: "football", accent: "#256e49" },
+  { slug: "gk-gloves", group: "football", name: "GK Gloves", blurb: "Goalkeeper gloves with latex palms.", art: "gloves", accent: "#b92b22" },
+
+  /* Basketball / Volleyball */
+  { slug: "basketball-balls", group: "basketball", name: "Basketballs", blurb: "Rubber and composite basketballs, size 5–7.", art: "basketball", accent: "#c2571f" },
+  { slug: "volleyball-balls", group: "volleyball", name: "Volleyballs", blurb: "Soft-touch match and training volleyballs.", art: "volleyball", accent: "#2f6fb0" },
+
+  /* Table tennis */
+  { slug: "tt-bats", group: "table-tennis", name: "TT Bats", blurb: "Stag and GKI bats from 3 to 5 star.", art: "tt-bat", accent: "#b92b22" },
+  { slug: "tt-balls", group: "table-tennis", name: "TT Balls", blurb: "ABS 40+ poly balls, 1 to 3 star.", art: "ball", accent: "#d8a415" },
+  { slug: "tt-tables", group: "table-tennis", name: "TT Tables", blurb: "Full-size rollaway tournament tables.", art: "tt-table", accent: "#184530" },
+
+  /* Shoes */
+  { slug: "cricket-shoes", group: "shoes", name: "Cricket Shoes", blurb: "Spike and rubber-sole cricket shoes.", art: "shoe", accent: "#256e49" },
+  { slug: "badminton-shoes", group: "shoes", name: "Badminton Shoes", blurb: "Non-marking indoor court shoes.", art: "shoe", accent: "#0f766e" },
+  { slug: "football-shoes", group: "shoes", name: "Football Shoes", blurb: "Studs and turf boots.", art: "shoe", accent: "#3a3f4a" },
+  { slug: "basketball-shoes", group: "shoes", name: "Basketball Shoes", blurb: "High-ankle cushioned basketball shoes.", art: "shoe", accent: "#c2571f" },
+  { slug: "running-shoes", group: "shoes", name: "Running & Jogging", blurb: "Everyday running and athletics shoes.", art: "shoe", accent: "#2f6fb0" },
+  { slug: "volleyball-shoes", group: "shoes", name: "Volleyball Shoes", blurb: "Grippy indoor volleyball shoes.", art: "shoe", accent: "#7c5cbf" },
+
+  /* Fitness */
+  { slug: "yoga", group: "fitness", name: "Yoga", blurb: "TPE and PE yoga mats and blocks.", art: "yoga", accent: "#7c5cbf" },
+  { slug: "gym-training", group: "fitness", name: "Gym & Training", blurb: "Dumbbells, medicine balls and tubes.", art: "dumbbell", accent: "#3a3f4a" },
+  { slug: "sports-support", group: "fitness", name: "Supports & Braces", blurb: "Nivia knee, waist and ankle supports.", art: "pads", accent: "#256e49" },
+
+  /* Leisure */
+  { slug: "carrom", group: "leisure", name: "Carrom", blurb: "Boards, coins, strikers, stands and powder.", art: "carrom", accent: "#a3521c" },
+  { slug: "chess", group: "leisure", name: "Chess", blurb: "Wooden and magnetic chess sets.", art: "chess", accent: "#3a3f4a" },
+  { slug: "darts", group: "leisure", name: "Darts", blurb: "Magnetic and steel-tip dart sets.", art: "dart", accent: "#b92b22" },
+
+  /* Swimming */
+  { slug: "swimwear", group: "swimming", name: "Swimwear", blurb: "Jammers, trunks, briefs and swim skins.", art: "swim", accent: "#1f8fb2" },
+  { slug: "swim-accessories", group: "swimming", name: "Swim Accessories", blurb: "Goggles, caps, nose clips and floats.", art: "swim", accent: "#2f6fb0" },
+
+  /* Singles */
+  { slug: "skating", group: "skating", name: "Skating", blurb: "Skateboards, quad and inline skates.", art: "skate", accent: "#d6478e" },
+  { slug: "throwball", group: "throwball", name: "Throw Ball", blurb: "Match-grade throw balls and nets.", art: "volleyball", accent: "#d8a415" },
+  { slug: "tennikoit", group: "tennikoit", name: "Tennikoit", blurb: "Rubber rings and tennikoit nets.", art: "misc", accent: "#87a832" },
+
+  /* Accessories */
+  { slug: "cricket-accessories", group: "accessories", name: "Cricket Accessories", blurb: "Guards, cones, markers and spares.", art: "misc", accent: "#c8901c" },
+  { slug: "badminton-accessories", group: "accessories", name: "Badminton Accessories", blurb: "Grips, strings, thermal covers.", art: "grip", accent: "#0f766e" },
+  { slug: "football-accessories", group: "accessories", name: "Football Accessories", blurb: "Pumps, shin guards and markers.", art: "misc", accent: "#256e49" },
+  { slug: "socks", group: "accessories", name: "Socks", blurb: "Ankle and crew sports socks.", art: "socks", accent: "#5b6472" },
+  { slug: "water-bottles", group: "accessories", name: "Bottles & Hydration", blurb: "Sipper bottles and hydration packs.", art: "bottle", accent: "#2f6fb0" },
 ];
 
 export const categoryMap: Record<CategorySlug, Category> = Object.fromEntries(
@@ -103,13 +196,13 @@ export const categoryMap: Record<CategorySlug, Category> = Object.fromEntries(
 ) as Record<CategorySlug, Category>;
 
 /* ------------------------------------------------------------------ */
-/*  Product helpers                                                    */
+/*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
 
 function slugify(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[().']/g, "")
+    .replace(/[().'\\/*+]/g, " ")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
@@ -123,33 +216,385 @@ function seeded(id: string): { rating: number; reviews: number } {
   return { rating: Math.round(rating * 10) / 10, reviews };
 }
 
-/** Tint the SVG art from the first recognisable colour in a colourway. */
-function accentFor(colorway: string, fallback: string): string {
-  const table: [string, string][] = [
-    ["black", "#3a3f4a"],
-    ["navy", "#27436e"],
-    ["royal blue", "#2f6fb0"],
-    ["blue", "#2f6fb0"],
-    ["green", "#256e49"],
-    ["red", "#b92b22"],
-    ["maroon", "#7d2231"],
-    ["pink", "#d6478e"],
-    ["purple", "#7c5cbf"],
-    ["yellow", "#d8a415"],
-    ["fluorescent", "#87a832"],
-    ["grey", "#5b6472"],
-    ["gray", "#5b6472"],
-    ["gold", "#c8901c"],
-    ["camo", "#5a6b4f"],
-    ["silver", "#8a8f99"],
-    ["white", "#2f8f5e"],
-  ];
-  const lower = colorway.toLowerCase();
-  for (const [word, hex] of table) if (lower.includes(word)) return hex;
+const COLOUR_WORDS: [string, string][] = [
+  ["black", "#3a3f4a"],
+  ["navy", "#27436e"],
+  ["royal", "#2f6fb0"],
+  ["blue", "#2f6fb0"],
+  ["green", "#256e49"],
+  ["red", "#b92b22"],
+  ["maroon", "#7d2231"],
+  ["pink", "#d6478e"],
+  ["purple", "#7c5cbf"],
+  ["orange", "#e0742a"],
+  ["yellow", "#d8a415"],
+  ["fluorescent", "#87a832"],
+  ["grey", "#5b6472"],
+  ["gray", "#5b6472"],
+  ["gold", "#c8901c"],
+  ["camo", "#5a6b4f"],
+  ["silver", "#8a8f99"],
+  ["teal", "#0f766e"],
+  ["white", "#2f8f5e"],
+];
+
+/** Tint the SVG art from the first recognisable colour word in a string. */
+function accentFor(text: string, fallback: string): string {
+  const lower = text.toLowerCase();
+  for (const [word, hex] of COLOUR_WORDS) if (lower.includes(word)) return hex;
   return fallback;
 }
 
-interface Partial {
+/** Brands stocked in store, longest-first so "LI-NING" beats "LINING". */
+const BRANDS = [
+  "ADIDAS",
+  "AIRAVAT",
+  "ASICS",
+  "BDM",
+  "COSCO",
+  "DSC",
+  "FZ FORZA",
+  "FORZA",
+  "GKI",
+  "GN",
+  "HEAD",
+  "HERCULES",
+  "KAMATCHI",
+  "LI-NING",
+  "LINING",
+  "MRF",
+  "NB",
+  "NIVIA",
+  "ONEUP",
+  "ONE UP",
+  "RNS",
+  "SG",
+  "SHREY",
+  "SPARTAN",
+  "SPORTIFF",
+  "SS",
+  "STAG",
+  "TON",
+  "VECTOR X",
+  "VINTAGE",
+  "VIXEN",
+  "YONEX",
+];
+
+const BRAND_LABEL: Record<string, string> = {
+  "LI-NING": "Li-Ning",
+  LINING: "Li-Ning",
+  "FZ FORZA": "FZ Forza",
+  FORZA: "FZ Forza",
+  ONEUP: "Oneup Sports",
+  "ONE UP": "Oneup Sports",
+  "VECTOR X": "Vector X",
+  ADIDAS: "Adidas",
+  ASICS: "Asics",
+  AIRAVAT: "Airavat",
+  NIVIA: "Nivia",
+  SHREY: "Shrey",
+  SPARTAN: "Spartan",
+  SPORTIFF: "Sportiff",
+  STAG: "Stag",
+  HEAD: "Head",
+  HERCULES: "Hercules",
+  KAMATCHI: "Kamatchi",
+  VINTAGE: "Vintage",
+  VIXEN: "Vixen",
+  YONEX: "Yonex",
+  COSCO: "Cosco",
+};
+
+/** Pull the brand out of a product name like "SG KLR ULTIMATE". */
+function brandFor(name: string): string {
+  const upper = name.toUpperCase();
+  const hit = [...BRANDS]
+    .sort((a, b) => b.length - a.length)
+    .find((b) => upper.startsWith(b + " ") || upper === b);
+  if (!hit) return "Oneup Sports";
+  return BRAND_LABEL[hit] ?? hit;
+}
+
+/* --------------------- Per-category defaults ---------------------- */
+
+const SIZES: Partial<Record<CategorySlug, string[]>> = {
+  "cricket-bats": ["Size 5", "Size 6", "Harrow", "SH (Men's)", "LB (Long Blade)"],
+  "batting-gloves": ["Boys", "Youth", "Men's"],
+  "batting-pads": ["Boys", "Youth", "Men's"],
+  "cricket-helmets": ["Junior", "Small", "Medium", "Large"],
+  "wk-gloves": ["Boys", "Youth", "Men's"],
+  "wk-pads": ["Boys", "Youth", "Men's"],
+  "cricket-guards": ["Boys", "Youth", "Men's"],
+  "cricket-apparel": ["S", "M", "L", "XL", "XXL"],
+  "cricket-caps": ["Free Size"],
+  "badminton-racquets": ["G4 (3U)", "G5 (4U)", "G6 (5U)"],
+  "badminton-grips": ["Single", "3 in 1", "6 in 1"],
+  "cricket-shoes": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  "badminton-shoes": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  "football-shoes": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  "basketball-shoes": ["UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  "running-shoes": ["UK 5", "UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  "volleyball-shoes": ["UK 6", "UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
+  swimwear: ["XS", "S", "M", "L", "XL"],
+  "sports-support": ["S", "M", "L", "XL"],
+  socks: ["Free Size", "S", "M", "L"],
+  "football-balls": ["Size 3", "Size 4", "Size 5"],
+  "basketball-balls": ["Size 5", "Size 6", "Size 7"],
+};
+
+const HANDS: Partial<Record<CategorySlug, string[]>> = {
+  "batting-gloves": ["Right Hand", "Left Hand"],
+  "batting-pads": ["Right Hand", "Left Hand"],
+  "wk-gloves": ["Right Hand", "Left Hand"],
+  "gk-gloves": ["Right Hand", "Left Hand"],
+};
+
+interface Copy {
+  tagline: string;
+  desc: (name: string, brand: string) => string;
+  features: string[];
+}
+
+const COPY: Record<CategorySlug, Copy> = {
+  "cricket-bats": {
+    tagline: "English willow · ready to play",
+    desc: (n, b) =>
+      `The ${n} from ${b} is pressed for a clean pick-up and a big, forgiving middle. Cane handle with a rubber grip, ping-tested before it leaves the shop and knocked in on request.`,
+    features: ["Grade-selected willow cleft", "Cane handle with rubber grip", "Ping-tested before dispatch", "Free knocking-in service"],
+  },
+  "cricket-balls": {
+    tagline: "Leather · match & practice",
+    desc: (n, b) => `The ${n} by ${b} — alum-tanned leather over a cork-and-wool core, hand-stitched with a raised seam that stays proud for overs on end.`,
+    features: ["Alum-tanned leather", "Cork and wool wound core", "Hand-stitched raised seam", "Match & practice grades"],
+  },
+  "batting-gloves": {
+    tagline: "Match gloves · LH & RH",
+    desc: (n, b) => `The ${n} from ${b} — high-density foam over the fingers and thumb, a sweat-wicking palm and a wrap-around cuff that stays put through a long innings.`,
+    features: ["High-density finger protection", "Sweat-wicking palm lining", "Wrap-around towelling cuff", "Boys, Youth & Men's · LH/RH"],
+  },
+  "batting-pads": {
+    tagline: "Leg guards · LH & RH",
+    desc: (n, b) => `The ${n} by ${b} — moulded knee roll, bolstered instep and quick-release straps. Light enough to run in, tough enough for the quicks.`,
+    features: ["Moulded knee roll", "High-density foam bolsters", "Quick-release straps", "Boys, Youth & Men's · LH/RH"],
+  },
+  "cricket-helmets": {
+    tagline: "Steel grille · adjustable fit",
+    desc: (n, b) => `The ${n} from ${b} — a vented high-impact shell with a powder-coated steel grille and an adjustable harness that locks the fit in place.`,
+    features: ["Powder-coated steel grille", "Vented high-impact shell", "Adjustable harness", "Junior to Large"],
+  },
+  "wk-gloves": {
+    tagline: "Keeping gloves · webbed",
+    desc: (n, b) => `The ${n} by ${b} — a deep, supple web for clean takes, reinforced finger protection and a snug cuff that keeps the inners in place.`,
+    features: ["Deep supple web", "Reinforced finger protection", "Snug elasticated cuff", "Boys, Youth & Men's"],
+  },
+  "wk-pads": {
+    tagline: "Keeping pads · low profile",
+    desc: (n, b) => `The ${n} by ${b} — low-profile keeping pads that stay out of the way when you go down the leg side, with a moulded knee and light instep.`,
+    features: ["Low-profile keeping build", "Moulded knee cup", "Lightweight instep", "Boys, Youth & Men's"],
+  },
+  "cricket-guards": {
+    tagline: "Protection · chest, thigh & arm",
+    desc: (n, b) => `The ${n} from ${b} — contoured padding that spreads impact without pinning your arms down. Breathable backing so it doesn't cook you in the middle.`,
+    features: ["Contoured impact padding", "Breathable mesh backing", "Adjustable elastic straps", "Boys, Youth & Men's"],
+  },
+  "cricket-kit-bags": {
+    tagline: "Kit bag · full-kit capacity",
+    desc: (n, b) => `The ${n} by ${b} — swallows bats, pads, gloves and shoes with room to spare. Ventilated boot pocket and heavy-duty zips throughout.`,
+    features: ["Holds a full kit + bats", "Ventilated boot pocket", "Heavy-duty zips", "Padded shoulder strap"],
+  },
+  "cricket-apparel": {
+    tagline: "On-field kit · breathable",
+    desc: (n, b) => `The ${n} from ${b} — moisture-wicking fabric with a four-way stretch that moves with the shot. Holds its shape and colour wash after wash.`,
+    features: ["Moisture-wicking fabric", "Four-way stretch", "Flatlock seams", "S to XXL"],
+  },
+  "cricket-caps": {
+    tagline: "Match cap · breathable cotton",
+    desc: (n, b) => `The ${n} by ${b} — a breathable cotton cap with an adjustable strap and a sweatband that actually earns its name.`,
+    features: ["Breathable cotton panels", "Adjustable strap", "Absorbent sweatband", "Free size"],
+  },
+  "cricket-stumps": {
+    tagline: "Stump set · match spec",
+    desc: (n, b) => `The ${n} from ${b} — a full set of turned stumps with bails, finished and sized to match regulations.`,
+    features: ["Full set with bails", "Turned and lacquered", "Match-regulation sizing", "Carry bag included"],
+  },
+  "bat-care": {
+    tagline: "Bat care · grips & guards",
+    desc: (n, b) => `The ${n} by ${b} — bat-care essentials that add seasons to a good cleft without deadening the ping.`,
+    features: ["Protects the blade", "Doesn't deaden ping", "Simple to fit", "Fits all standard handles"],
+  },
+  "badminton-racquets": {
+    tagline: "Racquet · strung & covered",
+    desc: (n, b) => `The ${n} from ${b} — a graphite frame tuned for a fast swing and a solid feel at contact. Supplied strung with a full-length cover.`,
+    features: ["Graphite composite frame", "Supplied strung", "Full-length cover included", "G4 / G5 / G6 grips"],
+  },
+  shuttlecocks: {
+    tagline: "Shuttles · speed graded",
+    desc: (n, b) => `The ${n} by ${b} — consistent flight and a predictable drop, graded by speed so the tube plays the same from the first bird to the last.`,
+    features: ["Consistent flight & drop", "Speed-graded batches", "Tube of 6/12", "Feather & nylon options"],
+  },
+  "badminton-grips": {
+    tagline: "Grips & string · court spares",
+    desc: (n, b) => `The ${n} from ${b} — tacky, sweat-resistant and quick to wrap. Keeps the racquet where you put it in the third game.`,
+    features: ["Tacky sweat-resistant finish", "Quick to re-wrap", "Multi-packs available", "Fits all racquet handles"],
+  },
+  "badminton-kit-bags": {
+    tagline: "Racquet bag · thermal lined",
+    desc: (n, b) => `The ${n} by ${b} — a thermal-lined main compartment that keeps strings out of the heat, plus a separate shoe pocket.`,
+    features: ["Thermal-lined racquet bay", "Separate shoe pocket", "Padded backpack straps", "Holds 3–6 racquets"],
+  },
+  "football-balls": {
+    tagline: "Football · match & trainer",
+    desc: (n, b) => `The ${n} from ${b} — a machine-stitched ball with a butyl bladder that keeps its shape and pressure across a season of training.`,
+    features: ["Machine-stitched panels", "Butyl bladder, holds air", "True flight off the boot", "Sizes 3, 4 & 5"],
+  },
+  "gk-gloves": {
+    tagline: "Keeper gloves · latex palm",
+    desc: (n, b) => `The ${n} by ${b} — a grippy latex palm with finger-spine support and a wide wrist wrap for confident handling.`,
+    features: ["High-grip latex palm", "Finger-spine support", "Wide wrist wrap", "LH/RH pair"],
+  },
+  "basketball-balls": {
+    tagline: "Basketball · indoor/outdoor",
+    desc: (n, b) => `The ${n} from ${b} — a deep-channel ball with a pebbled cover that grips in dry hands and survives outdoor courts.`,
+    features: ["Deep-channel construction", "Pebbled grip cover", "Indoor & outdoor rated", "Sizes 5, 6 & 7"],
+  },
+  "volleyball-balls": {
+    tagline: "Volleyball · soft touch",
+    desc: (n, b) => `The ${n} by ${b} — a soft-touch cover that's kind on the forearms with a laminated build that holds its shape.`,
+    features: ["Soft-touch cover", "Laminated construction", "Consistent rebound", "Match & training grade"],
+  },
+  "tt-bats": {
+    tagline: "TT bat · star rated",
+    desc: (n, b) => `The ${n} from ${b} — a balanced blade with ITTF-style pimpled rubber, rated by stars so you know what you're getting.`,
+    features: ["Balanced plywood blade", "Pimpled rubber both faces", "Star-rated control/spin", "Flared grip"],
+  },
+  "tt-balls": {
+    tagline: "TT balls · ABS 40+",
+    desc: (n, b) => `The ${n} by ${b} — seamless ABS 40+ poly balls with consistent bounce and roundness, sold by the pack.`,
+    features: ["ABS 40+ poly", "Seamless construction", "Consistent bounce", "White & orange"],
+  },
+  "tt-tables": {
+    tagline: "TT table · rollaway",
+    desc: (n, b) => `The ${n} from ${b} — a full-size rollaway table with an even bounce across the top, folding to a compact footprint for storage.`,
+    features: ["Full-size tournament top", "Rollaway folding frame", "Locking castors", "Net & post set included"],
+  },
+  "cricket-shoes": {
+    tagline: "Cricket shoes · UK 5–11",
+    desc: (n, b) => `The ${n} by ${b} — a supportive cricket shoe with a cushioned midsole and a sole built for both the crease and the outfield.`,
+    features: ["Cushioned midsole", "Supportive heel counter", "Cricket-specific outsole", "UK 5–11"],
+  },
+  "badminton-shoes": {
+    tagline: "Court shoes · non-marking",
+    desc: (n, b) => `The ${n} from ${b} — a non-marking gum sole with lateral support for the lunges, and a low profile that keeps you close to the floor.`,
+    features: ["Non-marking gum sole", "Lateral support cage", "Low-profile ride", "UK 5–11"],
+  },
+  "football-shoes": {
+    tagline: "Boots · studs & turf",
+    desc: (n, b) => `The ${n} by ${b} — a locked-in fit with a stud pattern that bites on grass without dragging in the turn.`,
+    features: ["Grip-tuned stud pattern", "Locked-in midfoot fit", "Durable synthetic upper", "UK 5–11"],
+  },
+  "basketball-shoes": {
+    tagline: "Basketball · high ankle",
+    desc: (n, b) => `The ${n} from ${b} — high-ankle support with a cushioned drop and a herringbone outsole that stops when you do.`,
+    features: ["High-ankle support", "Cushioned heel drop", "Herringbone outsole", "UK 6–11"],
+  },
+  "running-shoes": {
+    tagline: "Running · everyday miles",
+    desc: (n, b) => `The ${n} by ${b} — a light, breathable trainer with enough cushioning for daily miles and a mesh upper that stays cool.`,
+    features: ["Breathable mesh upper", "Cushioned EVA midsole", "Lightweight build", "UK 5–11"],
+  },
+  "volleyball-shoes": {
+    tagline: "Volleyball · indoor grip",
+    desc: (n, b) => `The ${n} from ${b} — indoor court shoes with a gum outsole and a padded collar built for repeated landings.`,
+    features: ["Gum indoor outsole", "Padded ankle collar", "Shock-absorbing heel", "UK 6–11"],
+  },
+  yoga: {
+    tagline: "Yoga · non-slip mat",
+    desc: (n, b) => `The ${n} by ${b} — a cushioned, non-slip mat with a closed-cell surface that wipes clean and rolls up without curling.`,
+    features: ["Non-slip textured surface", "Closed-cell, wipes clean", "Rolls flat, no curl", "Carry strap included"],
+  },
+  "gym-training": {
+    tagline: "Training · home gym",
+    desc: (n, b) => `The ${n} from ${b} — solid home-gym kit built to take a beating on a hard floor, sized for real training rather than a display shelf.`,
+    features: ["Durable coated finish", "Floor-friendly", "Home & studio rated", "Multiple weights/levels"],
+  },
+  "sports-support": {
+    tagline: "Support · adjustable brace",
+    desc: (n, b) => `The ${n} by ${b} — adjustable compression support that stays put through movement without cutting off circulation.`,
+    features: ["Adjustable compression", "Breathable knit", "Stays put in motion", "S to XL"],
+  },
+  carrom: {
+    tagline: "Carrom · tournament finish",
+    desc: (n, b) => `The ${n} from ${b} — a smooth, fast playing surface with a true rebound off the rails. Board, coins and strikers sold together or separately.`,
+    features: ["Smooth fast playing surface", "True rebound rails", "Seasoned timber frame", "Tournament sizing"],
+  },
+  chess: {
+    tagline: "Chess · wooden set",
+    desc: (n, b) => `The ${n} by ${b} — a folding wooden board with weighted pieces that store inside. Travel-friendly and pleasant to play on.`,
+    features: ["Folding wooden board", "Weighted pieces", "Pieces store inside", "Travel-friendly"],
+  },
+  darts: {
+    tagline: "Darts · board & set",
+    desc: (n, b) => `The ${n} from ${b} — a complete dart set that's safe indoors and quick to set up on any wall or door.`,
+    features: ["Complete set", "Safe for indoor play", "Hangs on any wall", "Double-sided board"],
+  },
+  swimwear: {
+    tagline: "Swimwear · chlorine resistant",
+    desc: (n, b) => `The ${n} by ${b} — a chlorine-resistant weave that holds its shape and colour, with a flat drawcord that doesn't dig in.`,
+    features: ["Chlorine-resistant fabric", "Shape-retaining weave", "Flat internal drawcord", "XS to XL"],
+  },
+  "swim-accessories": {
+    tagline: "Swim gear · pool essentials",
+    desc: (n, b) => `The ${n} from ${b} — anti-fog, snug and quick to adjust, so you can get in the water instead of fiddling on the deck.`,
+    features: ["Anti-fog / snug fit", "Quick to adjust", "UV & chlorine resistant", "Adults & juniors"],
+  },
+  skating: {
+    tagline: "Skating · board & skates",
+    desc: (n, b) => `The ${n} by ${b} — a stable deck on smooth-rolling wheels, set up ready to ride out of the box.`,
+    features: ["Ready to ride out of the box", "Smooth-rolling wheels", "Stable, forgiving deck", "Beginner-friendly"],
+  },
+  throwball: {
+    tagline: "Throw ball · match grade",
+    desc: (n, b) => `The ${n} from ${b} — a match-grade throw ball with a soft, grippy cover and reliable shape retention.`,
+    features: ["Soft grippy cover", "Holds its shape", "Match & school grade", "Inflated ready to play"],
+  },
+  tennikoit: {
+    tagline: "Tennikoit · rubber ring",
+    desc: (n, b) => `The ${n} by ${b} — a solid rubber tennikoit ring with a consistent weight and grip for clean throws.`,
+    features: ["Solid rubber ring", "Consistent weight", "Grippy finish", "Standard match size"],
+  },
+  "cricket-accessories": {
+    tagline: "Cricket spares & extras",
+    desc: (n, b) => `The ${n} from ${b} — the small stuff that keeps a kit bag working, priced so you can keep a spare.`,
+    features: ["Kit-bag essential", "Durable build", "Great value", "Keep a spare"],
+  },
+  "badminton-accessories": {
+    tagline: "Badminton spares & extras",
+    desc: (n, b) => `The ${n} by ${b} — court-side spares for grips, strings and covers so a session never ends early.`,
+    features: ["Court-side spare", "Fits most racquets", "Quick to fit", "Multi-packs available"],
+  },
+  "football-accessories": {
+    tagline: "Football spares & extras",
+    desc: (n, b) => `The ${n} from ${b} — training-ground kit that survives being thrown in a boot and used twice a week.`,
+    features: ["Training-ground durable", "Packs down small", "Great value", "Club quantities available"],
+  },
+  socks: {
+    tagline: "Sports socks · cushioned",
+    desc: (n, b) => `The ${n} by ${b} — cushioned sports socks with an arch band and a cuff that stays up through a full match.`,
+    features: ["Cushioned sole", "Supportive arch band", "Stay-up cuff", "Multi-packs"],
+  },
+  "water-bottles": {
+    tagline: "Hydration · leak-proof",
+    desc: (n, b) => `The ${n} from ${b} — a leak-proof sipper with a fast-flow spout that fits standard bottle cages and kit-bag pockets.`,
+    features: ["Leak-proof cap", "Fast-flow spout", "BPA-free body", "Fits kit-bag pockets"],
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/*  Product factory                                                    */
+/* ------------------------------------------------------------------ */
+
+interface Seed {
   name: string;
   category: CategorySlug;
   price: number;
@@ -161,812 +606,450 @@ interface Partial {
   hands?: string[];
   badge?: Badge;
   brand?: string;
-  tagline: string;
-  description: string;
-  features: string[];
+  tagline?: string;
+  description?: string;
+  features?: string[];
   inStock?: boolean;
 }
 
-function P(p: Partial): Product {
+const usedSlugs = new Set<string>();
+
+function P(p: Seed): Product {
   const cat = categoryMap[p.category];
-  const id = slugify(p.name);
+  const copy = COPY[p.category];
+  const brand = p.brand ?? brandFor(p.name);
+
+  // Source data has genuine duplicate names (different colourways / sizes),
+  // so suffix any repeat to keep slugs and React keys unique.
+  const base = slugify(p.name);
+  let id = base;
+  for (let n = 2; usedSlugs.has(id); n++) id = `${base}-${n}`;
+  usedSlugs.add(id);
+
   const { rating, reviews } = seeded(id);
   return {
     id,
     slug: id,
     name: p.name,
-    brand: p.brand ?? "MM Sports",
+    brand,
     category: p.category,
     art: p.art ?? cat.art,
     price: p.price,
     mrp: p.mrp,
     rating,
     reviews,
-    accent: p.accent ?? cat.accent,
-    colors: p.colors ?? ["Natural"],
-    sizes: p.sizes ?? ["One Size"],
-    hands: p.hands,
+    accent: p.accent ?? accentFor(p.name, cat.accent),
+    colors: p.colors ?? ["As shown"],
+    sizes: p.sizes ?? SIZES[p.category] ?? ["One Size"],
+    hands: p.hands ?? HANDS[p.category],
     badge: p.badge,
-    tagline: p.tagline,
-    description: p.description,
-    features: p.features,
+    tagline: p.tagline ?? copy.tagline,
+    description: p.description ?? copy.desc(p.name, brand),
+    features: p.features ?? copy.features,
     inStock: p.inStock ?? true,
   };
 }
 
-/* ---------------------------- Bats ---------------------------- */
-
-const EW_SIZES = ["Harrow", "Men's"];
-
-function ewBat(
-  name: string,
-  price: number,
-  mrp: number | undefined,
-  grade: string,
-  range: string,
-  badge?: Badge,
-): Product {
-  return P({
-    name: `${name} English Willow Bat`,
-    category: "english-willow-bats",
-    price,
-    mrp,
-    sizes: EW_SIZES,
-    badge,
-    tagline: `${grade} English willow · ${range} range`,
-    description: `The ${name} from our ${range} range is pressed from ${grade.toLowerCase()} English willow and shaped for a clean pick-up with a generous sweet spot. Ping-tested and match-ready out of the wrapper.`,
-    features: [
-      `${grade} English willow cleft`,
-      `${range} range profile`,
-      "Ping-tested, pre-knocked face",
-      "Sizes: Harrow & Men's",
-    ],
-  });
+/** Compact seed helper: `c("cricket-bats")("SG KLR ULTIMATE", 27999, { badge: "Pro" })` */
+function c(category: CategorySlug) {
+  return (name: string, price: number, extra: Omit<Seed, "name" | "category" | "price"> = {}) =>
+    P({ name, category, price, ...extra });
 }
 
-function kwBat(
-  name: string,
-  price: number,
-  mrp: number | undefined,
-  grade: string,
-  profile: string,
-): Product {
-  return P({
-    name: `${name} Kashmir Willow Bat`,
-    category: "kashmir-willow-bats",
-    price,
-    mrp,
-    sizes: ["Men's"],
-    tagline: `${grade} Kashmir willow · ${profile} profile`,
-    description: `The ${name} is seasoned ${grade.toLowerCase()} Kashmir willow with a ${profile.toLowerCase()} profile — a dependable leather-ball bat that shrugs off a full club season.`,
-    features: [
-      `${grade} Kashmir willow`,
-      `${profile} profile`,
-      "Cane handle with rubber grip",
-      "Ready to play",
-    ],
-  });
-}
-
-function fineWoodBat(
-  name: string,
-  price: number,
-  mrp: number | undefined,
-  note: string,
-  badge?: Badge,
-): Product {
-  return P({
-    name: `${name} Fine Wood Willow Bat`,
-    category: "fine-wood-willow-bats",
-    price,
-    mrp,
-    sizes: ["Size 6", "Harrow", "Men's"],
-    badge,
-    tagline: "Fine wood willow · club & tape ball",
-    description: `The ${name} is a fine wood willow bat — ${note}. A light, forgiving pick-up that's just as happy against a leather ball on a Sunday as a tennis ball in the gully.`,
-    features: [
-      "Seasoned fine wood willow",
-      "Light, forgiving pick-up",
-      "Full profile with thick edges",
-      "Leather & tennis ball ready",
-    ],
-  });
-}
-
-/* ------------------------- Batting Gloves ------------------------- */
-
-const GLOVE_SIZES = ["Youth", "Medium", "Large"];
-const HANDS = ["Right Hand", "Left Hand"];
-
-const GLOVE_FAMILY_NOTES: Record<string, string> = {
-  "GX1": "flagship multi-piece sausage fingers with a Pittards-style palm",
-  "GX2": "split-finger build for stroke-players who want mobility",
-  "GX3": "top-of-the-line protection with floating side bars",
-  "GX4": "lightweight match glove with a ventilated mesh back",
-  "GX5": "colour-pop series with high-density foam shields",
-  "GX6": "classic all-rounder with towelling wrist",
-  "GX7": "pro-spec glove with reinforced lead-hand shielding",
-  "GX8": "value match glove that punches above its price",
-};
-
-function glove(
-  model: string,
-  version: string,
-  colorway: string,
-  price: number,
-  opts: { badge?: Badge; inStock?: boolean } = {},
-): Product {
-  const note = GLOVE_FAMILY_NOTES[model] ?? "protective match glove";
-  return P({
-    name: `Armour-${model} (${version}) Batting Gloves (${colorway})`,
-    category: "batting-gloves",
-    price,
-    accent: accentFor(colorway, "#256e49"),
-    colors: [colorway],
-    sizes: GLOVE_SIZES,
-    hands: HANDS,
-    badge: opts.badge,
-    inStock: opts.inStock,
-    tagline: `Armour ${model} series · ${colorway}`,
-    description: `The Armour-${model} (${version}) in ${colorway} — ${note}. Built for long innings with sweat-wicking lining and a secure wrap-around cuff.`,
-    features: [
-      `Armour ${model} series construction`,
-      "High-density finger protection",
-      "Sweat-wicking palm lining",
-      "Youth to Large, left & right hand",
-    ],
-  });
-}
-
-/* ------------------------- Leg Guards ------------------------- */
-
-const PAD_SIZES = ["Small Boys", "Boys", "Youth", "Medium", "Large"];
-const PAD_HANDS = ["Right Hand", "Left Hand", "Ambidextrous"];
-
-function legGuard(
-  model: string,
-  colorway: string,
-  price: number,
-  note: string,
-  badge?: Badge,
-): Product {
-  return P({
-    name: `Armour-${model} Batting Leg Guard (${colorway})`,
-    category: "leg-guards",
-    price,
-    accent: accentFor(colorway.split("-").pop() ?? colorway, "#2f6fb0"),
-    colors: [colorway],
-    sizes: PAD_SIZES,
-    hands: PAD_HANDS,
-    badge,
-    tagline: `Armour ${model} · ${colorway}`,
-    description: `The Armour-${model} leg guard in ${colorway} — ${note}. Moulded knee roll, bolstered instep and quick-release straps.`,
-    features: [
-      "High-density foam bolsters",
-      "Moulded knee roll",
-      "Quick-release straps",
-      "Small Boys to Large",
-    ],
-  });
-}
-
-/* ------------------- IPL Kit Bags (fan / supporter) ------------------- */
-
-interface IplTeam {
-  team: string;
-  short: string;
-  colours: string;
-  accent: string;
-  price: number;
-  mrp: number;
-  badge?: Badge;
-}
-
-// All 10 current IPL franchises, in team colours. These are supporter /
-// fan kit bags themed in each team's colours — not official licensed merch.
-const IPL_TEAMS: IplTeam[] = [
-  { team: "Chennai Super Kings", short: "CSK", colours: "Yellow / Blue", accent: "#eab308", price: 3499, mrp: 4499, badge: "Bestseller" },
-  { team: "Mumbai Indians", short: "MI", colours: "Blue / Gold", accent: "#1f6fb2", price: 3499, mrp: 4499, badge: "Bestseller" },
-  { team: "Royal Challengers Bengaluru", short: "RCB", colours: "Red / Black", accent: "#cf1b2b", price: 3299, mrp: 4299 },
-  { team: "Kolkata Knight Riders", short: "KKR", colours: "Purple / Gold", accent: "#6b3fa0", price: 3299, mrp: 4299 },
-  { team: "Sunrisers Hyderabad", short: "SRH", colours: "Orange / Black", accent: "#f26522", price: 3199, mrp: 3999 },
-  { team: "Delhi Capitals", short: "DC", colours: "Navy / Red", accent: "#17449b", price: 3199, mrp: 3999 },
-  { team: "Rajasthan Royals", short: "RR", colours: "Pink / Blue", accent: "#d6478e", price: 3299, mrp: 4199 },
-  { team: "Punjab Kings", short: "PBKS", colours: "Red / Silver", accent: "#b01e28", price: 3199, mrp: 3999 },
-  { team: "Gujarat Titans", short: "GT", colours: "Navy / Gold", accent: "#16233f", price: 3399, mrp: 4299, badge: "New" },
-  { team: "Lucknow Super Giants", short: "LSG", colours: "Teal / Navy", accent: "#0f7d8f", price: 3399, mrp: 4299, badge: "New" },
-];
-
-function iplBag(t: IplTeam): Product {
-  return P({
-    name: `${t.team} Kit Bag`,
-    category: "ipl-kit-bags",
-    art: "bag",
-    price: t.price,
-    mrp: t.mrp,
-    badge: t.badge,
-    accent: t.accent,
-    colors: [t.colours],
-    sizes: ["Youth", "Senior", "Team"],
-    tagline: `${t.short} supporter kit bag · team colours`,
-    description: `A wheelie kit bag decked out in ${t.team} colours for the die-hard ${t.short} fan. Cavernous main compartment, ventilated boot pocket and rugged inline wheels — carry your kit and your colours to the ground.`,
-    features: [
-      `${t.short} team-colour design`,
-      "Holds 2 bats + full kit",
-      "Ventilated boot pocket",
-      "Rugged inline wheels",
-    ],
-  });
-}
+const bat = c("cricket-bats");
+const cball = c("cricket-balls");
+const bgloves = c("batting-gloves");
+const bpads = c("batting-pads");
+const helmet = c("cricket-helmets");
+const wkg = c("wk-gloves");
+const wkp = c("wk-pads");
+const guard = c("cricket-guards");
+const ckit = c("cricket-kit-bags");
+const apparel = c("cricket-apparel");
+const cap = c("cricket-caps");
+const stumps = c("cricket-stumps");
+const batcare = c("bat-care");
+const racquet = c("badminton-racquets");
+const shuttle = c("shuttlecocks");
+const bgrip = c("badminton-grips");
+const bbag = c("badminton-kit-bags");
+const fball = c("football-balls");
+const gk = c("gk-gloves");
+const bball = c("basketball-balls");
+const vball = c("volleyball-balls");
+const ttbat = c("tt-bats");
+const ttball = c("tt-balls");
+const tttable = c("tt-tables");
+const cshoe = c("cricket-shoes");
+const bshoe = c("badminton-shoes");
+const fshoe = c("football-shoes");
+const bkshoe = c("basketball-shoes");
+const rshoe = c("running-shoes");
+const vshoe = c("volleyball-shoes");
+const yoga = c("yoga");
+const gym = c("gym-training");
+const support = c("sports-support");
+const carrom = c("carrom");
+const chess = c("chess");
+const dart = c("darts");
+const swim = c("swimwear");
+const swimacc = c("swim-accessories");
+const skate = c("skating");
+const throwball = c("throwball");
+const tennikoit = c("tennikoit");
+const cacc = c("cricket-accessories");
+const bacc = c("badminton-accessories");
+const facc = c("football-accessories");
+const sock = c("socks");
+const bottle = c("water-bottles");
 
 /* ------------------------------------------------------------------ */
 /*  The catalog                                                        */
 /* ------------------------------------------------------------------ */
 
 export const products: Product[] = [
-  /* ---- Bats · English Willow (Monarchy & Cavalry ranges) ---- */
-  ewBat("Emperor 1.0", 28000, undefined, "Grade 1", "Monarchy", "Pro"),
-  ewBat("King 1.1", 22050, 24500, "Grade 1", "Monarchy", "Bestseller"),
-  ewBat("King 1.2", 17550, 19500, "Grade 1", "Monarchy"),
-  ewBat("King 1.3", 13950, 15500, "Grade 1", "Monarchy"),
-  ewBat("Knight 1.1", 22050, 24500, "Grade 1", "Cavalry"),
-  ewBat("Knight 1.2", 22050, 24500, "Grade 1", "Cavalry"),
-  ewBat("Knight 1.3", 13950, 15500, "Grade 1", "Cavalry"),
-  ewBat("Duke 2.0", 10350, 11500, "Grade 2", "Monarchy"),
-  ewBat("Esquire 2.0", 10350, 11500, "Grade 2", "Cavalry"),
-  ewBat("Prince 2.0", 10350, 11500, "Grade 2", "Monarchy"),
-  ewBat("Trooper 2.1", 9450, 10500, "Grade 2", "Cavalry"),
-  ewBat("Raw 3.0", 7650, 8500, "Grade 3", "Cavalry"),
-  ewBat("Raw 4.0", 5850, 6500, "Grade 4", "Cavalry"),
+  /* ------------------------- Cricket · Bats ------------------------- */
+  bat("VINTAGE FINISHER ENGLISH WILLOW", 30000, { mrp: 34999, badge: "Pro" }),
+  bat("TON SUPREME ENGLISH WILLOW", 28000, { mrp: 31999 }),
+  bat("SG KLR ULTIMATE", 27999, { badge: "Bestseller" }),
+  bat("SG SUNNY TONNY", 26999),
+  bat("GN GOLD EDITION ENGLISH WILLOW", 25999, { mrp: 28999 }),
+  bat("SG KLR ICON", 24999),
+  bat("SG PLAYERS ULTIMATE", 24999),
+  bat("SG SUNNY GOLD ICON", 24999),
+  bat("SG TRIPLE CROWN XTREME", 23499, { badge: "Bestseller" }),
+  bat("SS GG SMACKER PLAYER ENGLISH WILLOW", 23000),
+  bat("NB TC 1040 ENGLISH WILLOW", 22999),
+  bat("NB DC 1040 ENGLISH WILLOW", 22999),
+  bat("SG RP ULTIMATE", 20499),
+  bat("SG TRIPLECROWN XTREME", 20299),
+  bat("SKY BLASTER ENGLISH WILLOW", 18000, { brand: "Vintage" }),
+  bat("SS V.A-900 RETRO INSTINCT", 18000),
+  bat("SG VENATOR", 17999),
+  bat("SG E/W SUNNY TONNY CRICKET BAT", 17999),
+  bat("NB TC 840 ENGLISH WILLOW", 17499),
+  bat("SS MASTER 5000 ENGLISH WILLOW", 17000),
+  bat("RNS G 777 ENGLISH WILLOW", 17000),
+  bat("SG IK ULTIMATE", 16899),
+  bat("SG HP ICON BAT", 16899),
+  bat("SG SUNNY TONNY ICON", 16499),
+  bat("SG ROAR ULTIMATE", 16119),
+  bat("SG PLAYER XTREME", 15499),
+  bat("SS MASTER 2000 ENGLISH WILLOW", 15000),
+  bat("GN IGNITE BEAST ENGLISH WILLOW", 14999, { badge: "New" }),
+  bat("SG RSD SELECT", 14499),
+  bat("VINTAGE 4.0 SS", 14000),
+  bat("GN OMEGA GN5.5 ENGLISH WILLOW", 13999),
+  bat("GN COLOSSUS 5 ENGLISH WILLOW", 13999),
+  bat("NB DC 740 ENGLISH WILLOW", 13999),
+  bat("DSC BLU 222 ENGLISH WILLOW", 13669),
+  bat("SS V.A-900 RETRO BLASTER ENGLISH WILLOW", 13000),
+  bat("SS RETRO SUPER", 13000),
+  bat("BDM MASTER BLASTER CRICKET BAT E/W", 13000),
+  bat("SG RELIANT XTREME", 12999, { badge: "Bestseller" }),
+  bat("SS VA-900 (6) ENGLISH WILLOW", 12800),
+  bat("TON SINGLE S PRESTIGE ENGLISH WILLOW", 12800),
+  bat("RNS MAX 7 ENGLISH WILLOW", 12700),
 
-  /* ---- Bats · Kashmir Willow ---- */
-  kwBat("King", 2949, undefined, "Grade 1", "Mid-Low"),
-  kwBat("Knight", 2949, 3949, "Grade 1", "Full Spine (Mid-Swell)"),
-  kwBat("Duke", 2399, 2999, "Grade 2", "Low-Middle"),
-  kwBat("Prince", 2399, undefined, "Grade 2", "Mid-Low"),
-  kwBat("Raw", 1949, 2499, "Grade 3", "Full Spine (Mid-Swell)"),
+  /* ------------------------ Cricket · Balls ------------------------ */
+  cball("SG TEST LEATHER BALL", 1599, { mrp: 1899, colors: ["Red"] }),
+  cball("SG CLUB LEATHER BALL", 899, { colors: ["Red"] }),
+  cball("SS COUNTY SPECIAL LEATHER BALL", 849, { colors: ["Red"] }),
+  cball("SG SHIELD 20 LEATHER BALL WHITE", 799, { colors: ["White"] }),
+  cball("SG SEAMER PRACTICE BALL", 549, { colors: ["Red"] }),
+  cball("SPARTAN WIND BALL PACK OF 6", 360, { colors: ["Yellow"], badge: "Bestseller" }),
+  cball("TENNIS CRICKET BALL HEAVY", 120, { colors: ["Yellow", "Green"] }),
 
-  /* ---- Bats · Fine Wood Willow ---- */
-  fineWoodBat("Sixer", 1899, 2499, "our best-value all-rounder with a big middle", "Bestseller"),
-  fineWoodBat("Slogger", 1649, 2299, "a high-middle profile built for clean hitting"),
-  fineWoodBat("Rookie", 1349, 1799, "a lighter junior-friendly starter bat"),
-  fineWoodBat("Gully King", 1149, 1599, "the go-to bat for street and gully cricket"),
+  /* -------------------- Cricket · Batting Gloves -------------------- */
+  bgloves("SS MILLENIUM PRO BATTING GLOVES - LH", 4625, { mrp: 5250, badge: "Pro", hands: ["Left Hand"] }),
+  bgloves("SS BATTING GLOVES SS SUPERTEST MRH", 2970, { hands: ["Right Hand"] }),
+  bgloves("SG TEST MEN BATTING GLOVES", 2399, { badge: "Bestseller" }),
+  bgloves("SS BATTING GLOVES SS RANJIMAX YOUTH LH", 2195, { sizes: ["Youth"], hands: ["Left Hand"] }),
+  bgloves("SS BATTING GLOVES SS RANJIMAX BOYS LH", 2150, { sizes: ["Boys"], hands: ["Left Hand"] }),
+  bgloves("SG BATTING GLOVES HP LITE YOUTH +", 2099, { sizes: ["Youth"] }),
+  bgloves("RNS PROLITE BATTING GLOVES", 1950),
+  bgloves("MRF BATTING GLOVES DRIVE YOUTH", 1240, { sizes: ["Youth"] }),
+  bgloves("SG BATTING GLOVES VS 319 SPARK YOUTH", 1199, { sizes: ["Youth"] }),
+  bgloves("SG BATTING GLOVES VS 319 SPARK BOYS", 1099, { sizes: ["Boys"] }),
+  bgloves("SG BATTING GLOVES CLUB", 849),
+  bgloves("SG BATTING GLOVES OPTIPRO YOUTH", 729, { sizes: ["Youth"] }),
+  bgloves("GN1 BLAZE MRH", 699, { brand: "GN", hands: ["Right Hand"] }),
+  bgloves("SG BATTING GLOVES ECOLITE BOYS", 679, { sizes: ["Boys"] }),
+  bgloves("SS ACADEMY BATTING GLOVES", 650, { badge: "Sale" }),
+  bgloves("DSC BATTING INNER GLOVES DSC GLIDER", 259, { sizes: ["Boys", "Youth", "Men's"], hands: undefined }),
 
-  /* ---- Protection · Batting Gloves (Armour-GX series) ---- */
-  glove("GX1", "3.0", "Black-Gold", 1699),
-  glove("GX1", "3.0", "Black-Silver", 1699),
-  glove("GX1", "3.0", "Navy-Silver", 1699),
-  glove("GX1", "3.0", "Royal Blue-Gold", 1699),
-  glove("GX1", "3.0", "White-Gold", 1675, { badge: "Bestseller" }),
-  glove("GX1", "3.0", "White-Silver", 1675),
-  glove("GX2", "3.0", "White-Gray-Silver", 1675),
-  glove("GX2", "3.0", "White-Red-Silver", 1675),
-  glove("GX3", "3.0", "Black-Gray", 1725),
-  glove("GX3", "3.0", "White-Gold", 1725, { badge: "Pro" }),
-  glove("GX3", "3.0", "White-Maroon", 1725),
-  glove("GX3", "3.0", "White-Red", 1699),
-  glove("GX4", "3.0", "White-Camo-Black", 1675),
-  glove("GX4", "3.0", "White-Navy-Green", 1675),
-  glove("GX4", "4.0", "Black-Silver-Fluorescent", 1449),
-  glove("GX4", "4.0", "White-Silver-Black", 1425),
-  glove("GX4", "4.0", "White-Silver-Blue", 1425),
-  glove("GX4", "4.0", "White-Silver-Red", 1399),
-  glove("GX5", "3.0", "Fluorescent-Black", 1699),
-  glove("GX5", "3.0", "Pink-Black", 1699),
-  glove("GX5", "3.0", "Pink-Blue", 1699),
-  glove("GX5", "3.0", "Purple-Gold", 1699),
-  glove("GX5", "3.0", "Red-Gold", 1699),
-  glove("GX5", "3.0", "White-Black-Grey", 1685),
-  glove("GX5", "3.0", "White-Blue-Silver", 1685),
-  glove("GX5", "3.0", "White-Green", 1685),
-  glove("GX5", "3.0", "White-Red-Grey", 1685),
-  glove("GX5", "3.0", "White-Silver", 1675),
-  glove("GX5", "3.0", "Yellow-Blue", 1699),
-  glove("GX6", "3.0", "White-Silver", 1675),
-  glove("GX7", "3.0", "White-Black-Gold", 1699, { inStock: false }),
-  glove("GX7", "3.0", "White-Navy-Red", 1699, { inStock: false }),
-  glove("GX8", "3.0", "White-Silver", 1649),
-  glove("GX8", "4.0", "White-Black", 1599, { badge: "New" }),
-  glove("GX8", "4.0", "White-Blue", 1599, { badge: "New" }),
-  glove("GX8", "4.0", "White-Red", 1599, { badge: "New" }),
-  glove("GX8", "4.0", "White-Silver", 1599, { badge: "New" }),
+  /* --------------------- Cricket · Batting Pads --------------------- */
+  bpads("SG B-LEGG HILITE WHITE MENS", 4729, { mrp: 5299, sizes: ["Men's"], badge: "Pro" }),
+  bpads("SS BATTING LEGGUARD SS TEST OPENER MLH", 4115, { sizes: ["Men's"], hands: ["Left Hand"] }),
+  bpads("SS BATTING LEGGUARD SS TEST OPENER MRH", 4115, { sizes: ["Men's"], hands: ["Right Hand"] }),
+  bpads("MRF BATTING L/G GENIUS GRAND", 3790, { badge: "Bestseller" }),
+  bpads("SG B-LEGG TEST WHITE MENS", 3679, { sizes: ["Men's"] }),
+  bpads("SS BATTING LEGGUARD SS TEST PLAYERS MRH", 3535, { sizes: ["Men's"], hands: ["Right Hand"] }),
+  bpads("MRF BATTING L/G DRIVE", 2110),
+  bpads("SG B-LEGG LEAGUE MENS", 2089, { sizes: ["Men's"] }),
+  bpads("SG BLEGG PROFLEX YOUTH", 1999, { sizes: ["Youth"] }),
+  bpads("SS BATTING LEGGUARD SS MATCH YRH", 1910, { sizes: ["Youth"], hands: ["Right Hand"] }),
+  bpads("SS CAMBRIDGE BATTING PADS", 1875),
+  bpads("SS BATTING LEGGUARD SS MATCH BLH", 1870, { sizes: ["Boys"], hands: ["Left Hand"] }),
+  bpads("SS BATTING LEGGUARD SS MATCH BRH", 1870, { sizes: ["Boys"], hands: ["Right Hand"] }),
+  bpads("SS BATTING LEGGUARD SS CAMBRIDGE MLH", 1735, { sizes: ["Men's"], hands: ["Left Hand"] }),
+  bpads("DSC BATTING LEGGUARD CONDOR MOTION (YOUTH) RH", 1719, { sizes: ["Youth"], hands: ["Right Hand"] }),
+  bpads("DSC BATTING LEGGUARD CONDOR MOTION (BOYS) RH", 1679, { sizes: ["Boys"], hands: ["Right Hand"] }),
 
-  /* ---- Protection · Batting Leg Guards (Armour-LX series) ---- */
-  legGuard("LX Lite", "White-Black", 1679, "the lightest pad in the range for quick singles"),
-  legGuard("LX Lite", "White-Blue", 1679, "the lightest pad in the range for quick singles"),
-  legGuard("LX Lite", "White-Green", 1679, "the lightest pad in the range for quick singles"),
-  legGuard("LX Lite", "White-Red", 1679, "the lightest pad in the range for quick singles"),
-  legGuard("LX1", "White-Gold", 2999, "our tournament flagship with cane-and-foam bolsters", "Pro"),
-  legGuard("LX2", "White-Grey", 2999, "flagship-level protection in a stealth colourway"),
-  legGuard("LX3", "White-Red", 2399, "a balanced club pad with reinforced side wings"),
-  legGuard("LX4", "White-Blue", 2399, "a balanced club pad with reinforced side wings"),
-  legGuard("LX5", "White-Black", 1699, "the everyday match pad that lasts seasons"),
+  /* ----------------------- Cricket · Helmets ----------------------- */
+  helmet("SHREY CLASSIC STEEL NAVY LARGE HELMET", 2999, { sizes: ["Large"], colors: ["Navy"], badge: "Pro" }),
+  helmet("DSC CRICKET HELMET DEFENDER S", 1559, { sizes: ["Small"] }),
+  helmet("SHREY MATCH 2.0 STEEL NAVY LARGE HELMET", 1499, { sizes: ["Large"], colors: ["Navy"], badge: "Bestseller" }),
+  helmet("SHREY MATCH 2.0 STEEL NAVY SMALL HELMET", 1499, { sizes: ["Small"], colors: ["Navy"] }),
+  helmet("SS HELMET 0152 / HELMET ROYAL SMALL", 1450, { sizes: ["Small"] }),
+  helmet("SHREY STAR STEEL NAVY LARGE HELMET", 1249, { sizes: ["Large"], colors: ["Navy"] }),
+  helmet("SHREY STAR STEEL NAVY MEDIUM HELMET", 1249, { sizes: ["Medium"], colors: ["Navy"] }),
+  helmet("SHREY STAR STEEL NAVY SMALL HELMET", 1249, { sizes: ["Small"], colors: ["Navy"] }),
+  helmet("SHREY STAR NAVY JUNIOR HELMET", 1149, { sizes: ["Junior"], colors: ["Navy"] }),
+  helmet("DSC CRICKET HELMET BOUNCER XS", 1129, { sizes: ["Junior"] }),
 
-  /* ---- Protection · Helmets ---- */
-  P({
-    name: "Armour-HXA1 Cricket Helmet (Green)",
-    category: "helmets",
-    price: 1099,
-    colors: ["Green"],
-    sizes: PAD_SIZES,
-    tagline: "Adjustable club helmet · steel grille",
-    description:
-      "The Armour-HXA1 in green — an adjustable club helmet with a powder-coated steel grille and impact-absorbing shell liner.",
-    features: ["Powder-coated steel grille", "Adjustable fit", "Vented ABS shell", "Small Boys to Large"],
-  }),
-  P({
-    name: "Armour-HXA1 Cricket Helmet (Navy)",
-    category: "helmets",
-    price: 1099,
-    colors: ["Navy"],
-    sizes: PAD_SIZES,
-    accent: "#27436e",
-    tagline: "Adjustable club helmet · steel grille",
-    description:
-      "The Armour-HXA1 in navy — an adjustable club helmet with a powder-coated steel grille and impact-absorbing shell liner.",
-    features: ["Powder-coated steel grille", "Adjustable fit", "Vented ABS shell", "Small Boys to Large"],
-  }),
-  P({
-    name: "Armour-HXF1 Cricket Helmet (Navy)",
-    category: "helmets",
-    price: 1849,
-    colors: ["Navy"],
-    sizes: PAD_SIZES,
-    accent: "#27436e",
-    badge: "Bestseller",
-    tagline: "Fixed-grille match helmet",
-    description:
-      "The Armour-HXF1 — our fixed-grille match helmet with a high-impact shell and moisture-wicking liner for long days at the crease.",
-    features: ["Fixed steel grille", "High-impact shell", "Moisture-wicking liner", "Small Boys to Large"],
-  }),
-  P({
-    name: "Armour-HXS1 Cricket Helmet (Navy)",
-    category: "helmets",
-    price: 799,
-    colors: ["Navy"],
-    sizes: PAD_SIZES,
-    accent: "#27436e",
-    tagline: "Entry club helmet · honest protection",
-    description:
-      "The Armour-HXS1 — entry-level protection that still takes the knocks. Ideal for academies and school squads.",
-    features: ["Steel grille", "Vented shell", "Great academy value", "Small Boys to Large"],
-  }),
-  P({
-    name: "DSC Defender Cricket Helmet",
-    category: "helmets",
-    brand: "DSC",
-    price: 7890,
-    colors: ["Navy", "Black", "Green"],
-    sizes: PAD_SIZES,
-    badge: "Pro",
-    tagline: "Pro-tier third-party helmet",
-    description:
-      "The DSC Defender — a premium third-party helmet we stock for players who want top-shelf head protection.",
-    features: ["Premium impact shell", "Pro-level grille", "Multiple colours", "Boys to Large"],
-  }),
-  P({
-    name: "DSC Guard Cricket Helmet",
-    category: "helmets",
-    brand: "DSC",
-    price: 8890,
-    colors: ["Navy", "Black", "Grey"],
-    sizes: PAD_SIZES,
-    tagline: "Premium protection · DSC",
-    description:
-      "The DSC Guard — heavyweight protection from DSC with a reinforced grille and plush internal padding.",
-    features: ["Reinforced grille", "Plush inner padding", "Multiple colours", "Boys to Large"],
-  }),
-  P({
-    name: "DSC Scud Cricket Helmet",
-    category: "helmets",
-    brand: "DSC",
-    price: 8900,
-    colors: ["Navy", "Blue", "Black"],
-    sizes: PAD_SIZES,
-    tagline: "Top-line DSC match helmet",
-    description:
-      "The DSC Scud — DSC's top-line match helmet, built for serious cricket at every level.",
-    features: ["Top-line impact rating", "Ventilated shell", "Multiple colours", "Boys to Large"],
-  }),
+  /* --------------------- Cricket · Wicket keeping --------------------- */
+  wkg("SG TEST WICKET KEEPING GLOVES", 3999, { mrp: 4599, sizes: ["Men's"], badge: "Pro" }),
+  wkg("SS PLAYERS WICKET KEEPING GLOVES", 3250, { sizes: ["Men's"] }),
+  wkg("SG CLUB WICKET KEEPING GLOVES", 1899),
+  wkg("SS ACADEMY WICKET KEEPING GLOVES YOUTH", 1450, { sizes: ["Youth"] }),
+  wkg("SG COTTON WK INNER GLOVES", 349, { hands: undefined }),
+  wkp("SG TEST WICKET KEEPING LEG GUARD MENS", 3299, { sizes: ["Men's"] }),
+  wkp("SS MATCH WICKET KEEPING PADS", 2450),
+  wkp("SG CLUB WICKET KEEPING LEG GUARD YOUTH", 1699, { sizes: ["Youth"] }),
 
-  /* ---- Protection · Other ---- */
-  P({
-    name: "Armour-AX1 Arm Guard (White-Gold)",
-    category: "other-protection",
-    price: 399,
-    colors: ["White-Gold"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    hands: ["Ambidextrous"],
-    tagline: "Forearm shield · high-density foam",
-    description:
-      "The Armour-AX1 arm guard — high-density foam over the forearm with an elasticated wrap that stays put.",
-    features: ["High-density foam shield", "Elastic strap wrap", "Ambidextrous", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-CX1 Chest Guard (White-Gold)",
-    category: "other-protection",
-    price: 699,
-    colors: ["White-Gold"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    hands: ["Ambidextrous"],
-    tagline: "Moulded chest protection",
-    description:
-      "The Armour-CX1 chest guard — contoured, moulded protection that sits flush under the shirt without restricting the pull shot.",
-    features: ["Contoured moulded shell", "Breathable backing", "Ambidextrous", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-TX1 Thigh Pad (White-Gold)",
-    category: "other-protection",
-    price: 1199,
-    colors: ["White-Gold"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    hands: ["Ambidextrous"],
-    tagline: "Combo thigh protection",
-    description:
-      "The Armour-TX1 thigh pad — full-coverage foam sections that flex with your stride and shrug off the short ball.",
-    features: ["Full-coverage foam", "Flexes with the stride", "Ambidextrous", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-TX2 Thigh Pad (Navy-Gold)",
-    category: "other-protection",
-    price: 999,
-    colors: ["Navy-Gold"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    hands: ["Ambidextrous"],
-    accent: "#27436e",
-    tagline: "Club thigh pad · navy trim",
-    description:
-      "The Armour-TX2 thigh pad — club-grade protection with a navy trim, lighter than the TX1 for players who value speed.",
-    features: ["Lightweight foam core", "Secure twin straps", "Ambidextrous", "Boys to Large"],
-  }),
+  /* --------------------- Cricket · Guards & Protection --------------------- */
+  guard("SHREY CHEST GUARD PRO", 1599, { badge: "New" }),
+  guard("SG THIGH PAD COMBO MENS", 1299, { sizes: ["Men's"] }),
+  guard("SS ARM GUARD PLAYERS", 1150),
+  guard("NECK GUARD", 799, { brand: "Shrey" }),
+  guard("SG ABDOMINAL GUARD MENS", 449, { sizes: ["Men's"] }),
+  guard("SG ABDOMINAL GUARD BOYS", 349, { sizes: ["Boys"] }),
 
-  /* ---- Wicket Keeping · Gloves ---- */
-  P({
-    name: "Armour-GK1 Wicket Keeping Gloves (Grey-Black)",
-    category: "wk-gloves",
-    price: 1749,
-    colors: ["Grey-Black"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#5b6472",
-    badge: "Bestseller",
-    tagline: "Flagship keeping glove · tacky web",
-    description:
-      "The Armour-GK1 — our flagship keeping glove with a super-tacky catching web and pre-curved finger stalls that swallow edges.",
-    features: ["Tacky catching web", "Pre-curved stalls", "Reinforced palm", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-GK2 Wicket Keeping Gloves (White-Blue)",
-    category: "wk-gloves",
-    price: 1699,
-    colors: ["White-Blue"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#2f6fb0",
-    tagline: "Club keeping glove · white-blue",
-    description:
-      "The Armour-GK2 in white-blue — a dependable club keeping glove with a padded palm and towelling cuff.",
-    features: ["Padded catching palm", "Towelling cuff", "Flexible stalls", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-GK2 Wicket Keeping Gloves (White-Red)",
-    category: "wk-gloves",
-    price: 1699,
-    colors: ["White-Red"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#b92b22",
-    tagline: "Club keeping glove · white-red",
-    description:
-      "The Armour-GK2 in white-red — a dependable club keeping glove with a padded palm and towelling cuff.",
-    features: ["Padded catching palm", "Towelling cuff", "Flexible stalls", "Boys to Large"],
-  }),
-  P({
-    name: "Tourney Wicket Keeping Gloves",
-    category: "wk-gloves",
-    price: 4500,
-    colors: ["White", "Black", "Blue", "Grey", "Orange", "Red"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    badge: "Pro",
-    tagline: "Tournament-grade keeping glove",
-    description:
-      "Our tournament-grade keeping glove for serious stumpers — premium leather palm, deep pocket and six colourways.",
-    features: ["Premium leather palm", "Deep catching pocket", "Six colourways", "Boys to Large"],
-  }),
+  /* ---------------------- Cricket · Kit Bags ---------------------- */
+  ckit("ONEUP TEAM KIT BAG", 4990, { mrp: 5990, badge: "Bestseller" }),
+  ckit("ONEUP DUFFLE KIT BAG LIMITED EDITION", 4250, { badge: "New" }),
+  ckit("KIT BAG SG MAXIPAK", 3189),
+  ckit("SS KIT BAG - PLAYERS DUFFLE WITH 6 BAT SLEEVES", 2850),
+  ckit("SS BAGS 0004 / KIT BAG - MATRIX", 2585),
+  ckit("KIT BAG SG RP JR. DUFFLE", 1999),
+  ckit("ONEUP WHEELIE KIT BAG", 1850, { badge: "Sale" }),
+  ckit("SS BAGS 0027 / KIT BAG - ELITE PRO", 1770),
+  ckit("KIT BAG SG COMFIPAK", 1539),
+  ckit("ONE UP JUNIOR BAG", 1260),
+  ckit("SS BAGS 0011 / KIT BAG - RANGER", 1140),
+  ckit("KIT BAG / NEW GOAL S", 250),
+  ckit("KIT BAG / NEW GOAL", 245),
 
-  /* ---- Wicket Keeping · Leg Guards ---- */
-  P({
-    name: "Armour-LK1 Wicket Keeping Leg Guard (White-Grey)",
-    category: "wk-leg-guards",
-    price: 1749,
-    colors: ["White-Grey"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    tagline: "Flagship keeping pad · low cut",
-    description:
-      "The Armour-LK1 — a low-cut keeping pad shaped for crouching long sessions, with reinforced knee blocks.",
-    features: ["Low-cut keeping shape", "Reinforced knee block", "Twin straps", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-LK2 Wicket Keeping Leg Guard (White-Blue)",
-    category: "wk-leg-guards",
-    price: 1699,
-    colors: ["White-Blue"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#2f6fb0",
-    tagline: "Club keeping pad · white-blue",
-    description:
-      "The Armour-LK2 in white-blue — agile club keeping pads that never slow your dive down leg.",
-    features: ["Agile low profile", "Foam bolsters", "Twin straps", "Boys to Large"],
-  }),
-  P({
-    name: "Armour-LK2 Wicket Keeping Leg Guard (White-Red)",
-    category: "wk-leg-guards",
-    price: 1699,
-    colors: ["White-Red"],
-    sizes: ["Boys", "Youth", "Medium", "Large"],
-    accent: "#b92b22",
-    tagline: "Club keeping pad · white-red",
-    description:
-      "The Armour-LK2 in white-red — agile club keeping pads that never slow your dive down leg.",
-    features: ["Agile low profile", "Foam bolsters", "Twin straps", "Boys to Large"],
-  }),
+  /* ----------------------- Cricket · Apparel ----------------------- */
+  apparel("SHREY INTENSE LONG TIGHTS", 1299),
+  apparel("SHREY INTENSE COMPRESSION LONG SLEEVES TOP", 1199, { badge: "Bestseller" }),
+  apparel("SHREY INTENSE COMPRESSION L/S TOP", 1199),
+  apparel("SHREY INTENSE SHORTS", 1099),
+  apparel("SHREY INTENSE COMPRESSION SHORTS S", 1099, { sizes: ["S"] }),
+  apparel("SS SKINS - TOP MEDIUM", 1010, { sizes: ["M"] }),
+  apparel("SS SKINS - TOP SMALL", 1010, { sizes: ["S"] }),
+  apparel("SS SKINS - TOP XL", 1010, { sizes: ["XL"] }),
+  apparel("SS SKINS - TOP XXL", 1010, { sizes: ["XXL"] }),
+  apparel("SHREY INTENSE COMPRESSION SLEEVELESS TOP", 899),
+  apparel("SHREY CRICKET PREMIUM SHIRT L/S OFFWHITE 2XL", 899, { sizes: ["XXL"], colors: ["Off White"] }),
+  apparel("SPORTIFF WHITE TROUSER", 825, { colors: ["White"] }),
+  apparel("SHREY CRICKET MATCH COLOURED TROUSERS S", 799, { sizes: ["S"] }),
+  apparel("SS SPW0228 / COMBO - MAGNUM SIZE 34", 790, { sizes: ["S"] }),
+  apparel("SS COMBO - MAGNUM SIZE 30", 790, { sizes: ["XS"] }),
+  apparel("SS SPW0366 / COMBO - MAGNUM SIZE 28", 790, { sizes: ["XS"] }),
 
-  /* ---- Full Kit Bags · Boys ---- */
-  P({
-    name: "Junior Pro Boys Kit Bag",
-    category: "boys-kit",
-    art: "bag",
-    price: 1999,
-    mrp: 2499,
-    colors: ["Green / Gold", "Blue / Black"],
-    sizes: ["One Size"],
-    accent: "#184530",
-    tagline: "Boys kit bag · holds 1 bat + kit",
-    description:
-      "The Junior Pro — a right-sized kit bag for young cricketers. Padded shoulder straps, a ventilated boot pocket and room for a bat, pads and gloves.",
-    features: ["Boys sizing", "Holds 1 bat + kit", "Ventilated boot pocket", "Padded straps"],
-  }),
-  P({
-    name: "Academy Boys Kit Bag",
-    category: "boys-kit",
-    art: "bag",
-    price: 1699,
-    colors: ["Green / Gold", "Red / Navy"],
-    sizes: ["One Size"],
-    accent: "#256e49",
-    tagline: "Boys kit bag · compact 40L",
-    description:
-      "A compact 40L academy bag for training days — light to carry, easy to pack and tough enough for the school run.",
-    features: ["Boys sizing", "Compact 40L", "Separate shoe pocket", "Water-resistant base"],
-  }),
+  /* ------------------ Cricket · Caps, stumps, bat care ------------------ */
+  cap("SG CRICKET MATCH CAP NAVY", 499, { colors: ["Navy"] }),
+  cap("SS SUN HAT WIDE BRIM WHITE", 649, { colors: ["White"] }),
+  cap("ONEUP TEAM CAP", 399, { colors: ["Navy", "Red", "White"] }),
+  stumps("SG WOODEN STUMP SET WITH BAILS", 1899, { badge: "Bestseller" }),
+  stumps("SS SPRING BACK STUMP SET", 3499),
+  stumps("ONEUP PRACTICE STUMP SET PLASTIC", 649),
+  batcare("SG CRICKET BAT GRIP OCTOPUS", 149, { colors: ["Assorted"] }),
+  batcare("SS COIL BAT GRIP", 199, { colors: ["Multicolour"] }),
+  batcare("ANTI SCUFF SHEET FACE PROTECTION TAPE", 125, { brand: "Oneup Sports" }),
+  batcare("FIBRE TOE GUARD KIT", 245, { brand: "Oneup Sports" }),
+  batcare("SG WOODEN BAT MALLET", 899, { art: "bat" }),
+  batcare("GRIP CONE APPLICATOR", 99, { brand: "Oneup Sports" }),
+  batcare("SG BAT OIL LINSEED 100ML", 299),
 
-  /* ---- Full Kit Bags · Youth ---- */
-  P({
-    name: "Voyager Youth Kit Bag",
-    category: "youth-kit",
-    art: "bag",
-    price: 2999,
-    mrp: 3799,
-    colors: ["Green / Gold", "Black / Grey"],
-    sizes: ["One Size"],
-    accent: "#184530",
-    badge: "Bestseller",
-    tagline: "Youth wheelie · holds 2 bats + kit",
-    description:
-      "The Voyager — a youth wheelie with a cavernous main compartment, ventilated boot pocket and rugged inline wheels that survive the roughest ground.",
-    features: ["Youth sizing", "Holds 2 bats + full kit", "Reinforced inline wheels", "Ventilated boot pocket"],
-  }),
-  P({
-    name: "Trailblazer Youth Kit Bag",
-    category: "youth-kit",
-    art: "bag",
-    price: 2499,
-    mrp: 2999,
-    colors: ["Navy / Red", "Green / Gold"],
-    sizes: ["One Size"],
-    accent: "#256e49",
-    tagline: "Youth wheelie · 60L",
-    description:
-      "A 60L youth wheelie that carries the whole match-day kit with room to spare, on smooth-rolling wheels.",
-    features: ["Youth sizing", "60L wheelie", "Smooth inline wheels", "Padded pull handle"],
-  }),
+  /* --------------------- Badminton · Racquets --------------------- */
+  racquet("YONEX AX 99 PRO", 20590, { mrp: 22500, badge: "Pro" }),
+  racquet("YONEX ARC 11 PRO", 20590, { badge: "Pro" }),
+  racquet("LINING TURBO Z DRIVE AYPR190-4", 7990),
+  racquet("LINING TURBO Z COMBACT AYPR184-4", 7990),
+  racquet("LINING TURBO Z BOOST AYPR180-4", 7990),
+  racquet("LI-NING WIND STORM 79", 6990, { badge: "Bestseller" }),
+  racquet("YONEX ASTROX 3 DG", 5590),
+  racquet("YONEX AX 99 PLAY", 5390),
+  racquet("YONEX ARC7 PLAY", 5190),
+  racquet("YONEX ASTROX 0.7 DG", 4990),
+  racquet("YONEX MP 33 LIGHT", 4590),
+  racquet("LI-NING CHALLENGER 15", 4390),
+  racquet("LINING ARMOUR 373 AYPP474-5", 4390),
+  racquet("LINING ARMOUR 353 AYPP444-5", 4390),
+  racquet("YONEX ASTROX 99 PLAY", 4390, { badge: "Bestseller" }),
 
-  /* ---- Full Kit Bags · Adult ---- */
-  P({
-    name: "Titan Adult Kit Bag",
-    category: "adult-kit",
-    art: "bag",
-    price: 4499,
-    mrp: 5499,
-    colors: ["Green / Gold", "Black / Grey"],
-    sizes: ["One Size"],
-    accent: "#3a3f4a",
-    badge: "Pro",
-    tagline: "Adult wheelie · holds 3 bats + full kit",
-    description:
-      "The Titan — our biggest wheelie. Three-bat capacity, a ventilated boot pocket and a padded accessory compartment, all on heavy-duty inline wheels.",
-    features: ["Adult sizing", "Holds 3 bats + full kit", "Heavy-duty inline wheels", "Padded accessory pocket"],
-  }),
-  P({
-    name: "Matchday Adult Kit Bag",
-    category: "adult-kit",
-    art: "bag",
-    price: 3499,
-    mrp: 3999,
-    colors: ["Green / Gold", "Navy / Red"],
-    sizes: ["One Size"],
-    accent: "#256e49",
-    tagline: "Adult wheelie · 90L",
-    description:
-      "A 90L adult wheelie built for the weekly commute to the ground — tough zips, a separate shoe pocket and a water-resistant base.",
-    features: ["Adult sizing", "90L capacity", "Separate shoe pocket", "Water-resistant base"],
-  }),
+  /* -------------------- Badminton · Shuttlecocks -------------------- */
+  shuttle("FZ FORZA S 5000 (SPEED 77)", 2499, { sizes: ["Speed 77"], badge: "Pro" }),
+  shuttle("FZ FORZA S 5000 (SPEED 76)", 2499, { sizes: ["Speed 76"] }),
+  shuttle("FORZA S 2500 (SPEED 77)", 1599, { sizes: ["Speed 77"] }),
+  shuttle("SHUTTLE COCK CHAMP SPEED 76 AYQF062-3", 1590, { brand: "Li-Ning", sizes: ["Speed 76"] }),
+  shuttle("SHUTTLE COCK BOLT-GOLD (6 IN 1 SLOW AYQQ074-1)", 1399, { brand: "Li-Ning", sizes: ["Slow"] }),
+  shuttle("LINING BOLT-GOLD YELLOW AYQQ072-1", 1399),
+  shuttle("FORZA NS 10 NYLON SHUTTLE (SPEED 3)", 999, { sizes: ["Speed 3"] }),
+  shuttle("LINING SWIFT X100-Y-S+", 869),
+  shuttle("LINING SWIFT X100-YEL/SLOW", 869),
+  shuttle("LINING BOLT-NEO (6 IN 1) AYQQ0041-1", 799),
+  shuttle("KAMATCHI NYLON COCK 333", 400, { badge: "Bestseller" }),
+  shuttle("KAMATCHI NYLON COCK 222", 325),
+  shuttle("HEAD SHUTTLECOCK 505 GREEN PCS", 140),
 
-  /* ---- IPL Kit Bags · all 10 team colours (fan / supporter bags) ---- */
-  ...IPL_TEAMS.map(iplBag),
+  /* ------------------ Badminton · Grips & kit bags ------------------ */
+  bgrip("REPL. GRIP GP16 (60 IN 1) YELLOW/MEDIUM AXJM001-T", 12600, { brand: "Yonex", sizes: ["60 in 1"] }),
+  bgrip("LINING STRING NO-7 BOOST BLACK STORM AXJN022-3", 750),
+  bgrip("REPLACEMENT GRIP 19 3 IN 1 ASSORTED AXJP048-T2", 690, { brand: "Yonex", sizes: ["3 in 1"] }),
+  bgrip("REPLACEMENT GRIP 18 3 IN 1 BLACK AXJP048-T31", 690, { brand: "Yonex", sizes: ["3 in 1"] }),
+  bgrip("REPLACEMENT GRIP 19 3 IN 1 ASSORTED AXJP028-T32", 690, { brand: "Yonex", sizes: ["3 in 1"] }),
+  bgrip("REPLACEMENT GRIP 19 3 IN 1 BLACK AXJP028-T31", 690, { brand: "Yonex", sizes: ["3 in 1"] }),
+  bgrip("GRIP GP25 (6 IN 1) AXJP038-T62", 599, { brand: "Yonex", sizes: ["6 in 1"] }),
+  bbag("HEAD BADMINTON K/B INFERNO 70", 1990),
+  bbag("HEAD BADMINTON K/B INFERNO 70+", 1990),
+  bbag("HEAD BADMINTON K/B XENON 300", 1590, { badge: "Bestseller" }),
 
-  /* ---- Accessories ---- */
-  P({
-    name: "Bat Mallet Hammer",
-    category: "accessories",
-    price: 1890,
-    inStock: false,
-    tagline: "Hardwood knocking-in mallet",
-    description:
-      "A hardwood mallet for knocking in new willow — weighted head, comfortable grip and the tool every new bat deserves.",
-    features: ["Weighted hardwood head", "Comfort grip handle", "Knock-in essential", "Lifetime tool"],
-  }),
-  P({
-    name: "Cricket Bat Grip Cone",
-    category: "accessories",
-    price: 1900,
-    mrp: 2000,
-    tagline: "Fit grips in seconds",
-    description:
-      "The grip cone every kit room needs — roll a fresh rubber grip onto any handle in seconds without tearing it.",
-    features: ["Steel cone build", "Fits all grips", "Kit-room essential", "Saves torn grips"],
-  }),
-  P({
-    name: "Cricket Bat Tapes",
-    category: "accessories",
-    price: 199,
-    tagline: "Protective face & edge tape",
-    description:
-      "Protective fibre tape for faces and edges — extends bat life through hard seasons and rough practice decks.",
-    features: ["Tough fibre weave", "Easy to apply", "Face & edge protection", "One roll"],
-  }),
-  P({
-    name: "DSC Beamer Cricket Shoes",
-    category: "accessories",
-    brand: "DSC",
-    price: 13211,
-    sizes: ["UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
-    colors: ["White-Blue"],
-    accent: "#2f6fb0",
-    tagline: "All-rounder cricket shoes",
-    description:
-      "The DSC Beamer — cushioned all-rounder shoes with rubber studs for turf and hard grounds alike.",
-    features: ["Cushioned midsole", "Rubber stud outsole", "Breathable upper", "UK 7–11"],
-  }),
-  P({
-    name: "DSC Hawk 2.0 with Velcro",
-    category: "accessories",
-    brand: "DSC",
-    price: 14565,
-    sizes: ["UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
-    colors: ["White-Red"],
-    accent: "#b92b22",
-    tagline: "Velcro-lock bowling shoes",
-    description:
-      "The DSC Hawk 2.0 — bowling shoes with a velcro lock-down strap for a planted front foot at the crease.",
-    features: ["Velcro lock-down strap", "Reinforced toe box", "High-impact heel", "UK 7–11"],
-  }),
-  P({
-    name: "DSC Zooter Cricket Shoe",
-    category: "accessories",
-    brand: "DSC",
-    price: 12345,
-    sizes: ["UK 7", "UK 8", "UK 9", "UK 10", "UK 11"],
-    colors: ["White-Green"],
-    accent: "#256e49",
-    tagline: "Lightweight batting shoes",
-    description:
-      "The DSC Zooter — lightweight batting shoes built for quick singles, with a grippy sole and snug lockdown fit.",
-    features: ["Lightweight build", "Grippy outsole", "Snug lockdown fit", "UK 7–11"],
-  }),
-  P({
-    name: "Face Protection Tape",
-    category: "accessories",
-    price: 125,
-    tagline: "Clear anti-scuff facing",
-    description:
-      "Clear anti-scuff tape that guards the bat face against cracking without deadening the ping.",
-    features: ["Crystal-clear finish", "Anti-scuff protection", "Doesn't deaden ping", "One sheet"],
-  }),
-  P({
-    name: "S4C Coil Cricket Bat Grip (Multicolour)",
-    category: "accessories",
-    brand: "S4C",
-    price: 1150,
-    colors: ["Multicolour"],
-    tagline: "Coil-pattern replacement grip",
-    description:
-      "The S4C coil grip in multicolour — extra cushion and a distinctive coil texture for bats that get noticed.",
-    features: ["Coil tack pattern", "Shock-absorbing rubber", "Fits all handles", "Multicolour"],
-  }),
-  P({
-    name: "Toe Guard",
-    category: "accessories",
-    price: 2345,
-    tagline: "Fitted toe protection",
-    description:
-      "A fitted toe guard kit that shields the most vulnerable inch of your bat from yorkers and damp decks.",
-    features: ["Tough composite shield", "Fitted application", "Yorker & moisture protection", "Kit for one bat"],
-  }),
+  /* ------------------------- Football ------------------------- */
+  fball("SPARTAN FOOT BALL TRAINER", 780, { badge: "Bestseller" }),
+  fball("NIVIA STORM FOOTBALL SIZE 5", 949, { sizes: ["Size 5"] }),
+  fball("VECTOR X ROCKET FOOTBALL SIZE 4", 699, { sizes: ["Size 4"] }),
+  fball("SPARTAN FOOTBALL SIZE 3 JUNIOR", 549, { sizes: ["Size 3"] }),
+  gk("NIVIA GK GLOVES ARMOUR", 1299),
+  gk("VECTOR X GK GLOVES PRO GRIP", 899),
 
-  /* ---- Bundles ---- */
-  P({
-    name: "Club Team Kit Bundle – Junior",
-    category: "bundles",
-    price: 12345,
-    sizes: ["Junior"],
-    tagline: "Full junior squad starter kit",
-    description:
-      "Everything a junior squad needs in one box — bats, pads, gloves, helmet and a kit bag, matched and sized for juniors.",
-    features: ["Complete junior kit", "Matched protection set", "Kit bag included", "Team pricing"],
-  }),
-  P({
-    name: "Cricket Team Kit Bundle",
-    category: "bundles",
-    price: 2599,
-    badge: "Bestseller",
-    tagline: "Starter bundle · unbeatable value",
-    description:
-      "Our most popular starter bundle — the essentials to get a new cricketer match-ready without breaking the bank.",
-    features: ["Starter essentials", "Great first kit", "Gift-ready", "Best value"],
-  }),
-  P({
-    name: "Senior Pack Cricket Bundle",
-    category: "bundles",
-    price: 14543,
-    sizes: ["Senior"],
-    tagline: "Full senior match-day pack",
-    description:
-      "The full senior pack — match-grade bat, pads, gloves, helmet and luggage, curated so every piece works together.",
-    features: ["Match-grade selection", "Complete protection", "Luggage included", "Senior sizing"],
-  }),
+  /* ----------------------- Basketball ----------------------- */
+  bball("SPARTAN BASKETBALL PRO SIZE 7", 1199, { sizes: ["Size 7"], badge: "Bestseller" }),
+  bball("NIVIA ENGRAVE BASKETBALL SIZE 7", 999, { sizes: ["Size 7"] }),
+  bball("VECTOR X BASKETBALL SIZE 6", 799, { sizes: ["Size 6"] }),
+  bball("SPARTAN BASKETBALL JUNIOR SIZE 5", 649, { sizes: ["Size 5"] }),
 
-  /* ---- Clothing ---- */
-  P({
-    name: "Cricket Cap",
-    category: "clothing",
-    price: 1123,
-    colors: ["Blue", "White", "Yellow"],
-    sizes: ["Boys", "Small", "Medium", "Large", "X Large"],
-    tagline: "Classic on-field cap",
-    description:
-      "A classic six-panel cricket cap in team colours — breathable cotton with an adjustable strap.",
-    features: ["Six-panel cotton", "Adjustable strap", "Three colours", "Boys to X Large"],
-  }),
-  P({
-    name: "Cricket Pants",
-    category: "clothing",
-    price: 10211,
-    colors: ["White", "Blue"],
-    sizes: ["Boys", "Small", "Medium", "Large", "X Large"],
-    tagline: "Pro-fit match trousers",
-    description:
-      "Pro-fit cricket pants with a stretch waistband and crease-resistant weave that stays sharp through the last over.",
-    features: ["Stretch waistband", "Crease-resistant weave", "Reinforced knees", "Boys to X Large"],
-  }),
-  P({
-    name: "Cricket T-shirt",
-    category: "clothing",
-    price: 8999,
-    colors: ["Blue", "White", "Yellow"],
-    sizes: ["Boys", "Small", "Medium", "Large", "X Large"],
-    tagline: "Dri-fit training tee",
-    description:
-      "A moisture-wicking training tee with raglan sleeves for a full swing — ready for names and numbers.",
-    features: ["Moisture-wicking knit", "Raglan stretch sleeves", "Print-ready", "Boys to X Large"],
-  }),
+  /* ----------------------- Volleyball ----------------------- */
+  vball("SPARTAN VOLLEYBALL PREMIER", 720, { badge: "Bestseller" }),
+  vball("NIVIA COURT VOLLEYBALL", 899),
+  vball("VECTOR X SOFT TOUCH VOLLEYBALL", 649),
+
+  /* ---------------------- Table Tennis ---------------------- */
+  tttable("HERCULES TABLE TENNIS TABLE TOP SPIN", 28125, { mrp: 32500, badge: "Pro" }),
+  ttbat("GKI TT BAT EURO STAR", 1936),
+  ttbat("STAG OFFICIAL BAT", 1050),
+  ttbat("STAG 5 STAR BAT", 900, { badge: "Bestseller" }),
+  ttbat("GKI TT BAT DRAGON", 895),
+  ttbat("GKI TT BAT BEL BOT", 860),
+  ttbat("STAG 4 STAR BAT", 650),
+  ttbat("GKI TT BAT 4 STAR", 580),
+  ttball("STAG 3 STAR SUPREME BALLS PCS", 450),
+  ttball("SEAM TT BALLS", 186, { brand: "Oneup Sports" }),
+  ttball("GKI TT BALL SUPERB 3 STAR ABS 40+ WHITE", 78, { colors: ["White"] }),
+  ttball("GKI TT BALL KUNG FU 1 STAR ABS 40+ ORANGE", 31, { colors: ["Orange"] }),
+  ttball("GKI TT BALL KUNG FU 1 STAR ABS 40+ WHITE", 31, { colors: ["White"] }),
+
+  /* -------------------------- Shoes -------------------------- */
+  bshoe("FZ FORZA FIERCE V2M", 7999, { mrp: 8999, badge: "Pro" }),
+  bshoe("FZ FORZA TARAMI BADMINTON SHOES (BLUE)", 6999, { colors: ["Blue"] }),
+  bshoe("ASICS UPCOURT 4", 4499, { badge: "Bestseller" }),
+  bshoe("ULTRA FLY UK-8 AYTRO60-7", 3990, { brand: "Li-Ning", sizes: ["UK 8"] }),
+  bshoe("ULTRA FLY UK-11 AYTRO60-5", 3990, { brand: "Li-Ning", sizes: ["UK 11"] }),
+  bshoe("ULTRA FLY UK-4 AYTRO60-5", 3990, { brand: "Li-Ning", sizes: ["UK 5"] }),
+  bshoe("ULTRA FLY UK-9 AYTRO60-4", 3990, { brand: "Li-Ning", sizes: ["UK 9"] }),
+  cshoe("ADIDAS CRI RISE V2 PU WHITE 8 UK EY3748", 4599, { sizes: ["UK 8"], colors: ["White"] }),
+  cshoe("ADIDAS CRI RISE V2 PU WHITE 7 UK EY3748", 4599, { sizes: ["UK 7"], colors: ["White"] }),
+  cshoe("CRI RISE V2 PU EY 3748", 4599, { brand: "Adidas", badge: "Bestseller" }),
+  cshoe("ASICS GEL CONTEND", 4499),
+  cshoe("ASICS GEL-LETHAL FIELD", 4499, { badge: "Pro" }),
+  cshoe("ADIDAS CRI HASE PU EX 3686", 3999),
+  fshoe("NIVIA DOMINATOR FOOTBALL STUDS", 2299),
+  fshoe("VECTOR X ARMOUR TURF SHOES", 1499),
+  bkshoe("NIVIA COMBAT BASKETBALL SHOES", 2799),
+  rshoe("ASICS JOGGER RUNNING SHOES", 3499),
+  rshoe("NIVIA MARATHON RUNNING SHOES", 1899, { badge: "Sale" }),
+  vshoe("NIVIA VOLLEYBALL COURT SHOES", 2199),
+
+  /* ------------------------- Fitness ------------------------- */
+  gym("MEDICINE BALL 4KG", 1849, { brand: "Oneup Sports", sizes: ["4 kg"], art: "ball" }),
+  yoga("YOGA MATT PE TPE 2TONE PREMIUM", 1699, { brand: "Airavat", badge: "Bestseller" }),
+  gym("VINYL DUMBBELL 5KG PAIR", 1600, { brand: "Oneup Sports", sizes: ["5 kg pair"] }),
+  yoga("YOGA MATT PER MID SIZE", 1599, { brand: "Airavat" }),
+  gym("VINYL DUMBBELL 4KG PAIR", 1280, { brand: "Oneup Sports", sizes: ["4 kg pair"] }),
+  gym("MEDICINE BALL 2KG", 1099, { brand: "Oneup Sports", sizes: ["2 kg"], art: "ball" }),
+  support("NIVIA ORTHOPEDIC WAIST SUPPORT ADJUSTABLE MB-6-S", 970, { sizes: ["S"] }),
+  gym("VINYL DUMBBELL 3KG PAIR", 960, { brand: "Oneup Sports", sizes: ["3 kg pair"] }),
+  yoga("AIRAVAT MID SIZE YOGA MATT 6MM PE", 949),
+  gym("EXERCISE TUBE LEVEL-4", 899, { brand: "Oneup Sports", sizes: ["Level 4"], art: "grip" }),
+  gym("GYM BALL 55", 850, { brand: "Oneup Sports", sizes: ["55 cm"], art: "ball" }),
+  gym("EXERCISE TUBE LEVEL-3", 749, { brand: "Oneup Sports", sizes: ["Level 3"], art: "grip" }),
+  support("NIVIA ORTHOPEDIC WAIST SUPPORT ADJUSTABLE MB-6-L", 710, { sizes: ["L"] }),
+  gym("EXERCISE TUBE LEVEL-2", 699, { brand: "Oneup Sports", sizes: ["Level 2"], art: "grip" }),
+  gym("EXERCISE TUBE LEVEL-1", 649, { brand: "Oneup Sports", sizes: ["Level 1"], art: "grip" }),
+  support("NIVIA ORTHOPEDIC KNEE SUPPORT WITH PATELLA HOLE MB-09-L", 625, { sizes: ["L"] }),
+
+  /* ---------------------- Leisure Sports ---------------------- */
+  carrom("CARROM BOARD MATT HI SPEED (4X2 16MM)", 8875, { mrp: 9999, sizes: ["4 x 2 ft · 16 mm"], badge: "Pro" }),
+  carrom("CARROM BOARD MATT HI SPEED (3X2 16MM)", 6938, { sizes: ["3 x 2 ft · 16 mm"], badge: "Bestseller" }),
+  carrom("CARROM BOARD MATT HI SPEED (3X2 12MM)", 6463, { sizes: ["3 x 2 ft · 12 mm"] }),
+  carrom("CARROM STAND", 1650),
+  carrom("CARROM COIN LEGACY WOODEN", 399),
+  carrom("CARROM STRIKER", 285),
+  carrom("CARROM COIN POINTER WOODEN", 240),
+  carrom("CARROM STRIKER BALL", 195),
+  carrom("SSS CARROM POWDER", 25, { brand: "Oneup Sports" }),
+  chess("WOODEN CHESS SMALL-954", 899, { brand: "Oneup Sports" }),
+  chess("MAGNETIC TRAVEL CHESS SET", 549, { brand: "Oneup Sports" }),
+  dart("MAGNETIC DART PIN-906", 160, { brand: "Oneup Sports" }),
+  dart("STEEL TIP DART BOARD 17 INCH", 1299, { brand: "Oneup Sports" }),
+
+  /* -------------------------- Swimming -------------------------- */
+  swim("MENS JAMMER HYDRA", 899, { brand: "Vector X", badge: "Bestseller" }),
+  swim("MENS SKIN VTD 024", 849, { brand: "Vector X" }),
+  swim("ADULTS COMPRESSION FULL BOTTOM COMBAT 002 B", 779, { brand: "Vector X" }),
+  swim("KIDS SKIN VTDK 024", 749, { brand: "Vector X", sizes: ["Kids S", "Kids M", "Kids L"] }),
+  swim("MENS TRUNKS VST 011", 619, { brand: "Vector X" }),
+  swim("MENS TRUNK VST 007", 619, { brand: "Vector X" }),
+  swim("MENS BRIEFS VST 006", 619, { brand: "Vector X" }),
+  swim("MENS TRUNK VST 004", 619, { brand: "Vector X" }),
+  swim("KIDS JAMMER VSJK 006", 599, { brand: "Vector X", sizes: ["Kids S", "Kids M", "Kids L"] }),
+  swim("KIDS JAMMER VSJK 005", 599, { brand: "Vector X", sizes: ["Kids S", "Kids M", "Kids L"] }),
+  swim("KIDS JAMMER VSJK 004", 599, { brand: "Vector X", sizes: ["Kids S", "Kids M", "Kids L"] }),
+  swimacc("ANTI FOG SWIMMING GOGGLES SENIOR", 549, { brand: "Vector X" }),
+  swimacc("SILICONE SWIMMING CAP", 249, { brand: "Vector X", colors: ["Black", "Blue", "Red"], art: "cap" }),
+  swimacc("NOSE CLIP AND EAR PLUG SET", 149, { brand: "Oneup Sports" }),
+
+  /* --------------------------- Skating --------------------------- */
+  skate("FIBRE SKATE BOARD-S", 1699, { brand: "Oneup Sports", badge: "Bestseller" }),
+  skate("QUAD ROLLER SKATES ADJUSTABLE JUNIOR", 2299, { brand: "Oneup Sports", sizes: ["Small (UK 11–1)", "Medium (UK 1–4)", "Large (UK 4–7)"] }),
+  skate("INLINE SKATES SENIOR", 2899, { brand: "Oneup Sports", sizes: ["Medium (UK 1–4)", "Large (UK 4–7)"] }),
+  skate("SKATING PROTECTIVE GEAR SET", 899, { brand: "Oneup Sports", art: "pads" }),
+
+  /* ------------------- Throw ball & Tennikoit ------------------- */
+  throwball("SPARTAN THROW BALL PREMIER", 799, { badge: "Bestseller" }),
+  throwball("NIVIA THROW BALL MATCH", 949),
+  throwball("THROW BALL NET NYLON", 1299, { brand: "Oneup Sports", art: "misc" }),
+  tennikoit("RUBBER TENNIKOIT RING STANDARD", 249, { brand: "Oneup Sports" }),
+  tennikoit("RUBBER TENNIKOIT RING HEAVY", 349, { brand: "Oneup Sports" }),
+  tennikoit("TENNIKOIT NET NYLON", 1099, { brand: "Oneup Sports", art: "misc" }),
+
+  /* ------------------------- Accessories ------------------------- */
+  bacc("LINING TURBO Z BOOST AYPR180-4 (SPARE)", 7990),
+  facc("VIXEN FOOT PUMP MTR", 1300, { art: "misc" }),
+  facc("NIVIA AIR PUMP CJ-K61P", 599, { badge: "Bestseller" }),
+  facc("NIVIA SHIN GUARD ARMOUR", 449),
+  facc("FLAT RING SET", 710, { brand: "Oneup Sports" }),
+  facc("TRAINING CONE SET OF 20", 549, { brand: "Oneup Sports" }),
+  bottle("LINING WATER BOTTLE - BLUE", 799, { colors: ["Blue"] }),
+  bottle("ONEUP SIPPER BOTTLE 750ML", 349, { sizes: ["750 ml"] }),
+  cacc("SG CRICKET SCOREBOOK", 299, { art: "misc" }),
+  cacc("BOUNDARY MARKER DISC SET OF 30", 899, { brand: "Oneup Sports" }),
+  sock("EM PACK OF 3 SOCKS WHITE", 379, { brand: "EM", colors: ["White"], sizes: ["Free Size"] }),
+  sock("EM CRICKET SOCKS ANKLE", 249, { brand: "EM", colors: ["White"] }),
+  sock("ONEUP CREW SPORTS SOCKS PACK OF 2", 299),
 ];
 
 /* ------------------------------------------------------------------ */

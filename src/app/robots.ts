@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/cart", "/checkout", "/wishlist"],
     },
-    sitemap: "https://wood-sword.vercel.app/sitemap.xml",
+    sitemap: "https://oneup-sports.vercel.app/sitemap.xml",
   };
 }

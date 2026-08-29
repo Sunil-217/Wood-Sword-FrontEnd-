@@ -17,7 +17,7 @@ export function ThemeToggle() {
     const theme = next ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     try {
-      localStorage.setItem("mmsports-theme", theme);
+      localStorage.setItem("oneup-theme", theme);
     } catch {
       /* ignore */
     }

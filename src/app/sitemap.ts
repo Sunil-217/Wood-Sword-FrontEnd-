@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { groups, products } from "@/lib/catalog";
 
-const BASE = "https://wood-sword.vercel.app";
+const BASE = "https://oneup-sports.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = ["", "/shop", "/cart", "/wishlist", "/checkout"].map((path) => ({

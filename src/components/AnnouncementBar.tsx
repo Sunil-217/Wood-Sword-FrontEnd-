@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 
 const promos = [
-  "Free shipping on all India orders above ₹2000",
-  "Pro-grade gear, factory-direct from Meerut",
-  "Knocking-in service available on all English willow bats",
-  "Easy 7-day returns · WhatsApp support 7 days a week",
+  "Free shipping on all India orders above ₹2000 · worldwide shipping available",
+  "One stop shop for all your sporting requirements — Chromepet, Chennai",
+  "Free knocking-in service on every English willow bat",
+  "Open MON–SUN, 11:00 AM – 09:00 PM · WhatsApp +91 80561 26269",
 ];
 
 const ROTATE_MS = 4500;
@@ -32,7 +32,7 @@ export function AnnouncementBar() {
 
   return (
     <div
-      className="border-b border-gold-500/15 bg-[#0b1524] text-brand-50"
+      className="border-b border-gold-500/15 bg-brand-950 text-brand-50"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
