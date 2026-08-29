@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 const props = [
   {
     title: "Free shipping",
-    body: "On every India order above ₹2000.",
+    body: "India orders above ₹2000 · worldwide too.",
     // ball with speed lines — express delivery
     icon: (
       <>
@@ -14,8 +14,8 @@ const props = [
     ),
   },
   {
-    title: "Pro-grade quality",
-    body: "Hand-crafted, ping-tested gear.",
+    title: "Genuine brands",
+    body: "Yonex, SG, SS, Shrey, Adidas & more.",
     // bat with a star of approval
     icon: (
       <>
@@ -32,7 +32,7 @@ const props = [
   },
   {
     title: "Real support",
-    body: "WhatsApp help, 7 days a week.",
+    body: "WhatsApp help, open all 7 days.",
     // chat bubble with seam stitches
     icon: (
       <>

@@ -8,9 +8,9 @@ export function CategoryTiles() {
   return (
     <Container className="py-16 sm:py-20">
       <SectionHeading
-        eyebrow="Shop by category"
-        title="Everything for the crease"
-        subtitle="From willow to wicket-keeping — pick your kit."
+        eyebrow="Shop by sport"
+        title="Fourteen sports, one store"
+        subtitle="From willow to wicket-keeping, racquets to running shoes."
         href="/shop"
         linkLabel="Browse all"
       />

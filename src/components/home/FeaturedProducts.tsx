@@ -23,7 +23,7 @@ export function FeaturedProducts() {
       <SectionHeading
         eyebrow="Fan favourites"
         title="Best-selling gear"
-        subtitle="The kit our cricketers reach for most."
+        subtitle="The kit our players reach for most, across every sport."
         href="/shop"
         linkLabel="View all"
       />

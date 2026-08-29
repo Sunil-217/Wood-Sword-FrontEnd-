@@ -17,7 +17,7 @@ import {
  */
 const ADMIN_EMAIL = "dhoniacademy@gmail.com";
 const ADMIN_PASSWORD = "Mm@Sports@2026";
-const STORAGE_KEY = "mmsports-auth-v1";
+const STORAGE_KEY = "oneup-auth-v1";
 
 export interface AuthUser {
   email: string;

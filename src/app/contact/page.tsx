@@ -6,20 +6,20 @@ import { Container } from "@/components/ui/Container";
 const CONTACTS = [
   {
     title: "WhatsApp",
-    value: "+91 98765 43210",
-    sub: "7 days a week, 9am–9pm",
+    value: "+91 80561 26269",
+    sub: "MON–SUN, 11:00 AM – 09:00 PM",
     icon: <path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.6-3.2A8 8 0 0 1 4 12z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" fill="none" />,
   },
   {
     title: "Email",
-    value: "hello@mmsports.example",
+    value: "support@oneupsports.in",
     sub: "We reply within a day",
     icon: <><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.7" /><path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.7" /></>,
   },
   {
-    title: "Workshop",
-    value: "Sports Complex Rd, Meerut",
-    sub: "Uttar Pradesh, India",
+    title: "Store",
+    value: "No.37, Ramachandra Road, Chromepet",
+    sub: "Nehru Nagar, Chennai 600 044",
     icon: <><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" /><circle cx="12" cy="10" r="2.4" stroke="currentColor" strokeWidth="1.7" /></>,
   },
 ];
@@ -35,7 +35,8 @@ export default function ContactPage() {
         </h1>
         <div className="seam-stitch mx-auto mt-3 w-16" aria-hidden />
         <p className="mt-2 text-sm text-muted/60">
-          Questions about sizing, a custom bat, or an order? We&apos;re here to help.
+          Questions about sizing, stringing, a custom bat or an order? We&apos;re
+          here to help — call, WhatsApp or walk in.
         </p>
       </div>
 

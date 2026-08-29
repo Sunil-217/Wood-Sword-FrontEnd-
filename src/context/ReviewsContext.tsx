@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-const STORAGE_KEY = "mmsports-reviews-v1";
+const STORAGE_KEY = "oneup-reviews-v1";
 
 export interface Review {
   id: string;

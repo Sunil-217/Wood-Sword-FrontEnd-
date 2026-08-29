@@ -31,24 +31,24 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://wood-sword.vercel.app"),
+  metadataBase: new URL("https://oneup-sports.vercel.app"),
   title: {
-    default: "MM Sports Cricket — Pro-grade cricket equipment",
-    template: "%s · MM Sports Cricket",
+    default: "Oneup Sports — One stop shop for all your sporting requirements",
+    template: "%s · Oneup Sports",
   },
   description:
-    "Shop pro-grade cricket bats, batting gloves, pads, helmets and more. Hand-crafted quality, factory-direct pricing, free shipping across India above ₹2000.",
+    "Chennai's exclusive sports store. Cricket, badminton, football, table tennis, fitness, swimming, skating and leisure gear from Yonex, SG, SS, Shrey, Li-Ning, Adidas and more — worldwide shipping available.",
   openGraph: {
-    title: "MM Sports Cricket — Pro-grade cricket equipment",
+    title: "Oneup Sports — One stop shop for all your sporting requirements",
     description:
-      "Pro-grade cricket bats, gloves, pads and helmets. Hand-crafted in Meerut, shipped factory-direct across India.",
+      "Exclusive sports store in Chromepet, Chennai. Cricket, badminton, football, table tennis, fitness and leisure gear — worldwide shipping available.",
     type: "website",
-    siteName: "MM Sports Cricket",
+    siteName: "Oneup Sports",
   },
 };
 
 export const viewport = {
-  themeColor: "#0b1524",
+  themeColor: "#26070c",
 };
 
 export default function RootLayout({
@@ -64,7 +64,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-page text-ink">
         <Script id="theme-init" strategy="beforeInteractive">
-          {`try{var t=localStorage.getItem('mmsports-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}else if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}`}
+          {`try{var t=localStorage.getItem('oneup-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}else if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}`}
         </Script>
         <AuthProvider>
           <CatalogProvider>

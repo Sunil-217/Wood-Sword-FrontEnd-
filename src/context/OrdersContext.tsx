@@ -10,7 +10,7 @@ import {
 } from "react";
 import type { CartLine } from "@/lib/types";
 
-const STORAGE_KEY = "mmsports-orders-v1";
+const STORAGE_KEY = "oneup-orders-v1";
 
 export type OrderStatus = "Pending" | "Packed" | "Shipped" | "Delivered";
 export const ORDER_STATUSES: OrderStatus[] = ["Pending", "Packed", "Shipped", "Delivered"];

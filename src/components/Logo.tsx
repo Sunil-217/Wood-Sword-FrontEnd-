@@ -1,9 +1,8 @@
 import Link from "next/link";
 
 /**
- * MM Sports shield crest — navy shield, white field, bold red "M"
- * and a red star. `tone="light"` swaps the shield body to a light
- * chip for dark backgrounds (footer).
+ * Oneup Sports mark — a crimson shield with a scarlet "one-up" arrow rising
+ * out of a gold arc. `tone="light"` keeps the field white on dark backgrounds.
  */
 export function ShieldMark({
   className = "",
@@ -12,16 +11,17 @@ export function ShieldMark({
   className?: string;
   tone?: "dark" | "light";
 }) {
-  const navy = "#16263f";
-  const red = "#c11f2f";
+  const shell = "#3e0d14";
+  const red = "#e0342a";
+  const gold = "#f0c14e";
   const field = tone === "dark" ? "#ffffff" : "#ffffff";
 
   return (
-    <svg viewBox="0 0 120 132" className={className} role="img" aria-label="MM Sports">
+    <svg viewBox="0 0 120 132" className={className} role="img" aria-label="Oneup Sports">
       {/* outer shield */}
       <path
         d="M60 4 L114 24 L114 70 C114 101 91 120 60 130 C29 120 6 101 6 70 L6 24 Z"
-        fill={navy}
+        fill={shell}
       />
       {/* white field */}
       <path
@@ -32,27 +32,30 @@ export function ShieldMark({
       <path
         d="M60 22 L99 36 L99 67 C99 89 82 103 60 111 C38 103 21 89 21 67 L21 36 Z"
         fill="none"
-        stroke={navy}
+        stroke={shell}
         strokeWidth="2.4"
         opacity="0.35"
       />
-      {/* red star */}
+      {/* gold speed arc under the mark */}
       <path
-        d="M60 30 l4.9 10 11 1.6 -8 7.8 1.9 10.9 -9.8 -5.2 -9.8 5.2 1.9 -10.9 -8 -7.8 11 -1.6 z"
-        fill={red}
-      />
-      {/* navy backing M */}
-      <path
-        d="M31 108 L31 54 L60 88 L89 54 L89 108"
+        d="M34 96 q26 16 52 0"
         fill="none"
-        stroke={navy}
-        strokeWidth="13"
+        stroke={gold}
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+      {/* navy backing for the arrow */}
+      <path
+        d="M34 66 L60 38 L86 66 M60 42 V88"
+        fill="none"
+        stroke={shell}
+        strokeWidth="19"
         strokeLinejoin="round"
         strokeLinecap="round"
       />
-      {/* red M */}
+      {/* red "one up" arrow */}
       <path
-        d="M42 104 L42 62 L60 84 L78 62 L78 104"
+        d="M34 66 L60 38 L86 66 M60 42 V88"
         fill="none"
         stroke={red}
         strokeWidth="12"
@@ -75,11 +78,11 @@ export function Logo({
       href="/"
       onClick={onNavigate}
       className={`group inline-flex items-center gap-2.5 ${className}`}
-      aria-label="MM Sports home"
+      aria-label="Oneup Sports home"
     >
       <ShieldMark className="h-9 w-auto drop-shadow-sm" />
       <span className="font-display text-lg font-extrabold tracking-tight text-ink">
-        MM<span className="text-ball-600"> SPORTS</span>
+        ONEUP<span className="text-ball-600"> SPORTS</span>
       </span>
     </Link>
   );

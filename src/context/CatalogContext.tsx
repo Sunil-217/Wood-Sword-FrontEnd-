@@ -11,7 +11,7 @@ import {
 import { categoryMap, products as baseProducts } from "@/lib/catalog";
 import type { Badge, CategorySlug, Product } from "@/lib/types";
 
-const STORAGE_KEY = "mmsports-catalog-v1";
+const STORAGE_KEY = "oneup-catalog-v1";
 
 /** Admin-editable fields layered over a base product. */
 export type Override = Partial<
@@ -115,7 +115,7 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
       id,
       slug: id,
       name: input.name,
-      brand: "MM Sports",
+      brand: "Oneup Sports",
       category: input.category,
       art: cat.art,
       price: input.price,

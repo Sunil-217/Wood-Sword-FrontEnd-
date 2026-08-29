@@ -6,26 +6,26 @@ import { SectionHeading } from "./SectionHeading";
 const quotes = [
   {
     name: "Arjun Nair",
-    role: "Club opener · Kochi",
+    role: "Club opener · Chromepet",
     number: 7,
     rating: 5,
-    text: "The Vanguard Pro pings like bats twice its price. Knocked-in on arrival — I scored 74 with it the first weekend.",
+    text: "Picked up the SG Reliant Xtreme after twenty minutes of them letting me pick up half the rack. Knocked in free, and I scored 74 with it the first weekend.",
     accent: "#c8901c",
   },
   {
-    name: "Sameer Kulkarni",
-    role: "Wicket-keeper · Pune",
+    name: "Divya Raghavan",
+    role: "District badminton · Tambaram",
     number: 23,
     rating: 5,
-    text: "Catchmaster gloves swallowed everything behind the stumps all season. The web is stupidly tacky in the best way.",
-    accent: "#a3521c",
+    text: "Strung my Astrox at the tension I asked for, same evening. They keep Forza feathers in stock when nobody else in the area does.",
+    accent: "#0f766e",
   },
   {
     name: "Rehan Shaikh",
-    role: "U-19 coach · Mumbai",
+    role: "U-19 coach · Pallavaram",
     number: 11,
     rating: 4.5,
-    text: "Kitted out my whole academy squad — honest gear, quick WhatsApp support, and the youth sizes actually fit properly.",
+    text: "Kitted out my whole academy squad — bats, pads, shoes and socks in one trip. Honest pricing and the youth sizes actually fit properly.",
     accent: "#256e49",
   },
 ];
@@ -36,8 +36,8 @@ export function Testimonials() {
       <Reveal>
         <SectionHeading
           eyebrow="From the dressing room"
-          title="Cricketers rate us 4.8/5"
-          subtitle="Real reviews from players across India."
+          title="Players rate us 4.8/5"
+          subtitle="Real reviews from athletes across Chennai and beyond."
         />
       </Reveal>
 
@@ -49,7 +49,7 @@ export function Testimonials() {
               <figcaption
                 className="relative flex items-center gap-3 px-5 py-4 text-white"
                 style={{
-                  background: `linear-gradient(120deg, color-mix(in srgb, ${q.accent} 55%, #0b1524) 0%, #0b1524 100%)`,
+                  background: `linear-gradient(120deg, color-mix(in srgb, ${q.accent} 55%, #26070c) 0%, #26070c 100%)`,
                 }}
               >
                 <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-30" />

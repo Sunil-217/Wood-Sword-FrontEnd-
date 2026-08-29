@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-const STORAGE_KEY = "mmsports-wishlist-v1";
+const STORAGE_KEY = "oneup-wishlist-v1";
 
 interface WishlistApi {
   slugs: string[];

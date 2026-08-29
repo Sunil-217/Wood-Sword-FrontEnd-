@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  MM SPORTS — Design System v2                                        */
-/*  Cricket theme · production motion system                           */
+/*  ONEUP SPORTS — Design System v2                                        */
+/*  Crimson theme · production motion system                           */
 /* ------------------------------------------------------------------ */
 
 @theme {
@@ -11,18 +11,18 @@
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
 
-  /* Brand — crest navy */
-  --color-brand-50: #eef2f8;
-  --color-brand-100: #d9e2ef;
-  --color-brand-200: #b6c7de;
-  --color-brand-300: #8aa3c4;
-  --color-brand-400: #5a78a3;
-  --color-brand-500: #3a5885;
-  --color-brand-600: #2b4269;
-  --color-brand-700: #223454;
-  --color-brand-800: #1a2a43;
-  --color-brand-900: #142236;
-  --color-brand-950: #0b1524;
+  /* Brand — crest crimson */
+  --color-brand-50: #fdf2f3;
+  --color-brand-100: #fadfe1;
+  --color-brand-200: #f3bcc0;
+  --color-brand-300: #e78d95;
+  --color-brand-400: #d55c67;
+  --color-brand-500: #bc3140;
+  --color-brand-600: #9e2130;
+  --color-brand-700: #7d1926;
+  --color-brand-800: #5a121b;
+  --color-brand-900: #3e0d14;
+  --color-brand-950: #26070c;
 
   /* Gold — trophy accent */
   --color-gold-300: #f6d488;
@@ -31,25 +31,25 @@
   --color-gold-600: #c8901c;
   --color-gold-700: #a37014;
 
-  /* Crest red (sale / alerts / M) */
-  --color-ball-400: #e0574f;
-  --color-ball-500: #c9202f;
-  --color-ball-600: #a81a28;
+  /* Scarlet (sale / alerts / badges) — brighter than the brand ramp */
+  --color-ball-400: #ff8375;
+  --color-ball-500: #f03a2e;
+  --color-ball-600: #d0271d;
 
   /* Warm neutrals */
-  --color-sand-50: #faf9f6;
-  --color-sand-100: #f4f2ec;
-  --color-sand-200: #e8e4d9;
+  --color-sand-50: #fbf8f6;
+  --color-sand-100: #f4efec;
+  --color-sand-200: #e8dfd9;
 
   /* Semantic, theme-aware surface tokens (light values;
      overridden under [data-theme="dark"]) */
-  --color-ink: #0b1524;      /* primary text */
-  --color-muted: #142236;    /* secondary text (used with opacity) */
+  --color-ink: #26070c;      /* primary text */
+  --color-muted: #3e0d14;    /* secondary text (used with opacity) */
   --color-surface: #ffffff;  /* cards, panels, header */
-  --color-page: #faf9f6;     /* body background */
-  --color-subtle: #eef2f8;   /* subtle fills / hovers */
-  --color-line: #142236;     /* borders (used with opacity) */
-  --color-accent: #2b4269;   /* eyebrows / inline links */
+  --color-page: #fbf8f6;     /* body background */
+  --color-subtle: #fdf2f3;   /* subtle fills / hovers */
+  --color-line: #3e0d14;     /* borders (used with opacity) */
+  --color-accent: #9e2130;   /* eyebrows / inline links */
 
   /* Motion — spring-calibrated curves */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,21 +59,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0e1a2b;
+  --foreground: #2a0a10;
 }
 
-/* Dark theme — flips the semantic tokens; brand navy, gold and red
-   accents stay as-is so the identity is consistent across modes. */
+/* Dark theme — flips the semantic tokens; brand crimson, gold and
+   scarlet accents stay as-is so the identity is consistent across modes. */
 :root[data-theme="dark"] {
-  --background: #0a1526;
-  --foreground: #e8eef5;
-  --color-ink: #e8eef5;
-  --color-muted: #b3c2d6;
-  --color-surface: #12233c;
-  --color-page: #0a1526;
-  --color-subtle: #1c3252;
-  --color-line: #d2ddec;
-  --color-accent: #8fb0e0;
+  --background: #1a0509;
+  --foreground: #f7e8ea;
+  --color-ink: #f7e8ea;
+  --color-muted: #dab5ba;
+  --color-surface: #2c0a11;
+  --color-page: #1a0509;
+  --color-subtle: #43111a;
+  --color-line: #eccfd3;
+  --color-accent: #f2949d;
 }
 
 :root[data-theme="dark"] body {
@@ -380,10 +380,10 @@ h2 {
 /* Night-stadium backdrop for the hero */
 .stadium {
   background:
-    radial-gradient(120% 90% at 85% -10%, rgba(240, 193, 78, 0.14) 0%, transparent 55%),
-    radial-gradient(110% 80% at 8% -14%, rgba(201, 32, 47, 0.12) 0%, transparent 50%),
-    radial-gradient(140% 120% at 50% 120%, rgba(58, 88, 133, 0.32) 0%, transparent 60%),
-    linear-gradient(178deg, #060c16 0%, var(--color-brand-950) 45%, #12233c 100%);
+    radial-gradient(120% 90% at 85% -10%, rgba(240, 193, 78, 0.09) 0%, transparent 55%),
+    radial-gradient(110% 80% at 8% -14%, rgba(240, 58, 46, 0.22) 0%, transparent 50%),
+    radial-gradient(140% 120% at 50% 120%, rgba(188, 49, 64, 0.4) 0%, transparent 60%),
+    linear-gradient(178deg, #150407 0%, var(--color-brand-950) 45%, #4a1018 100%);
 }
 
 /* ------------------------------------------------------------------ */
@@ -417,8 +417,8 @@ h2 {
 .scoreboard {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-    #0b1524;
-  border: 1px solid rgba(240, 193, 78, 0.22);
+    #150407;
+  border: 1px solid rgba(240, 193, 78, 0.34);
   box-shadow:
     inset 0 0 24px rgba(0, 0, 0, 0.55),
     0 12px 32px rgba(0, 0, 0, 0.35);

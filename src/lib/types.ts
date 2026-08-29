@@ -1,32 +1,79 @@
-/** Top-level menu groups (mirror the reference store's structure). */
+/** Top-level menu groups — one per sport / department. */
 export type GroupSlug =
-  | "bats"
-  | "protection"
-  | "wicket-keeping"
-  | "full-kit-bags"
-  | "ipl-kit-bags"
-  | "accessories"
-  | "bundles"
-  | "clothing";
+  | "cricket"
+  | "badminton"
+  | "football"
+  | "basketball"
+  | "volleyball"
+  | "table-tennis"
+  | "shoes"
+  | "fitness"
+  | "leisure"
+  | "swimming"
+  | "skating"
+  | "throwball"
+  | "tennikoit"
+  | "accessories";
 
 /** Leaf categories products belong to. */
 export type CategorySlug =
-  | "english-willow-bats"
-  | "kashmir-willow-bats"
-  | "fine-wood-willow-bats"
+  // Cricket
+  | "cricket-bats"
+  | "cricket-balls"
   | "batting-gloves"
-  | "leg-guards"
-  | "helmets"
-  | "other-protection"
+  | "batting-pads"
+  | "cricket-helmets"
   | "wk-gloves"
-  | "wk-leg-guards"
-  | "boys-kit"
-  | "youth-kit"
-  | "adult-kit"
-  | "ipl-kit-bags"
-  | "accessories"
-  | "bundles"
-  | "clothing";
+  | "wk-pads"
+  | "cricket-guards"
+  | "cricket-kit-bags"
+  | "cricket-apparel"
+  | "cricket-caps"
+  | "cricket-stumps"
+  | "bat-care"
+  // Badminton
+  | "badminton-racquets"
+  | "shuttlecocks"
+  | "badminton-grips"
+  | "badminton-kit-bags"
+  // Football
+  | "football-balls"
+  | "gk-gloves"
+  // Basketball / Volleyball
+  | "basketball-balls"
+  | "volleyball-balls"
+  // Table tennis
+  | "tt-bats"
+  | "tt-balls"
+  | "tt-tables"
+  // Shoes
+  | "cricket-shoes"
+  | "badminton-shoes"
+  | "football-shoes"
+  | "basketball-shoes"
+  | "running-shoes"
+  | "volleyball-shoes"
+  // Fitness
+  | "yoga"
+  | "gym-training"
+  | "sports-support"
+  // Leisure
+  | "carrom"
+  | "chess"
+  | "darts"
+  // Swimming
+  | "swimwear"
+  | "swim-accessories"
+  // Singles
+  | "skating"
+  | "throwball"
+  | "tennikoit"
+  // Accessories
+  | "cricket-accessories"
+  | "badminton-accessories"
+  | "football-accessories"
+  | "socks"
+  | "water-bottles";
 
 /** Which SVG illustration to render for a product / category. */
 export type ArtKind =
@@ -38,6 +85,25 @@ export type ArtKind =
   | "keeping"
   | "bag"
   | "jersey"
+  | "racquet"
+  | "shuttle"
+  | "football"
+  | "basketball"
+  | "volleyball"
+  | "tt-bat"
+  | "tt-table"
+  | "shoe"
+  | "skate"
+  | "swim"
+  | "yoga"
+  | "dumbbell"
+  | "carrom"
+  | "chess"
+  | "dart"
+  | "grip"
+  | "socks"
+  | "cap"
+  | "bottle"
   | "misc";
 
 export type Badge = "New" | "Bestseller" | "Sale" | "Pro";

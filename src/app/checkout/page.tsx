@@ -46,7 +46,7 @@ export default function CheckoutPage() {
           </div>
           <h1 className="mt-5 font-display text-2xl font-bold text-ink">Order confirmed!</h1>
           <p className="mt-2 text-sm text-muted/60">
-            Thanks for shopping with MM Sports. Your order number is{" "}
+            Thanks for shopping with Oneup Sports. Your order number is{" "}
             <span className="font-semibold text-ink">{placed}</span>.
           </p>
           <p className="mt-1 text-xs text-muted/45">
