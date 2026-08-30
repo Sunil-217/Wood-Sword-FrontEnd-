@@ -128,7 +128,7 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
       badge: input.badge,
       tagline: input.tagline || "Newly added by admin",
       description: input.tagline || "Product added from the admin dashboard.",
-      features: ["Added via admin", "Demo product"],
+      features: ["New in store", "Quality checked before dispatch"],
       inStock: input.inStock,
       image: input.image,
     };

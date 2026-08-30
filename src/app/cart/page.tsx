@@ -249,7 +249,7 @@ export default function CartPage() {
               Checkout · {inr(total)}
             </Link>
             <p className="mt-3 text-center text-[11px] text-muted/45">
-              Demo storefront — no payment is taken.
+              Free shipping on orders over ₹2,000 · easy 7-day returns.
             </p>
 
             <div className="mt-5 flex items-center justify-center gap-2 text-xs text-muted/50">
