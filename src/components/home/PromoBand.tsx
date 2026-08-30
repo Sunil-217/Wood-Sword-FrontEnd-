@@ -8,6 +8,7 @@ export function PromoBand() {
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Custom bats */}
         <div className="relative overflow-hidden rounded-3xl bg-brand-900 p-8 text-white sm:p-10">
+          <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-30" />
           <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-56 rounded-full bg-gold-500/20 blur-2xl" />
           <div className="relative max-w-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-gold-400">
@@ -22,7 +23,7 @@ export function PromoBand() {
             </p>
             <Link
               href="/shop?category=cricket-bats"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-ink press transition-colors"
+              className="press btn-shine mt-6 inline-flex items-center gap-2 rounded-full bg-gold-500 px-5 py-2.5 text-sm font-semibold text-ink transition-colors"
             >
               Start your build
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
@@ -51,7 +52,7 @@ export function PromoBand() {
             </p>
             <Link
               href="/shop?group=badminton"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white press transition-colors"
+              className="press btn-shine mt-6 inline-flex items-center gap-2 rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors"
             >
               Shop badminton
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none">

@@ -34,6 +34,7 @@ export function CategoryTiles() {
                 <ProductArt art={g.art} accent={g.accent} label={g.name} className="h-full w-full" />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/20 to-transparent" />
+              <span className="sheen" aria-hidden />
               <div className="relative">
                 <h3 className="font-display text-lg font-bold text-white drop-shadow-sm">
                   {g.name}

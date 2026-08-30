@@ -389,6 +389,108 @@ h2 {
 /*  Cricket identity details                                           */
 /* ------------------------------------------------------------------ */
 
+/* Speed dash — three skewed sprint bars, red → orange */
+.speed-dash {
+  display: flex;
+  gap: 5px;
+  height: 5px;
+}
+.speed-dash::before,
+.speed-dash::after,
+.speed-dash > i {
+  content: "";
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  transform: skewX(-24deg);
+}
+.speed-dash::before {
+  width: 34px;
+  background: var(--color-brand-500);
+}
+.speed-dash > i {
+  width: 16px;
+  background: var(--color-gold-500);
+}
+.speed-dash::after {
+  width: 7px;
+  background: var(--color-gold-400);
+}
+
+/* Infinite ticker — pair with .marquee-mask on the wrapper */
+@keyframes ws-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: ws-marquee var(--marquee-duration, 30s) linear infinite;
+  will-change: transform;
+}
+.marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+/* Drifting diagonal speed lines for dark hero surfaces */
+@keyframes ws-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 240px 0;
+  }
+}
+.speed-lines {
+  background-image: repeating-linear-gradient(
+    115deg,
+    transparent 0 44px,
+    rgba(255, 255, 255, 0.045) 44px 46px,
+    transparent 46px 120px
+  );
+  animation: ws-drift 14s linear infinite;
+}
+
+/* CTA shine — light sweep across a button on hover */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 58%
+  );
+  transform: translateX(-160%);
+  transition: transform 0.8s var(--ease-spring);
+}
+.btn-shine:hover::after {
+  transform: translateX(160%);
+}
+
+/* Slow floating tilt for hero cards */
+@keyframes ws-float-tilt {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(var(--tilt, 0deg));
+  }
+}
+.animate-float-tilt {
+  animation: ws-float-tilt 7s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Ball-seam stitch — a red stitched accent line */
 .seam-stitch {
   height: 3px;
@@ -406,10 +508,10 @@ h2 {
   border-radius: 999px;
   background: repeating-linear-gradient(
     -55deg,
-    var(--color-gold-500) 0 6px,
-    var(--color-gold-700) 6px 12px
+    var(--color-brand-500) 0 6px,
+    var(--color-gold-500) 6px 12px
   );
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
 /* Scoreboard panel — LED-board numerals on matte black-green */
@@ -445,6 +547,9 @@ h2 {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
+  .animate-float-tilt,
+  .animate-marquee,
+  .speed-lines,
   .animate-rise,
   .animate-toast-in,
   .animate-ball-bounce,
@@ -461,7 +566,8 @@ h2 {
     filter: none;
     transition: none;
   }
-  .sheen {
+  .sheen,
+  .btn-shine::after {
     display: none;
   }
   html {

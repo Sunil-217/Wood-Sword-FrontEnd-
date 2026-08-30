@@ -2,11 +2,12 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { CountUp } from "@/components/CountUp";
+import { Marquee } from "@/components/Marquee";
 
 const TILES = [
-  { art: "bat", accent: "#c8901c", label: "Cricket", href: "/shop?group=cricket" },
-  { art: "racquet", accent: "#0f766e", label: "Badminton", href: "/shop?group=badminton" },
-  { art: "shoe", accent: "#3a3f4a", label: "Shoes", href: "/shop?group=shoes" },
+  { art: "bat", accent: "#c8901c", label: "Cricket", href: "/shop?group=cricket", tilt: "-5deg", delay: "0s" },
+  { art: "racquet", accent: "#0f766e", label: "Badminton", href: "/shop?group=badminton", tilt: "4deg", delay: "1.2s" },
+  { art: "shoe", accent: "#3a3f4a", label: "Shoes", href: "/shop?group=shoes", tilt: "-3deg", delay: "2.4s" },
 ] as const;
 
 const BRANDS = [
@@ -20,15 +21,18 @@ const BRANDS = [
   "STAG",
   "MRF",
   "DSC",
+  "GN",
+  "NIVIA",
 ];
 
 export function Hero() {
   return (
     <section className="stadium relative overflow-hidden text-white">
-      {/* ambient brand glows */}
+      {/* drifting speed lines + brand glows */}
+      <div aria-hidden className="speed-lines pointer-events-none absolute inset-0" />
       <div
         aria-hidden
-        className="animate-glow pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-500/20 blur-3xl"
+        className="animate-glow pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-500/25 blur-3xl"
       />
       <div
         aria-hidden
@@ -36,7 +40,7 @@ export function Hero() {
         style={{ animationDelay: "3.5s" }}
       />
 
-      <Container className="relative z-10 grid items-center gap-10 pb-14 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-20 lg:pt-20">
+      <Container className="relative z-10 grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-24 lg:pt-20">
         {/* ---- Copy ---- */}
         <div className="text-center lg:text-left">
           <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
@@ -48,12 +52,13 @@ export function Hero() {
           </span>
 
           <h1
-            className="hero-fluid animate-rise mt-6 font-display font-extrabold tracking-tight"
+            className="hero-fluid animate-rise mt-6 font-display font-extrabold uppercase tracking-tight"
             style={{ animationDelay: "80ms" }}
           >
-            One stop shop for all your{" "}
-            <span className="bg-gradient-to-r from-gold-300 via-gold-400 to-gold-600 bg-clip-text text-transparent">
-              sporting requirements.
+            Play every game.
+            <br />
+            <span className="inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
+              Stay one up.
             </span>
           </h1>
 
@@ -61,8 +66,9 @@ export function Hero() {
             className="animate-rise mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/65 lg:mx-0"
             style={{ animationDelay: "160ms" }}
           >
-            Cricket, badminton, football, table tennis, fitness, swimming and
-            more — an exclusive sports store in Chennai, shipping worldwide.
+            One stop shop for all your sporting requirements — cricket,
+            badminton, football, table tennis, fitness, swimming and more, from
+            an exclusive sports store in Chennai. Worldwide shipping.
           </p>
 
           <div
@@ -71,10 +77,10 @@ export function Hero() {
           >
             <Link
               href="/shop"
-              className="press inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
+              className="press btn-shine inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
             >
               Shop all gear
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-0.5">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
@@ -106,11 +112,12 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ---- Category bento ---- */}
-        <div className="animate-rise hidden grid-cols-2 gap-3 md:grid" style={{ animationDelay: "200ms" }}>
+        {/* ---- Floating category cards ---- */}
+        <div className="animate-rise hidden grid-cols-2 gap-5 pt-4 md:grid" style={{ animationDelay: "200ms" }}>
           <Link
             href={TILES[0].href}
-            className="group relative row-span-2 overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-2xl shadow-black/40 transition-transform duration-300 hover:-translate-y-1"
+            className="group animate-float-tilt relative row-span-2 self-center overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
+            style={{ "--tilt": TILES[0].tilt, animationDelay: TILES[0].delay } as React.CSSProperties}
           >
             <ProductArt
               art={TILES[0].art}
@@ -118,13 +125,15 @@ export function Hero() {
               label={TILES[0].label}
               className="h-full min-h-80 w-full transition-transform duration-500 group-hover:scale-105"
             />
+            <span className="sheen" aria-hidden />
             <TileLabel>{TILES[0].label}</TileLabel>
           </Link>
           {TILES.slice(1).map((t) => (
             <Link
               key={t.label}
               href={t.href}
-              className="group relative overflow-hidden rounded-2xl ring-1 ring-white/10 shadow-2xl shadow-black/40 transition-transform duration-300 hover:-translate-y-1"
+              className="group animate-float-tilt relative overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
+              style={{ "--tilt": t.tilt, animationDelay: t.delay } as React.CSSProperties}
             >
               <ProductArt
                 art={t.art}
@@ -132,27 +141,25 @@ export function Hero() {
                 label={t.label}
                 className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
               />
+              <span className="sheen" aria-hidden />
               <TileLabel>{t.label}</TileLabel>
             </Link>
           ))}
         </div>
       </Container>
 
-      {/* ---- Brand strip ---- */}
-      <div className="relative z-10 border-t border-white/10">
-        <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 py-4 sm:gap-x-10">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/35">
-            Trusted brands
-          </span>
+      {/* ---- Brand ticker ---- */}
+      <div className="relative z-10 border-t border-white/10 py-4">
+        <Marquee duration={28}>
           {BRANDS.map((b) => (
-            <span
-              key={b}
-              className="font-display text-sm font-bold tracking-[0.14em] text-white/45"
-            >
-              {b}
+            <span key={b} className="mx-7 flex items-center gap-7 sm:mx-9 sm:gap-9">
+              <span className="font-display text-sm font-bold tracking-[0.16em] text-white/45">
+                {b}
+              </span>
+              <span aria-hidden className="inline-block h-1.5 w-1.5 rotate-45 bg-gold-500/50" />
             </span>
           ))}
-        </Container>
+        </Marquee>
       </div>
     </section>
   );

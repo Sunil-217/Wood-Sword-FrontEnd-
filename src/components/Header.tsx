@@ -441,7 +441,7 @@ function NavLink({
       {/* animated underline — stays lit on the current page */}
       <span
         aria-hidden
-        className={`absolute inset-x-3 -bottom-0.5 h-0.5 origin-left rounded-full bg-gold-500 transition-transform duration-300 [transition-timing-function:var(--ease-spring)] ${
+        className={`absolute inset-x-3 -bottom-0.5 h-[3px] origin-left -skew-x-[24deg] rounded-full bg-gradient-to-r from-brand-500 to-gold-500 transition-transform duration-300 [transition-timing-function:var(--ease-spring)] ${
           active ? "scale-x-100" : "scale-x-0 group-hover/nav:scale-x-100"
         }`}
       />

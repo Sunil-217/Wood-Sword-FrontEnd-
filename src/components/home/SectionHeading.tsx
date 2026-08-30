@@ -25,8 +25,10 @@ export function SectionHeading({
         <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl">
           {title}
         </h2>
-        {/* ball-seam stitch underline */}
-        <div className="seam-stitch mt-2.5 w-16" aria-hidden />
+        {/* sprint-bar underline */}
+        <div className="speed-dash mt-3" aria-hidden>
+          <i />
+        </div>
         {subtitle && <p className="mt-2 text-sm text-muted/55">{subtitle}</p>}
       </div>
       {href && linkLabel && (
