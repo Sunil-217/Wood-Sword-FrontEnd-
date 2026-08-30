@@ -96,11 +96,19 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Oneup Sports. Demo store — sample data.</p>
-          <p className="flex items-center gap-4">
+          <p>© {new Date().getFullYear()} Oneup Sports. All rights reserved.</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>Secure checkout</span>
             <span>·</span>
-            <span>Made for every sport</span>
+            <span>UPI</span>
+            <span>·</span>
+            <span>Visa</span>
+            <span>·</span>
+            <span>Mastercard</span>
+            <span>·</span>
+            <span>RuPay</span>
+            <span>·</span>
+            <span>Net Banking</span>
           </p>
         </div>
       </Container>

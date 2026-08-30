@@ -35,8 +35,8 @@ export function ProductArt({
   const panel: React.CSSProperties = {
     backgroundImage: `radial-gradient(120% 100% at 20% 0%,
       color-mix(in srgb, ${accent} 10%, #ffffff) 0%,
-      color-mix(in srgb, ${accent} 26%, #f4f2ec) 48%,
-      color-mix(in srgb, ${accent} 55%, #2c0a11) 100%)`,
+      color-mix(in srgb, ${accent} 22%, #f4f2ec) 48%,
+      color-mix(in srgb, ${accent} 55%, #2b2523) 100%)`,
   };
 
   return (
@@ -70,7 +70,7 @@ export function ProductArt({
           cy="294"
           rx="104"
           ry="15"
-          fill="#26070c"
+          fill="#1c1717"
           opacity="0.2"
         />
         {/* artwork fills the tile */}

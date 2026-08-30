@@ -49,7 +49,7 @@ export function Testimonials() {
               <figcaption
                 className="relative flex items-center gap-3 px-5 py-4 text-white"
                 style={{
-                  background: `linear-gradient(120deg, color-mix(in srgb, ${q.accent} 55%, #26070c) 0%, #26070c 100%)`,
+                  background: `linear-gradient(120deg, color-mix(in srgb, ${q.accent} 55%, #171112) 0%, #171112 100%)`,
                 }}
               >
                 <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-30" />

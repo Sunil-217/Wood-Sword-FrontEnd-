@@ -50,7 +50,7 @@ export default function CheckoutPage() {
             <span className="font-semibold text-ink">{placed}</span>.
           </p>
           <p className="mt-1 text-xs text-muted/45">
-            Demo storefront — no payment was taken and nothing will ship.
+            We&apos;ll WhatsApp you the tracking details once it ships.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/orders" className="press rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
@@ -168,12 +168,9 @@ export default function CheckoutPage() {
           <Section title="Payment">
             <div className="space-y-2.5">
               <Choice checked={pay === "cod"} onChange={() => setPay("cod")} title="Cash on Delivery" sub="Pay when it arrives" />
-              <Choice checked={pay === "upi"} onChange={() => setPay("upi")} title="UPI" sub="Demo — no real payment" />
-              <Choice checked={pay === "card"} onChange={() => setPay("card")} title="Card" sub="Demo — no real payment" />
+              <Choice checked={pay === "upi"} onChange={() => setPay("upi")} title="UPI" sub="Google Pay, PhonePe, Paytm" />
+              <Choice checked={pay === "card"} onChange={() => setPay("card")} title="Card" sub="Visa · Mastercard · RuPay" />
             </div>
-            <p className="mt-3 text-xs text-muted/45">
-              This is a demo store. No payment is processed and no card details are collected.
-            </p>
           </Section>
         </div>
 
