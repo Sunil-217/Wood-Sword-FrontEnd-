@@ -65,7 +65,7 @@ export default function ContactPage() {
             </div>
             <h2 className="mt-4 font-display text-xl font-bold text-ink">Message sent!</h2>
             <p className="mt-2 text-sm text-muted/60">
-              Thanks for reaching out — we&apos;ll get back to you soon. (Demo — no message is actually sent.)
+              Thanks for reaching out — we&apos;ll get back to you within a day.
             </p>
             <button
               onClick={() => setDone(false)}

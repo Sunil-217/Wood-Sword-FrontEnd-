@@ -51,7 +51,7 @@ function mixShade(hex: string, i: number): string {
   const tones = [
     hex,
     blend(hex, "#ffffff", 0.16),
-    blend(hex, "#26070c", 0.18),
+    blend(hex, "#221d1c", 0.18),
     blend(hex, "#ffffff", 0.28),
   ];
   return tones[i] ?? hex;
