@@ -11,6 +11,7 @@ import { Logo } from "./Logo";
 import { SearchBox } from "./SearchBox";
 import { AccountMenu } from "./AccountMenu";
 import { ThemeToggle } from "./ThemeToggle";
+import { ScrollProgress } from "./ScrollProgress";
 
 /** Categories shown per group in the desktop mega menu before "+N more". */
 const MEGA_LEAF_LIMIT = 6;
@@ -70,6 +71,7 @@ export function Header() {
           : "border-transparent bg-surface"
       }`}
     >
+      <ScrollProgress />
       <div className="container-page flex h-16 items-center gap-4">
         {/* Mobile hamburger */}
         <button
@@ -178,7 +180,10 @@ export function Header() {
           >
             <HeartIcon />
             {wishReady && wishCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ball-500 px-1 text-[11px] font-bold text-white">
+              <span
+                key={wishCount}
+                className="animate-pop absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ball-500 px-1 text-[11px] font-bold text-white"
+              >
                 {wishCount}
               </span>
             )}
@@ -192,7 +197,10 @@ export function Header() {
           >
             <BagIcon />
             {ready && count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-bold text-ink">
+              <span
+                key={count}
+                className="animate-pop absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-bold text-ink"
+              >
                 {count}
               </span>
             )}

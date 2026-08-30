@@ -89,6 +89,19 @@ export default async function ProductPage({
             ))}
           </div>
 
+          {/* Delivery */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 rounded-xl bg-subtle px-4 py-3 text-xs text-muted/70 sm:justify-start">
+            <span className="flex items-center gap-1.5">
+              <Dot /> Cash on Delivery available
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Dot /> Ships within 48 hours
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Dot /> GST invoice on request
+            </span>
+          </div>
+
           {/* Features */}
           <div className="mt-8 rounded-2xl border border-line/8 bg-surface p-6">
             <h2 className="font-display text-lg font-bold text-ink">Why you&apos;ll love it</h2>
@@ -124,5 +137,14 @@ export default async function ProductPage({
         </section>
       )}
     </Container>
+  );
+}
+
+function Dot() {
+  return (
+    <span
+      aria-hidden
+      className="inline-block h-1.5 w-1.5 rotate-45 bg-brand-500/70"
+    />
   );
 }

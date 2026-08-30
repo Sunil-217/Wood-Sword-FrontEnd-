@@ -7,7 +7,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductGrid } from "@/components/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
 import { SortSelect } from "@/components/shop/SortSelect";
-import { categories, categoryMap, groupMap } from "@/lib/catalog";
+import { categories, categoryMap, groupMap, groups } from "@/lib/catalog";
 import { useCatalog } from "@/context/CatalogContext";
 import {
   buildQuery,
@@ -124,8 +124,47 @@ export function ShopView() {
 
       <div className="mt-3">
         <h1 className="title-fluid font-display font-extrabold tracking-tight text-ink">{heading}</h1>
-        <div className="seam-stitch mt-3 w-16" aria-hidden />
+        <div className="speed-dash mt-3" aria-hidden>
+          <i />
+        </div>
         <p className="mt-2 text-sm text-muted/55">{blurb}</p>
+      </div>
+
+      {/* Sport rail — quick hop between departments */}
+      <div className="scrollbar-none -mx-4 mt-6 overflow-x-auto px-4">
+        <div className="flex w-max gap-2">
+          <Link
+            href="/shop"
+            className={`press whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              !group && !category
+                ? "bg-brand-500 text-white shadow-md shadow-brand-500/25"
+                : "bg-subtle text-ink ring-1 ring-line/8 hover:bg-brand-100"
+            }`}
+          >
+            All
+          </Link>
+          {groups.map((g) => {
+            const active = group === g.slug || (category && categoryMap[category].group === g.slug);
+            return (
+              <Link
+                key={g.slug}
+                href={`/shop?group=${g.slug}`}
+                className={`press flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  active
+                    ? "bg-brand-500 text-white shadow-md shadow-brand-500/25"
+                    : "bg-subtle text-ink ring-1 ring-line/8 hover:bg-brand-100"
+                }`}
+              >
+                <span
+                  aria-hidden
+                  className={`inline-block h-2 w-2 rounded-full ${active ? "bg-white/80" : ""}`}
+                  style={active ? undefined : { background: g.accent }}
+                />
+                {g.name}
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[270px_1fr]">
@@ -165,7 +204,10 @@ export function ShopView() {
           )}
 
           {list.length > 0 ? (
-            <div className="mt-6">
+            <div
+              key={`${heading}-${sort}-${price ?? ""}-${sizes.join()}-${hands.join()}-${list.length}`}
+              className="grid-stagger mt-6"
+            >
               <ProductGrid products={list} />
             </div>
           ) : (

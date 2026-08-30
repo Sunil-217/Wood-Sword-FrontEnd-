@@ -244,7 +244,7 @@ export default function CartPage() {
 
             <Link
               href="/checkout"
-              className="press mt-6 block w-full rounded-full bg-brand-900 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
+              className="press btn-shine mt-6 block w-full rounded-full bg-brand-900 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
             >
               Checkout · {inr(total)}
             </Link>

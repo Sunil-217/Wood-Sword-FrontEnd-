@@ -223,7 +223,7 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              className="press mt-6 w-full rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
+              className="press btn-shine mt-6 w-full rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
             >
               Place order · {inr(total)}
             </button>

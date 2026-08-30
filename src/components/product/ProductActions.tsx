@@ -98,7 +98,7 @@ export function ProductActions({
         <button
           onClick={handleAdd}
           disabled={!product.inStock}
-          className="press flex-1 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800 hover:shadow-brand-900/25 disabled:cursor-not-allowed disabled:bg-brand-900/40 disabled:shadow-none"
+          className="press btn-shine flex-1 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800 hover:shadow-brand-900/25 disabled:cursor-not-allowed disabled:bg-brand-900/40 disabled:shadow-none"
         >
           {product.inStock ? `Add to bag · ${inr(product.price * qty)}` : "Out of stock"}
         </button>
