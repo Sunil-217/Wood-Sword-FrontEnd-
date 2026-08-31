@@ -192,6 +192,7 @@ export function Header() {
           {/* Cart */}
           <Link
             href="/cart"
+            id="cart-icon"
             className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label="Open bag"
           >

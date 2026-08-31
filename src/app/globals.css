@@ -397,6 +397,64 @@ h2 {
 /*  Cricket identity details                                           */
 /* ------------------------------------------------------------------ */
 
+/* Fly-to-cart ball (created by src/lib/flyToCart.ts) */
+.fly-ball {
+  position: fixed;
+  z-index: 120;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle at 35% 30%, #f0605a, #e8232a 55%, #8f1610);
+  box-shadow: 0 4px 12px rgba(232, 35, 42, 0.5);
+}
+
+/* Shimmering gradient text — pair with bg-clip-text + a gradient */
+@keyframes ws-text-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.text-shimmer {
+  background-size: 200% auto;
+  animation: ws-text-shimmer 4.5s ease-in-out infinite;
+}
+
+/* Scroll-driven hero exit — progressive enhancement, no JS */
+@supports (animation-timeline: scroll()) {
+  .hero-scroll-fx {
+    animation: ws-hero-out linear both;
+    animation-timeline: scroll();
+    animation-range: 0 85vh;
+  }
+  @keyframes ws-hero-out {
+    to {
+      transform: translateY(46px) scale(0.985);
+      opacity: 0.35;
+    }
+  }
+}
+
+/* Film grain for premium dark surfaces */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Tickers pause while hovered */
+.marquee-mask:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
 /* Page entrance — template.tsx remounts this on every navigation */
 @keyframes ws-page-enter {
   from {
@@ -628,6 +686,8 @@ h2 {
   .speed-lines,
   .page-enter,
   .grid-stagger > * > *,
+  .text-shimmer,
+  .hero-scroll-fx,
   .animate-rise,
   .animate-toast-in,
   .animate-ball-bounce,

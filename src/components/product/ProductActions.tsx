@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
 import { showToast } from "@/components/Toaster";
+import { flyToCart } from "@/lib/flyToCart";
 import { inr } from "@/lib/format";
 import type { Product } from "@/lib/types";
 
@@ -41,7 +42,8 @@ export function ProductActions({
     };
   }
 
-  function handleAdd() {
+  function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
+    flyToCart(e.currentTarget);
     addLine(buildLine());
     showToast(`${product.name} added to your bag`);
     onDone?.();

@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
+import { TiltCard } from "@/components/fx/TiltCard";
 
 export function PromoBand() {
   return (
     <Container className="py-16 sm:py-20">
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Custom bats */}
-        <div className="relative overflow-hidden rounded-3xl bg-brand-900 p-8 text-white sm:p-10">
+        <TiltCard maxTilt={3}>
+        <div className="relative h-full overflow-hidden rounded-3xl bg-brand-900 p-8 text-white sm:p-10">
           <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-30" />
           <div className="pointer-events-none absolute -right-10 -top-10 h-56 w-56 rounded-full bg-gold-500/20 blur-2xl" />
           <div className="relative max-w-sm">
@@ -36,8 +38,11 @@ export function PromoBand() {
           </div>
         </div>
 
-        {/* Protection bundle */}
-        <div className="relative overflow-hidden rounded-3xl border border-line/10 bg-surface p-8 sm:p-10">
+        </TiltCard>
+
+        {/* Free stringing */}
+        <TiltCard maxTilt={3}>
+        <div className="relative h-full overflow-hidden rounded-3xl border border-line/10 bg-surface p-8 sm:p-10">
           <div className="pointer-events-none absolute -left-10 -bottom-10 h-56 w-56 rounded-full bg-brand-500/10 blur-2xl" />
           <div className="relative max-w-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-accent">
@@ -69,6 +74,7 @@ export function PromoBand() {
             </div>
           </div>
         </div>
+        </TiltCard>
       </div>
     </Container>
   );

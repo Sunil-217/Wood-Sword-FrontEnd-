@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
 import { showToast } from "@/components/Toaster";
+import { flyToCart } from "@/lib/flyToCart";
 import type { ArtKind } from "@/lib/types";
 
 export interface QuickAddProduct {
@@ -23,7 +24,8 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
   const { addLine } = useCart();
   const [added, setAdded] = useState(false);
 
-  function handleAdd() {
+  function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
+    flyToCart(e.currentTarget);
     const id = makeLineId(product.id, {
       size: product.size,
       color: product.color,

@@ -3,6 +3,9 @@ import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { CountUp } from "@/components/CountUp";
 import { Marquee } from "@/components/Marquee";
+import { TiltCard } from "@/components/fx/TiltCard";
+import { Magnetic } from "@/components/fx/Magnetic";
+import { CursorGlow } from "@/components/fx/CursorGlow";
 
 const TILES = [
   { art: "bat", accent: "#c8901c", label: "Cricket", href: "/shop?group=cricket", tilt: "-5deg", delay: "0s" },
@@ -27,7 +30,8 @@ const BRANDS = [
 
 export function Hero() {
   return (
-    <section className="stadium relative overflow-hidden text-white">
+    <section className="stadium grain relative overflow-hidden text-white">
+      <CursorGlow />
       {/* drifting speed lines + brand glows */}
       <div aria-hidden className="speed-lines pointer-events-none absolute inset-0" />
       <div
@@ -40,7 +44,7 @@ export function Hero() {
         style={{ animationDelay: "3.5s" }}
       />
 
-      <Container className="relative z-10 grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-24 lg:pt-20">
+      <Container className="hero-scroll-fx relative z-10 grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-24 lg:pt-20">
         {/* ---- Copy ---- */}
         <div className="text-center lg:text-left">
           <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 backdrop-blur">
@@ -57,7 +61,7 @@ export function Hero() {
           >
             Play every game.
             <br />
-            <span className="inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
+            <span className="text-shimmer inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
               Stay one up.
             </span>
           </h1>
@@ -75,15 +79,17 @@ export function Hero() {
             className="animate-rise mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
             style={{ animationDelay: "240ms" }}
           >
-            <Link
-              href="/shop"
-              className="press btn-shine inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
-            >
-              Shop all gear
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-0.5">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+            <Magnetic>
+              <Link
+                href="/shop"
+                className="press btn-shine inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
+              >
+                Shop all gear
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-0.5">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </Magnetic>
             <Link
               href="/shop?group=cricket"
               className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
@@ -114,36 +120,46 @@ export function Hero() {
 
         {/* ---- Floating category cards ---- */}
         <div className="animate-rise hidden grid-cols-2 gap-5 pt-4 md:grid" style={{ animationDelay: "200ms" }}>
-          <Link
-            href={TILES[0].href}
-            className="group animate-float-tilt relative row-span-2 self-center overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
+          <TiltCard
+            className="animate-float-tilt row-span-2 self-center"
+            maxTilt={8}
             style={{ "--tilt": TILES[0].tilt, animationDelay: TILES[0].delay } as React.CSSProperties}
           >
-            <ProductArt
-              art={TILES[0].art}
-              accent={TILES[0].accent}
-              label={TILES[0].label}
-              className="h-full min-h-80 w-full transition-transform duration-500 group-hover:scale-105"
-            />
-            <span className="sheen" aria-hidden />
-            <TileLabel>{TILES[0].label}</TileLabel>
-          </Link>
-          {TILES.slice(1).map((t) => (
             <Link
-              key={t.label}
-              href={t.href}
-              className="group animate-float-tilt relative overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
-              style={{ "--tilt": t.tilt, animationDelay: t.delay } as React.CSSProperties}
+              href={TILES[0].href}
+              className="group relative block h-full overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
             >
               <ProductArt
-                art={t.art}
-                accent={t.accent}
-                label={t.label}
-                className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
+                art={TILES[0].art}
+                accent={TILES[0].accent}
+                label={TILES[0].label}
+                className="h-full min-h-80 w-full transition-transform duration-500 group-hover:scale-105"
               />
               <span className="sheen" aria-hidden />
-              <TileLabel>{t.label}</TileLabel>
+              <TileLabel>{TILES[0].label}</TileLabel>
             </Link>
+          </TiltCard>
+          {TILES.slice(1).map((t) => (
+            <TiltCard
+              key={t.label}
+              className="animate-float-tilt"
+              maxTilt={8}
+              style={{ "--tilt": t.tilt, animationDelay: t.delay } as React.CSSProperties}
+            >
+              <Link
+                href={t.href}
+                className="group relative block overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl shadow-black/50 transition-shadow duration-300 hover:shadow-brand-500/20"
+              >
+                <ProductArt
+                  art={t.art}
+                  accent={t.accent}
+                  label={t.label}
+                  className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="sheen" aria-hidden />
+                <TileLabel>{t.label}</TileLabel>
+              </Link>
+            </TiltCard>
           ))}
         </div>
       </Container>
