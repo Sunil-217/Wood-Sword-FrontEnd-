@@ -1,23 +1,24 @@
 import type { MetadataRoute } from "next";
 import { groups, products } from "@/lib/catalog";
-
-const BASE = "https://oneup-sports.vercel.app";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/shop", "/cart", "/wishlist", "/checkout"].map((path) => ({
-    url: `${BASE}${path}`,
+  // Only indexable routes — the cart/checkout/account pages are disallowed
+  // in robots.ts, so listing them here would contradict it.
+  const staticRoutes = ["", "/shop", "/about", "/contact"].map((path) => ({
+    url: `${SITE_URL}${path}`,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.7,
   }));
 
   const groupRoutes = groups.map((g) => ({
-    url: `${BASE}/shop?group=${g.slug}`,
+    url: `${SITE_URL}/shop?group=${g.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
   const productRoutes = products.map((p) => ({
-    url: `${BASE}/product/${p.slug}`,
+    url: `${SITE_URL}/product/${p.slug}`,
     changeFrequency: "monthly" as const,
     priority: 0.5,
   }));

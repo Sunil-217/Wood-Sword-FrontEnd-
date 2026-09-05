@@ -16,6 +16,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/Toaster";
 import { BackToTop } from "@/components/BackToTop";
+import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -31,7 +32,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://oneup-sports.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Oneup Sports — One stop shop for all your sporting requirements",
     template: "%s · Oneup Sports",
