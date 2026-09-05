@@ -53,10 +53,15 @@ export default function RegisterPage() {
     if (Object.keys(e).length > 0) return;
 
     setBusy(true);
-    const res = await register({ name, email, phone, password });
-    setBusy(false);
-    if (res.ok) router.push("/account");
-    else setErrors({ [res.field ?? "email"]: res.error });
+    try {
+      const res = await register({ name, email, phone, password });
+      if (res.ok) router.push("/account");
+      else setErrors({ [res.field ?? "email"]: res.error });
+    } catch {
+      setErrors({ email: "Couldn't create the account just now. Please try again." });
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

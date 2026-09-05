@@ -72,3 +72,42 @@ describe("concierge query parsing", () => {
     }
   });
 });
+
+describe("concierge stays in the sport it was asked about", () => {
+  it("does not return cricket balls for a table tennis query", () => {
+    const res = answer("table tennis balls");
+
+    expect(res.products.length).toBeGreaterThan(0);
+    for (const p of res.products) {
+      expect(categoryMap[p.category].group).toBe("table-tennis");
+    }
+    expect(res.href).toContain("tt-balls");
+  });
+
+  it("does not return cricket bats for a table tennis query", () => {
+    for (const p of answer("table tennis bats").products) {
+      expect(categoryMap[p.category].group).toBe("table-tennis");
+    }
+  });
+
+  it("narrows 'running shoes' to running shoes, not every shoe", () => {
+    const res = answer("running shoes");
+
+    expect(res.products.length).toBeGreaterThan(0);
+    for (const p of res.products) expect(p.category).toBe("running-shoes");
+  });
+
+  it("treats a bare 'shoes' as the whole sport, not one arbitrary category", () => {
+    const res = answer("shoes under 3000");
+
+    expect(res.products.length).toBeGreaterThan(0);
+    for (const p of res.products) {
+      expect(categoryMap[p.category].group).toBe("shoes");
+      expect(p.price).toBeLessThanOrEqual(3000);
+    }
+  });
+
+  it("names the sport in the summary when the category alone would not", () => {
+    expect(answer("cricket balls").summary).toMatch(/cricket balls/i);
+  });
+});

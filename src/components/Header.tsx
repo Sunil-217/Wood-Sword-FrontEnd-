@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -20,6 +20,10 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
+  const megaRef = useRef<HTMLDivElement | null>(null);
+  const megaBtnRef = useRef<HTMLButtonElement | null>(null);
+  const megaCloseTimer = useRef<number | undefined>(undefined);
   const pathname = usePathname();
   const { count, ready } = useCart();
   const { count: wishCount, ready: wishReady } = useWishlist();
@@ -35,7 +39,41 @@ export function Header() {
   // Safety net: close the drawer on any route change (incl. back/forward)
   useEffect(() => {
     setMobileOpen(false);
+    setMegaOpen(false);
   }, [pathname]);
+
+  // The mega menu is a disclosure, not a hover-only panel: it has to close on
+  // Escape and on a click elsewhere, and Escape returns focus to its button.
+  useEffect(() => {
+    if (!megaOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMegaOpen(false);
+      megaBtnRef.current?.focus();
+    };
+    const onDown = (e: MouseEvent) => {
+      if (!megaRef.current?.contains(e.target as Node)) setMegaOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onDown);
+    };
+  }, [megaOpen]);
+
+  useEffect(() => () => window.clearTimeout(megaCloseTimer.current), []);
+
+  function openMega() {
+    window.clearTimeout(megaCloseTimer.current);
+    setMegaOpen(true);
+  }
+  // Pointer travel from the button to the panel crosses a gap; a short grace
+  // period stops the menu flickering shut on the way.
+  function scheduleMegaClose() {
+    window.clearTimeout(megaCloseTimer.current);
+    megaCloseTimer.current = window.setTimeout(() => setMegaOpen(false), 140);
+  }
   useEffect(() => {
     const onPop = () => setMobileOpen(false);
     window.addEventListener("popstate", onPop);
@@ -95,16 +133,37 @@ export function Header() {
           <NavLink href="/" active={pathname === "/"}>
             Home
           </NavLink>
-          <div className="group relative">
-            <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors duration-[--duration-fast] hover:bg-subtle">
+          <div
+            ref={megaRef}
+            className="relative"
+            onMouseEnter={openMega}
+            onMouseLeave={scheduleMegaClose}
+          >
+            <button
+              ref={megaBtnRef}
+              type="button"
+              aria-expanded={megaOpen}
+              aria-controls="sports-mega-menu"
+              onClick={() => setMegaOpen((v) => !v)}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors duration-[--duration-fast] hover:bg-subtle ${
+                megaOpen ? "bg-subtle" : ""
+              }`}
+            >
               Sports
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="mt-0.5 transition-transform group-hover:rotate-180">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className={`mt-0.5 transition-transform ${megaOpen ? "rotate-180" : ""}`}>
                 <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-            {/* Mega dropdown, grouped like the store */}
-            <div className="invisible absolute left-0 top-full w-[820px] origin-top translate-y-3 scale-[0.98] pt-2 opacity-0 transition-all duration-300 [transition-timing-function:var(--ease-spring)] group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
-              <div className="rounded-2xl border border-line/10 bg-surface p-5 shadow-xl shadow-brand-900/10">
+            {/* Mega dropdown, grouped like the store. Hidden rather than merely
+                invisible so it neither widens the page nor sits in the tab
+                order while closed. Width is clamped because the panel is
+                anchored to the trigger, not the viewport. */}
+            <div
+              id="sports-mega-menu"
+              hidden={!megaOpen}
+              className="absolute left-0 top-full w-[min(820px,calc(100vw-17rem))] origin-top pt-2"
+            >
+              <div className="animate-mega rounded-2xl border border-line/10 bg-surface p-5 shadow-xl shadow-brand-900/10">
                 <div className="grid grid-cols-5 gap-x-5 gap-y-6">
                   {multiGroups.map((g) => {
                     const leaves = categoriesInGroup(g.slug);

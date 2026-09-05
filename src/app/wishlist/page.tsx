@@ -4,16 +4,20 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductGrid } from "@/components/ProductGrid";
 import { useWishlist } from "@/context/WishlistContext";
-import { getProduct } from "@/lib/catalog";
+import { useCatalog } from "@/context/CatalogContext";
+import { ProductGridSkeleton } from "@/components/ui/Skeleton";
 
 export default function WishlistPage() {
   const { slugs, ready, clear } = useWishlist();
-  const items = slugs.map(getProduct).filter((p) => p != null);
+  // Read the live catalog, not the frozen seed array, so admin price and
+  // availability edits show here as they do everywhere else.
+  const { getBySlug, ready: catalogReady } = useCatalog();
+  const items = slugs.map(getBySlug).filter((p) => p != null);
 
-  if (!ready) {
+  if (!ready || !catalogReady) {
     return (
-      <Container className="py-16">
-        <div className="skeleton mx-auto h-40 max-w-md rounded-2xl" />
+      <Container className="py-12">
+        <ProductGridSkeleton count={4} />
       </Container>
     );
   }

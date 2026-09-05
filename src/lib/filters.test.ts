@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildQuery, parseList, sortProducts, toggleInList } from "./filters";
+import { buildQuery, parseList, priceFilter, sortProducts, toggleInList } from "./filters";
 import { products } from "./catalog";
 
 describe("sorting", () => {
@@ -48,5 +48,30 @@ describe("query params", () => {
   it("drops empty params when building a query string", () => {
     expect(buildQuery({ group: "cricket" })).toContain("group=cricket");
     expect(buildQuery({})).toBe("");
+  });
+});
+
+describe("price filtering", () => {
+  it("keeps the named sidebar buckets", () => {
+    expect(priceFilter("0-1000")!.test(999)).toBe(true);
+    expect(priceFilter("0-1000")!.test(1000)).toBe(false);
+    expect(priceFilter("15000+")!.test(20000)).toBe(true);
+  });
+
+  it("reads an ad-hoc budget so Oneup Assist links keep their limit", () => {
+    const f = priceFilter("0-5000")!;
+    expect(f.test(5000)).toBe(true);
+    expect(f.test(5001)).toBe(false);
+    expect(f.label).toMatch(/under/i);
+  });
+
+  it("ignores a malformed or inverted range rather than hiding everything", () => {
+    expect(priceFilter("abc")).toBeUndefined();
+    expect(priceFilter("5000-1000")).toBeUndefined();
+    expect(priceFilter(undefined)).toBeUndefined();
+  });
+
+  it("returns the same object for the same value, so memo deps stay stable", () => {
+    expect(priceFilter("0-5000")).toBe(priceFilter("0-5000"));
   });
 });

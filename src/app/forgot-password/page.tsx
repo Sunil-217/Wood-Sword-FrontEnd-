@@ -21,7 +21,13 @@ export default function ForgotPasswordPage() {
     setError(undefined);
 
     setBusy(true);
-    const res = await authService.requestPasswordReset(email);
+    let res;
+    try {
+      res = await authService.requestPasswordReset(email);
+    } catch {
+      setBusy(false);
+      return setError("Couldn't reach the store just now. Please try again.");
+    }
     setBusy(false);
     // No backend can send a link, so the service says so rather than
     // claiming an email is on its way.

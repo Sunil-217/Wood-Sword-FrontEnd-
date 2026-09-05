@@ -12,7 +12,7 @@ import { useCatalog } from "@/context/CatalogContext";
 import {
   buildQuery,
   parseList,
-  PRICE_BUCKETS,
+  priceFilter,
   sortProducts,
   toggleInList,
   type SortKey,
@@ -44,9 +44,9 @@ export function ShopView() {
   const sizes = parseList(params.size);
   const hands = parseList(params.hand);
   const sort = (params.sort as SortKey) || "featured";
-  const bucket = PRICE_BUCKETS.find((b) => b.value === price);
   // Only products that carry a real MRP above their price are on offer.
   const dealsOnly = params.deals === "1";
+  const bucket = priceFilter(price);
   const [shown, setShown] = useState(PAGE_SIZE);
 
   const { list, categoryCounts, sizeOptions, handOptions } = useMemo(() => {

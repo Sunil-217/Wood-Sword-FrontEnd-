@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useAuth } from "@/context/AuthContext";

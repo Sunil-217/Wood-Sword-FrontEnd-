@@ -8,7 +8,7 @@ import { Field } from "@/app/login/page";
 import { useAuth } from "@/context/AuthContext";
 import { useOrders } from "@/context/OrdersContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { AUTH_BACKEND_CONFIGURED, isValidEmail, isValidPhone } from "@/lib/services/auth";
+import { AUTH_BACKEND_CONFIGURED, isValidPhone } from "@/lib/services/auth";
 
 export default function AccountPage() {
   const { user, ready, updateProfile, logout } = useAuth();

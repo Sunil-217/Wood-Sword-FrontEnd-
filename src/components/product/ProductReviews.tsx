@@ -8,7 +8,12 @@ import type { Product } from "@/lib/types";
 
 export function ProductReviews({ product }: { product: Product }) {
   const { getFor, addReview, ready } = useReviews();
-  const userReviews = ready ? getFor(product.id) : [];
+  // getFor returns a fresh array each call, so memoise it — otherwise the
+  // aggregate below recomputes on every render.
+  const userReviews = useMemo(
+    () => (ready ? getFor(product.id) : []),
+    [ready, getFor, product.id],
+  );
 
   // Only real, customer-submitted reviews count toward the score.
   const { avg, total } = useMemo(() => {
@@ -18,7 +23,7 @@ export function ProductReviews({ product }: { product: Product }) {
       avg: count ? Math.round((sum / count) * 10) / 10 : undefined,
       total: count,
     };
-  }, [product.rating, product.reviews, userReviews]);
+  }, [userReviews]);
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -35,7 +40,7 @@ export function ProductReviews({ product }: { product: Product }) {
     setAuthor("");
     setText("");
     setErr(null);
-    showToast("Thanks — your review is live!");
+    showToast("Saved on this device — not published yet.");
   }
 
   return (
@@ -113,10 +118,14 @@ export function ProductReviews({ product }: { product: Product }) {
             {err && <p className="mt-1.5 text-xs text-ball-600">{err}</p>}
             <button
               type="submit"
-              className="press mt-3 w-full rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
+              className="press mt-3 min-h-11 w-full rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
             >
-              Submit review
+              Save review
             </button>
+            <p className="mt-3 text-xs leading-relaxed text-muted/55">
+              Reviews are kept in this browser for now. There is no reviews
+              server yet, so nobody else can see what you write here.
+            </p>
           </form>
         </div>
 
@@ -126,7 +135,8 @@ export function ProductReviews({ product }: { product: Product }) {
             <div className="flex h-full min-h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-line/15 bg-white/60 p-8 text-center">
               <p className="font-display text-lg font-bold text-ink">Be the first to review</p>
               <p className="mt-1.5 max-w-xs text-sm text-muted/55">
-                Bought this? Share your thoughts to help other players choose.
+                Bought this? Write down how it played — it stays on this
+                device until reviews go live.
               </p>
             </div>
           ) : (

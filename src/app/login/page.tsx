@@ -16,11 +16,19 @@ export default function LoginPage() {
   );
 }
 
+/** Accepts only a relative, same-origin path; anything else falls back. */
+export function safeNext(raw: string | null): string {
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/account";
+  return raw;
+}
+
 function SignIn() {
   const { signIn } = useAuth();
   const router = useRouter();
   const params = useSearchParams();
-  const next = params.get("next") || "/account";
+  // ?next= is attacker-supplied. Only same-origin paths are followed, so a
+  // crafted link can't bounce a signed-in shopper off to another site.
+  const next = safeNext(params.get("next"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,10 +51,16 @@ function SignIn() {
     if (Object.keys(e).length > 0) return;
 
     setBusy(true);
-    const res = await signIn(email, password);
-    setBusy(false);
-    if (res.ok) router.push(next);
-    else setErrors({ [res.field ?? "email"]: res.error });
+    try {
+      const res = await signIn(email, password);
+      if (res.ok) router.push(next);
+      else setErrors({ [res.field ?? "email"]: res.error });
+    } catch {
+      // A network failure must not leave the button stuck on "Signing in…".
+      setErrors({ email: "Couldn't sign in just now. Please try again." });
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (

@@ -112,14 +112,6 @@ function UserIcon() {
     </svg>
   );
 }
-function GaugeIcon() {
-  return (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-      <path d="M4 13a8 8 0 1 1 16 0" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M12 13l4-3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
 function HeartIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none">

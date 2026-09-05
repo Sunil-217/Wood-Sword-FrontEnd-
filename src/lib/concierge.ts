@@ -48,23 +48,87 @@ function matchGroup(q: string) {
   });
 }
 
-function matchCategory(q: string) {
-  // Longest name first so "batting gloves" beats "gloves".
-  return [...categories]
-    .sort((a, b) => b.name.length - a.name.length)
-    .find((c) => q.includes(c.name.toLowerCase()));
+/**
+ * Category names are group-relative: "Balls" means cricket balls, and there is
+ * a separate "TT Balls". So once a sport is known, only that sport's
+ * categories are eligible — otherwise "table tennis balls" matches the cricket
+ * "Balls" category and the shopper is shown the wrong sport entirely.
+ */
+function poolFor(group?: (typeof groups)[number]) {
+  return group ? categories.filter((c) => c.group === group.slug) : categories;
 }
 
+/** Words that only one category in the pool uses, so they identify it. */
+function distinctiveWords(pool: typeof categories) {
+  const counts = new Map<string, number>();
+  for (const c of pool) {
+    for (const w of new Set(nameWords(c.name))) {
+      counts.set(w, (counts.get(w) ?? 0) + 1);
+    }
+  }
+  return counts;
+}
+
+function nameWords(name: string): string[] {
+  return name
+    .toLowerCase()
+    .split(/[^a-z]+/)
+    .filter((w) => w.length > 2 && w !== "and");
+}
+
+function matchCategory(q: string, group?: (typeof groups)[number]) {
+  const pool = poolFor(group);
+
+  // Longest name first so "batting gloves" beats "gloves".
+  const byName = [...pool]
+    .sort((a, b) => b.name.length - a.name.length)
+    .find((c) => q.includes(c.name.toLowerCase()));
+  if (byName) return byName;
+
+  // Otherwise identify by a word only one category in the pool uses, which is
+  // what lets "running shoes" reach Running & Jogging without "shoes" (shared
+  // by five categories) dragging in the rest.
+  const counts = distinctiveWords(pool);
+  const hits = pool.filter((c) =>
+    nameWords(c.name).some(
+      (w) => counts.get(w) === 1 && new RegExp(`\\b${w}\\b`).test(q),
+    ),
+  );
+  return hits.length === 1 ? hits[0] : undefined;
+}
+
+/** True when the category name already tells you which sport it belongs to. */
+function namesItsSport(c: (typeof categories)[number]): boolean {
+  const groupName = groupMap[c.group].name.toLowerCase();
+  const words = nameWords(c.name);
+  if (nameWords(groupName).some((w) => words.includes(w))) return true;
+  // "TT Balls" carries the sport as initials.
+  const initials = groupName.split(/[^a-z]+/).map((w) => w[0]).join("");
+  return initials.length > 1 && c.name.toLowerCase().startsWith(initials);
+}
+
+/** Label for the summary line: "balls" alone would not say which sport. */
+function categoryLabel(c: (typeof categories)[number]): string {
+  const name = c.name.toLowerCase();
+  return namesItsSport(c)
+    ? name
+    : `${groupMap[c.group].name.toLowerCase()} ${name}`;
+}
+
+/**
+ * Slang and plurals the catalog does not use as category names. A value is
+ * matched against category names first; when it only narrows things to a
+ * sport (there is no single "shoes" category) it selects the group instead.
+ */
 const SYNONYMS: [RegExp, string][] = [
   [/\brack?ets?\b|\bracquets?\b/, "racquets"],
   [/\bshuttles?\b|\bcorks?\b/, "shuttlecocks"],
-  [/\bbats?\b/, "bats"],
-  [/\bshoes?\b|\bfootwear\b|\btrainers?\b/, "shoes"],
-  [/\bkit ?bags?\b|\bbags?\b/, "kit bags"],
+  [/\bleg ?guards?\b/, "batting pads"],
+  [/\bkit ?bags?\b/, "kit bags"],
   [/\bhelmets?\b/, "helmets"],
-  [/\bpads?\b|\bleg ?guards?\b/, "batting pads"],
-  [/\bgloves?\b/, "gloves"],
   [/\bmats?\b|\byoga\b/, "yoga"],
+  [/\bfootwear\b|\btrainers?\b|\bshoes?\b/, "shoes"],
+  [/\bkeeping\b|\bwicket ?keep\w*\b/, "wk gloves"],
 ];
 
 export function answer(rawQuery: string): ConciergeResult {
@@ -72,18 +136,25 @@ export function answer(rawQuery: string): ConciergeResult {
   if (!q) return { summary: "", products: [] };
 
   const budget = parseBudget(q);
-  const group = matchGroup(q);
-  let category = matchCategory(q);
+  let group = matchGroup(q);
+  let category = matchCategory(q, group);
 
   if (!category) {
     for (const [re, name] of SYNONYMS) {
-      if (re.test(q)) {
-        category = categories.find(
-          (c) =>
-            c.name.toLowerCase() === name &&
-            (!group || c.group === group.slug),
-        );
-        if (category) break;
+      if (!re.test(q)) continue;
+      const pool = poolFor(group).filter((c) =>
+        c.name.toLowerCase().includes(name),
+      );
+      if (pool.length === 1) {
+        category = pool[0];
+        break;
+      }
+      // The word names a sport rather than a single category — "shoes",
+      // with no sport given, is every shoe in the store.
+      const asGroup = groups.find((g) => g.name.toLowerCase() === name);
+      if (!group && asGroup) {
+        group = asGroup;
+        break;
       }
     }
   }
@@ -93,7 +164,7 @@ export function answer(rawQuery: string): ConciergeResult {
 
   if (category) {
     list = list.filter((p) => p.category === category.slug);
-    bits.push(categoryMap[category.slug].name.toLowerCase());
+    bits.push(categoryLabel(category));
   } else if (group) {
     list = list.filter((p) => categoryMap[p.category].group === group.slug);
     bits.push(group.name.toLowerCase());

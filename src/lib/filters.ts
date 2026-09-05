@@ -24,6 +24,57 @@ export const PRICE_BUCKETS: { value: string; label: string; test: (p: number) =>
   { value: "15000+", label: "₹15,000 & above", test: (p) => p >= 15000 },
 ];
 
+export interface PriceFilter {
+  value: string;
+  label: string;
+  test: (p: number) => boolean;
+}
+
+const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+function adHoc(value: string): PriceFilter | undefined {
+  const open = value.match(/^(\d+)\+$/);
+  if (open) {
+    const min = Number(open[1]);
+    return { value, label: `${inr(min)} & above`, test: (p) => p >= min };
+  }
+
+  const range = value.match(/^(\d+)-(\d+)$/);
+  if (!range) return undefined;
+  const min = Number(range[1]);
+  const max = Number(range[2]);
+  if (max <= min) return undefined;
+  return {
+    value,
+    label: min === 0 ? `Under ${inr(max)}` : `${inr(min)} – ${inr(max)}`,
+    test: (p) => p >= min && p <= max,
+  };
+}
+
+/** Bounded so a stream of junk ?price= values can't grow it without limit. */
+const filterCache = new Map<string, PriceFilter | undefined>();
+
+/**
+ * Resolve a ?price= value. Named sidebar buckets are matched first; anything
+ * else is read as an ad-hoc "min-max" or "min+" budget, which is what lets a
+ * shopper carry a budget typed into Oneup Assist ("under 5000") through to the
+ * shop instead of having it silently dropped on arrival. A value nobody can
+ * parse narrows nothing rather than hiding the whole catalog.
+ *
+ * Results are cached so the same query string always yields the same object,
+ * keeping it usable as a render-stable dependency.
+ */
+export function priceFilter(value: string | undefined): PriceFilter | undefined {
+  if (!value) return undefined;
+  const named = PRICE_BUCKETS.find((b) => b.value === value);
+  if (named) return named;
+  if (!filterCache.has(value)) {
+    if (filterCache.size > 50) filterCache.clear();
+    filterCache.set(value, adHoc(value));
+  }
+  return filterCache.get(value);
+}
+
 /** Normalise a searchParams value into an array (supports comma lists). */
 export function parseList(v: string | string[] | undefined): string[] {
   if (!v) return [];

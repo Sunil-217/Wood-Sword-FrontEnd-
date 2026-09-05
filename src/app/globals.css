@@ -430,6 +430,27 @@ h2 {
   }
 }
 
+/* Mega menu panel entrance. The panel is display:none while closed, so this
+   plays on open only — there is no exit animation to keep in sync. */
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-mega {
+  animation: mega-in var(--duration-normal) var(--ease-emphasized) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-mega {
+    animation: none;
+  }
+}
+
 /* Kinetic word reveal — each word rises out of its own mask */
 @keyframes ws-word-in {
   from {

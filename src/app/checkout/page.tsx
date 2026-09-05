@@ -135,19 +135,27 @@ export default function CheckoutPage() {
     const address = [get("address"), get("city"), get("state"), get("pincode")]
       .filter(Boolean)
       .join(", ");
-    const order = addOrder({
-      email: user?.email || get("email"),
-      name: get("name"),
-      address,
-      items: lines,
-      subtotal,
-      discount: coupon.discount,
-      coupon: coupon.code,
-      shipping,
-      total,
-      shippingMethod: ship === "express" ? "Express (1–2 days)" : "Standard (3–5 days)",
-      paymentMethod: pay === "cod" ? "Cash on Delivery" : pay === "upi" ? "UPI" : "Card",
-    });
+    let order;
+    try {
+      order = addOrder({
+        email: user?.email || get("email"),
+        name: get("name"),
+        address,
+        items: lines,
+        subtotal,
+        discount: coupon.discount,
+        coupon: coupon.code,
+        shipping,
+        total,
+        shippingMethod: ship === "express" ? "Express (1–2 days)" : "Standard (3–5 days)",
+        paymentMethod: pay === "cod" ? "Cash on Delivery" : pay === "upi" ? "UPI" : "Card",
+      });
+    } catch {
+      // Never strand the shopper on a dead button with an uncleared bag.
+      setSubmitting(false);
+      setErrors({ form: "We couldn't record the order. Please try again." });
+      return;
+    }
     clear();
     clearApplied();
     setPlaced(order.id);
@@ -279,7 +287,7 @@ export default function CheckoutPage() {
             </button>
             {Object.keys(errors).length > 0 && (
               <p role="alert" className="mt-3 text-center text-xs text-ball-600">
-                Check the highlighted fields above.
+                {errors.form ?? "Check the highlighted fields above."}
               </p>
             )}
             <Link href="/cart" className="mt-3 block text-center text-xs font-medium text-muted/55 hover:text-ink">
