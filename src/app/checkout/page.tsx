@@ -12,10 +12,11 @@ import { useOrders } from "@/context/OrdersContext";
 import { useCoupons } from "@/context/CouponsContext";
 import { useAuth } from "@/context/AuthContext";
 import { inr } from "@/lib/format";
-
-const FREE_SHIPPING = 2000;
-const STANDARD_FEE = 99;
-const EXPRESS_FEE = 149;
+import {
+  EXPRESS_FEE,
+  FREE_SHIPPING_OVER as FREE_SHIPPING,
+  STANDARD_FEE,
+} from "@/lib/shipping";
 
 type Ship = "standard" | "express";
 type Pay = "cod" | "upi" | "card";
@@ -148,7 +149,7 @@ export default function CheckoutPage() {
         coupon: coupon.code,
         shipping,
         total,
-        shippingMethod: ship === "express" ? "Express (1–2 days)" : "Standard (3–5 days)",
+        shippingMethod: ship === "express" ? "Express" : "Standard",
         paymentMethod: pay === "cod" ? "Cash on Delivery" : pay === "upi" ? "UPI" : "Card",
       });
     } catch {
@@ -205,15 +206,26 @@ export default function CheckoutPage() {
                 checked={ship === "standard"}
                 onChange={() => setShip("standard")}
                 title="Standard"
-                sub={subtotal >= FREE_SHIPPING ? "3–5 days · Free" : `3–5 days · ${inr(STANDARD_FEE)}`}
+                sub={
+                  subtotal >= FREE_SHIPPING
+                    ? "Free on this order"
+                    : inr(STANDARD_FEE)
+                }
               />
               <Choice
                 checked={ship === "express"}
                 onChange={() => setShip("express")}
                 title="Express"
-                sub={`1–2 days · ${inr(EXPRESS_FEE)}`}
+                sub={`${inr(EXPRESS_FEE)} · priority dispatch`}
               />
             </div>
+            {/* No delivery date is quoted: nothing here is connected to a
+                courier, so a day range would be a promise the store has no
+                way to keep. */}
+            <p className="mt-3 text-xs leading-relaxed text-muted/55">
+              The store confirms the dispatch date with you directly — delivery
+              dates aren&apos;t quoted here.
+            </p>
           </Section>
 
           <Section title="Payment">

@@ -10,7 +10,7 @@ import { ProductReviews } from "@/components/product/ProductReviews";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductJsonLd } from "@/components/JsonLd";
-import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
+import { getProduct, products, relatedProducts, categoryMap, groupMap } from "@/lib/catalog";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -54,16 +54,35 @@ export default async function ProductPage({
     <Container className="py-8 sm:py-10">
       <ProductJsonLd product={product} />
       {/* Breadcrumb */}
-      <nav className="flex flex-wrap items-center gap-1.5 text-xs text-muted/50">
-        <Link href="/" className="hover:text-accent">Home</Link>
-        <span>/</span>
-        <Link href="/shop" className="hover:text-accent">Shop</Link>
-        <span>/</span>
-        <Link href={`/shop?category=${product.category}`} className="hover:text-accent">
+      <nav
+        aria-label="Breadcrumb"
+        className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted/50"
+      >
+        <Link href="/" className="inline-flex min-h-8 items-center hover:text-accent">
+          Home
+        </Link>
+        <span aria-hidden>/</span>
+        <Link href="/shop" className="inline-flex min-h-8 items-center hover:text-accent">
+          Shop
+        </Link>
+        <span aria-hidden>/</span>
+        <Link
+          href={`/shop?group=${category.group}`}
+          className="inline-flex min-h-8 items-center hover:text-accent"
+        >
+          {groupMap[category.group].name}
+        </Link>
+        <span aria-hidden>/</span>
+        <Link
+          href={`/shop?category=${product.category}`}
+          className="inline-flex min-h-8 items-center hover:text-accent"
+        >
           {category.name}
         </Link>
-        <span>/</span>
-        <span className="text-muted/80">{product.name}</span>
+        <span aria-hidden>/</span>
+        <span aria-current="page" className="text-muted/80">
+          {product.name}
+        </span>
       </nav>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-2 lg:gap-14">

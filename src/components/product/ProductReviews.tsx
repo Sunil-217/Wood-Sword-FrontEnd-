@@ -99,23 +99,40 @@ export function ProductReviews({ product }: { product: Product }) {
                 </button>
               ))}
             </div>
+            <label htmlFor="review-author" className="sr-only">
+              Your name (optional)
+            </label>
             <input
+              id="review-author"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
+              autoComplete="name"
+              maxLength={60}
               placeholder="Your name (optional)"
-              className="mt-3 w-full rounded-xl border border-line/15 px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+              className="mt-3 min-h-11 w-full rounded-xl border border-line/15 px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
             />
+            <label htmlFor="review-text" className="sr-only">
+              Your review
+            </label>
             <textarea
+              id="review-text"
               value={text}
               onChange={(e) => {
                 setText(e.target.value);
                 setErr(null);
               }}
               rows={3}
+              maxLength={1000}
+              aria-invalid={err ? true : undefined}
+              aria-describedby={err ? "review-error" : undefined}
               placeholder="How was the gear?"
               className="mt-2 w-full resize-none rounded-xl border border-line/15 px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
             />
-            {err && <p className="mt-1.5 text-xs text-ball-600">{err}</p>}
+            {err && (
+              <p id="review-error" role="alert" className="mt-1.5 text-xs text-ball-600">
+                {err}
+              </p>
+            )}
             <button
               type="submit"
               className="press mt-3 min-h-11 w-full rounded-full bg-brand-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"

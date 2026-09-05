@@ -44,16 +44,18 @@ export default function OrderDetailPage({
 
   return (
     <Container className="py-8 sm:py-12">
-      <nav className="flex items-center gap-1.5 text-xs text-muted/50">
-        <Link href="/account" className="hover:text-accent">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-x-1.5 text-xs text-muted/50">
+        <Link href="/account" className="inline-flex min-h-8 items-center hover:text-accent">
           Account
         </Link>
         <span aria-hidden>/</span>
-        <Link href="/orders" className="hover:text-accent">
+        <Link href="/orders" className="inline-flex min-h-8 items-center hover:text-accent">
           Orders
         </Link>
         <span aria-hidden>/</span>
-        <span className="text-muted/80">{order.id}</span>
+        <span aria-current="page" className="text-muted/80">
+          {order.id}
+        </span>
       </nav>
 
       <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">

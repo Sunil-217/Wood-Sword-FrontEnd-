@@ -121,24 +121,31 @@ export function ShopView() {
 
   return (
     <Container className="py-8 sm:py-10">
-      <nav className="flex items-center gap-1.5 text-xs text-muted/50">
-        <Link href="/" className="hover:text-accent">Home</Link>
-        <span>/</span>
-        <Link href="/shop" className="hover:text-accent">Shop</Link>
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted/50">
+        <Link href="/" className="inline-flex min-h-8 items-center hover:text-accent">Home</Link>
+        <span aria-hidden>/</span>
+        <Link href="/shop" className="inline-flex min-h-8 items-center hover:text-accent">Shop</Link>
         {category && (
           <>
-            <span>/</span>
-            <Link href={`/shop?group=${categoryMap[category].group}`} className="hover:text-accent">
+            <span aria-hidden>/</span>
+            <Link
+              href={`/shop?group=${categoryMap[category].group}`}
+              className="inline-flex min-h-8 items-center hover:text-accent"
+            >
               {groupMap[categoryMap[category].group].name}
             </Link>
-            <span>/</span>
-            <span className="text-muted/80">{categoryMap[category].name}</span>
+            <span aria-hidden>/</span>
+            <span aria-current="page" className="text-muted/80">
+              {categoryMap[category].name}
+            </span>
           </>
         )}
         {group && (
           <>
-            <span>/</span>
-            <span className="text-muted/80">{groupMap[group].name}</span>
+            <span aria-hidden>/</span>
+            <span aria-current="page" className="text-muted/80">
+              {groupMap[group].name}
+            </span>
           </>
         )}
       </nav>

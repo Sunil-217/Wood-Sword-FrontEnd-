@@ -10,9 +10,10 @@ import { useCatalog } from "@/context/CatalogContext";
 import { LineNotice } from "@/components/cart/LineNotice";
 import { useCoupons, couponLabel } from "@/context/CouponsContext";
 import { inr } from "@/lib/format";
-
-const FREE_SHIPPING = 2000;
-const SHIPPING_FEE = 99;
+import {
+  FREE_SHIPPING_OVER as FREE_SHIPPING,
+  STANDARD_FEE as SHIPPING_FEE,
+} from "@/lib/shipping";
 
 export default function CartPage() {
   const { lines, subtotal, count, setQty, remove, repriceLine, clear, ready } = useCart();

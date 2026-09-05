@@ -123,7 +123,7 @@ function SignIn() {
             </label>
             <Link
               href="/forgot-password"
-              className="text-sm font-semibold text-accent hover:underline"
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-accent hover:underline"
             >
               Forgot password?
             </Link>
