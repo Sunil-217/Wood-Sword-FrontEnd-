@@ -120,8 +120,6 @@ export function CatalogProvider({ children }: { children: React.ReactNode }) {
       art: cat.art,
       price: input.price,
       mrp: input.mrp,
-      rating: 4.5,
-      reviews: 0,
       accent: cat.accent,
       colors: ["Standard"],
       sizes: ["One Size"],

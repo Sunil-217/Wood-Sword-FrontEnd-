@@ -119,8 +119,9 @@ export interface Product {
   price: number;
   /** Optional MRP to show a strikethrough + discount. */
   mrp?: number;
-  rating: number;
-  reviews: number;
+  /** Only present when a real rating exists; never fabricated. */
+  rating?: number;
+  reviews?: number;
   /** Accent hex used to tint the product artwork. */
   accent: string;
   colors: string[];

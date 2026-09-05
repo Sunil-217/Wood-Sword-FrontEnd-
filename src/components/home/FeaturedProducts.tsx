@@ -22,8 +22,10 @@ export function FeaturedProducts() {
 
   const lists = useMemo(() => {
     const inStock = products.filter((p) => p.inStock);
+    const rank = (p: Product) =>
+      p.badge === "Bestseller" ? 0 : p.badge === "Pro" ? 1 : p.badge ? 2 : 9;
     const best = [...inStock]
-      .sort((a, b) => b.rating * b.reviews - a.rating * a.reviews)
+      .sort((a, b) => rank(a) - rank(b) || b.price - a.price)
       .slice(0, 8);
     // "New" badges first, topped up with the latest catalog additions.
     const badged = inStock.filter((p) => p.badge === "New");

@@ -3,11 +3,10 @@ import { ValueProps } from "@/components/home/ValueProps";
 import { CategoryTiles } from "@/components/home/CategoryTiles";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { PromoBand } from "@/components/home/PromoBand";
-import { Testimonials } from "@/components/home/Testimonials";
 import { Newsletter } from "@/components/home/Newsletter";
 import { Reveal } from "@/components/Reveal";
-import { BoundaryRope } from "@/components/BoundaryRope";
 import { SportsTicker } from "@/components/home/SportsTicker";
+import { SportsOS } from "@/components/home/SportsOS";
 
 export default function HomePage() {
   return (
@@ -17,7 +16,7 @@ export default function HomePage() {
       <Reveal>
         <CategoryTiles />
       </Reveal>
-      <BoundaryRope />
+      <SportsOS />
       <Reveal>
         <FeaturedProducts />
       </Reveal>
@@ -25,7 +24,6 @@ export default function HomePage() {
         <PromoBand />
       </Reveal>
       <SportsTicker />
-      <Testimonials />
       <Reveal>
         <Newsletter />
       </Reveal>

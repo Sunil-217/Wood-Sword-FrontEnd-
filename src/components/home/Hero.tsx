@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { CountUp } from "@/components/CountUp";
 import { Marquee } from "@/components/Marquee";
+import { brandCount, categories, groups, products } from "@/lib/catalog";
 import { TiltCard } from "@/components/fx/TiltCard";
 import { Magnetic } from "@/components/fx/Magnetic";
 import { CursorGlow } from "@/components/fx/CursorGlow";
@@ -60,10 +61,12 @@ export function Hero() {
             className="hero-fluid animate-rise mt-6 font-display font-extrabold uppercase tracking-tight"
             style={{ animationDelay: "80ms" }}
           >
-            <SplitWords text="Play every game." delay={120} step={80} />
+            <SplitWords text="The future" delay={120} step={80} />
+            <br />
+            <SplitWords text="of sport" delay={280} step={80} />
             <br />
             <span className="text-shimmer inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
-              Stay one up.
+              is here.
             </span>
           </h1>
 
@@ -85,17 +88,17 @@ export function Hero() {
                 href="/shop"
                 className="press btn-shine inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
               >
-                Shop all gear
+                Explore sports
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-0.5">
                   <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
             </Magnetic>
             <Link
-              href="/shop?group=cricket"
+              href="/about"
               className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
-              Explore cricket
+              Enter Oneup
             </Link>
           </div>
 
@@ -104,17 +107,17 @@ export function Hero() {
             className="animate-rise mt-10 inline-grid grid-cols-2 gap-x-10 gap-y-6 sm:grid-cols-4 lg:gap-x-12"
             style={{ animationDelay: "320ms" }}
           >
-            <Stat label="Athletes kitted">
-              <CountUp value={25} suffix="k+" />
+            <Stat label="Products">
+              <CountUp value={products.length} />
             </Stat>
-            <Stat label="Average rating">
-              <CountUp value={4.8} decimals={1} suffix="★" />
+            <Stat label="Sports">
+              <CountUp value={groups.length} />
             </Stat>
-            <Stat label="Sports covered">
-              <CountUp value={14} />
+            <Stat label="Categories">
+              <CountUp value={categories.length} />
             </Stat>
-            <Stat label="Dispatch time">
-              <CountUp value={48} suffix="h" />
+            <Stat label="Brands">
+              <CountUp value={brandCount()} />
             </Stat>
           </div>
         </div>

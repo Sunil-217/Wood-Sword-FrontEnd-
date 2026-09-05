@@ -208,15 +208,6 @@ function slugify(s: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-/** Deterministic pseudo-rating so the catalog is stable between builds. */
-function seeded(id: string): { rating: number; reviews: number } {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  const rating = 4.2 + (h % 9) / 10; // 4.2 – 5.0
-  const reviews = 15 + (h % 380);
-  return { rating: Math.round(rating * 10) / 10, reviews };
-}
-
 const COLOUR_WORDS: [string, string][] = [
   ["black", "#3a3f4a"],
   ["navy", "#27436e"],
@@ -627,7 +618,6 @@ function P(p: Seed): Product {
   for (let n = 2; usedSlugs.has(id); n++) id = `${base}-${n}`;
   usedSlugs.add(id);
 
-  const { rating, reviews } = seeded(id);
   return {
     id,
     slug: id,
@@ -637,8 +627,6 @@ function P(p: Seed): Product {
     art: p.art ?? cat.art,
     price: p.price,
     mrp: p.mrp,
-    rating,
-    reviews,
     accent: p.accent ?? accentFor(p.name, cat.accent),
     colors: p.colors ?? ["As shown"],
     sizes: p.sizes ?? SIZES[p.category] ?? ["One Size"],
@@ -1074,10 +1062,23 @@ export function categoriesInGroup(slug: GroupSlug): Category[] {
   return categories.filter((c) => c.group === slug);
 }
 
+const BADGE_RANK: Record<string, number> = {
+  Bestseller: 0,
+  Pro: 1,
+  New: 2,
+  Sale: 3,
+};
+
+/** Store-flagged products first, then the most substantial pieces. */
 export function featuredProducts(count = 8): Product[] {
   return [...products]
     .filter((p) => p.inStock)
-    .sort((a, b) => b.rating * b.reviews - a.rating * a.reviews)
+    .sort((a, b) => {
+      const ra = a.badge ? BADGE_RANK[a.badge] : 9;
+      const rb = b.badge ? BADGE_RANK[b.badge] : 9;
+      if (ra !== rb) return ra - rb;
+      return b.price - a.price;
+    })
     .slice(0, count);
 }
 
@@ -1086,4 +1087,9 @@ export function relatedProducts(product: Product, count = 4): Product[] {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .concat(products.filter((p) => p.category !== product.category))
     .slice(0, count);
+}
+
+/** Distinct brands actually present in the catalog. */
+export function brandCount(): number {
+  return new Set(products.map((p) => p.brand)).size;
 }

@@ -1,12 +1,18 @@
-import type { Product } from "./types";
+import type { Badge, Product } from "./types";
 
-export type SortKey = "featured" | "price-asc" | "price-desc" | "rating" | "newest";
+const BADGE_RANK: Record<Badge, number> = {
+  Bestseller: 0,
+  Pro: 1,
+  New: 2,
+  Sale: 3,
+};
+
+export type SortKey = "featured" | "price-asc" | "price-desc" | "newest";
 
 export const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
   { value: "price-asc", label: "Price: Low to High" },
   { value: "price-desc", label: "Price: High to Low" },
-  { value: "rating", label: "Top Rated" },
   { value: "newest", label: "Newest" },
 ];
 
@@ -40,15 +46,17 @@ export function sortProducts(list: Product[], sort: SortKey): Product[] {
       return copy.sort((a, b) => a.price - b.price);
     case "price-desc":
       return copy.sort((a, b) => b.price - a.price);
-    case "rating":
-      return copy.sort((a, b) => b.rating - a.rating);
     case "newest":
       return copy.sort(
-        (a, b) => Number(b.badge === "New") - Number(a.badge === "New") || b.reviews - a.reviews,
+        (a, b) => Number(b.badge === "New") - Number(a.badge === "New") || b.price - a.price,
       );
     case "featured":
     default:
-      return copy.sort((a, b) => b.rating * b.reviews - a.rating * a.reviews);
+      return copy.sort((a, b) => {
+        const ra = a.badge ? BADGE_RANK[a.badge] : 9;
+        const rb = b.badge ? BADGE_RANK[b.badge] : 9;
+        return ra - rb || b.price - a.price;
+      });
   }
 }
 

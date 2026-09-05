@@ -3,8 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Counts from 0 to `value` when scrolled into view.
- * Ease-out curve, ~1.4s; reduced-motion users see the final value instantly.
+ * Counts up to `value` when scrolled into view.
+ *
+ * The real number is what renders first — server-side, without JS, and if the
+ * observer never fires (hidden tab, throttled browser, reduced motion). The
+ * count-up is decoration layered on top, so the figure on screen is never a
+ * placeholder zero.
  */
 export function CountUp({
   value,
@@ -20,18 +24,15 @@ export function CountUp({
   className?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const [display, setDisplay] = useState(() => (0).toFixed(decimals));
+  const [display, setDisplay] = useState(() => value.toFixed(decimals));
   const done = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(value.toFixed(decimals));
-      return;
-    }
-
+    let raf = 0;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting || done.current) return;
@@ -40,18 +41,21 @@ export function CountUp({
 
         const duration = 1400;
         const start = performance.now();
-        function frame(now: number) {
+        const frame = (now: number) => {
           const t = Math.min(1, (now - start) / duration);
           const eased = 1 - Math.pow(1 - t, 4); // ease-out-quart
           setDisplay((value * eased).toFixed(decimals));
-          if (t < 1) requestAnimationFrame(frame);
-        }
-        requestAnimationFrame(frame);
+          if (t < 1) raf = requestAnimationFrame(frame);
+        };
+        raf = requestAnimationFrame(frame);
       },
       { threshold: 0.4 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [value, decimals]);
 
   return (

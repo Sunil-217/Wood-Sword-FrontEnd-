@@ -10,13 +10,12 @@ export function ProductReviews({ product }: { product: Product }) {
   const { getFor, addReview, ready } = useReviews();
   const userReviews = ready ? getFor(product.id) : [];
 
-  // Blend the seeded base rating with real user reviews.
+  // Only real, customer-submitted reviews count toward the score.
   const { avg, total } = useMemo(() => {
-    const baseSum = product.rating * product.reviews;
-    const userSum = userReviews.reduce((n, r) => n + r.rating, 0);
-    const count = product.reviews + userReviews.length;
+    const count = userReviews.length;
+    const sum = userReviews.reduce((n, r) => n + r.rating, 0);
     return {
-      avg: count ? Math.round(((baseSum + userSum) / count) * 10) / 10 : product.rating,
+      avg: count ? Math.round((sum / count) * 10) / 10 : undefined,
       total: count,
     };
   }, [product.rating, product.reviews, userReviews]);
@@ -50,13 +49,24 @@ export function ProductReviews({ product }: { product: Product }) {
         {/* Summary + form */}
         <div>
           <div className="rounded-2xl border border-line/8 bg-surface p-6 text-center shadow-sm">
-            <p className="font-display text-5xl font-extrabold text-ink">{avg.toFixed(1)}</p>
-            <div className="mt-2 flex justify-center">
-              <Rating value={avg} size="md" />
-            </div>
-            <p className="mt-1 text-sm text-muted/55">
-              {total.toLocaleString("en-IN")} {total === 1 ? "rating" : "ratings"}
-            </p>
+            {avg == null ? (
+              <>
+                <p className="font-display text-2xl font-bold text-ink">No ratings yet</p>
+                <p className="mt-1 text-sm text-muted/55">
+                  Be the first to rate this product.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-display text-5xl font-extrabold text-ink">{avg.toFixed(1)}</p>
+                <div className="mt-2 flex justify-center">
+                  <Rating value={avg} size="md" />
+                </div>
+                <p className="mt-1 text-sm text-muted/55">
+                  {total.toLocaleString("en-IN")} {total === 1 ? "rating" : "ratings"}
+                </p>
+              </>
+            )}
           </div>
 
           <form onSubmit={submit} className="mt-4 rounded-2xl border border-line/8 bg-surface p-5 shadow-sm">

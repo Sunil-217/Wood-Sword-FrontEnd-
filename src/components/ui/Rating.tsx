@@ -1,14 +1,19 @@
+/**
+ * Renders nothing when there is no rating — the store never shows an
+ * invented score (see the data-integrity rule in AGENTS/README).
+ */
 export function Rating({
   value,
   reviews,
   size = "sm",
   className = "",
 }: {
-  value: number;
+  value?: number;
   reviews?: number;
   size?: "sm" | "md";
   className?: string;
 }) {
+  if (value == null) return null;
   const px = size === "md" ? 18 : 14;
   const full = Math.floor(value);
   const frac = value - full;
