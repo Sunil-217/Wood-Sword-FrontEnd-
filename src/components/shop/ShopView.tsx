@@ -42,6 +42,8 @@ export function ShopView() {
   const hands = parseList(params.hand);
   const sort = (params.sort as SortKey) || "featured";
   const bucket = PRICE_BUCKETS.find((b) => b.value === price);
+  // Only products that carry a real MRP above their price are on offer.
+  const dealsOnly = params.deals === "1";
 
   const { list, categoryCounts, sizeOptions, handOptions } = useMemo(() => {
     const base = products.filter((p) => {
@@ -51,6 +53,7 @@ export function ShopView() {
         if (!hay.includes(q)) return false;
       }
       if (bucket && !bucket.test(p.price)) return false;
+      if (dealsOnly && !(p.mrp && p.mrp > p.price)) return false;
       return true;
     });
 
@@ -72,7 +75,7 @@ export function ShopView() {
     l = sortProducts(l, sort);
 
     return { list: l, categoryCounts: counts, sizeOptions: sizeOpts, handOptions: handOpts };
-  }, [products, q, bucket, category, group, sizes, hands, sort]);
+  }, [products, q, bucket, dealsOnly, category, group, sizes, hands, sort]);
 
   const heading = category
     ? categoryMap[category].name
@@ -80,12 +83,16 @@ export function ShopView() {
       ? groupMap[group].name
       : q
         ? `Results for “${params.q}”`
-        : "All gear";
+        : dealsOnly
+          ? "Deals"
+          : "All gear";
   const blurb = category
     ? categoryMap[category].blurb
     : group
       ? groupMap[group].blurb
-      : "Every piece of kit, in one place.";
+      : dealsOnly
+        ? "Everything currently marked down from its MRP."
+        : "Every piece of kit, in one place.";
 
   const chips: { label: string; href: string }[] = [];
   if (category)
@@ -93,6 +100,8 @@ export function ShopView() {
   if (group)
     chips.push({ label: groupMap[group].name, href: `/shop${buildQuery(without(params, "group", "size", "hand"))}` });
   if (bucket) chips.push({ label: bucket.label, href: `/shop${buildQuery(without(params, "price"))}` });
+  if (dealsOnly)
+    chips.push({ label: "On offer", href: `/shop${buildQuery(without(params, "deals"))}` });
   for (const s of sizes)
     chips.push({ label: s, href: `/shop${buildQuery({ ...params, size: toggleInList(params.size, s) })}` });
   for (const h of hands)
@@ -205,7 +214,7 @@ export function ShopView() {
 
           {list.length > 0 ? (
             <div
-              key={`${heading}-${sort}-${price ?? ""}-${sizes.join()}-${hands.join()}-${list.length}`}
+              key={`${heading}-${sort}-${price ?? ""}-${dealsOnly}-${sizes.join()}-${hands.join()}-${list.length}`}
               className="grid-stagger mt-6"
             >
               <ProductGrid products={list} />

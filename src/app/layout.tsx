@@ -16,6 +16,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/Toaster";
 import { BackToTop } from "@/components/BackToTop";
+import { MobileNav } from "@/components/MobileNav";
 import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({
@@ -77,8 +78,9 @@ export default function RootLayout({
                       <QuickViewProvider>
                         <AnnouncementBar />
                         <Header />
-                        <main className="flex-1">{children}</main>
+                        <main className="flex-1 pb-16 lg:pb-0">{children}</main>
                         <Footer />
+                        <MobileNav />
                         <Toaster />
                         <BackToTop />
                         <QuickViewModal />

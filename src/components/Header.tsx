@@ -66,14 +66,18 @@ export function Header() {
   return (
     <header
       style={{ viewTransitionName: "site-header" }}
-      className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
+      className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow,height] duration-[--duration-normal] ease-[--ease-emphasized] ${
         scrolled
-          ? "glass border-line/10 shadow-sm shadow-brand-900/5"
+          ? "glass border-line/10 shadow-lg shadow-brand-950/10"
           : "border-transparent bg-surface"
       }`}
     >
       <ScrollProgress />
-      <div className="container-page flex h-16 items-center gap-4">
+      <div
+        className={`container-page flex items-center gap-4 transition-[height] duration-[--duration-normal] ease-[--ease-emphasized] ${
+          scrolled ? "h-14" : "h-16"
+        }`}
+      >
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(true)}
@@ -92,8 +96,8 @@ export function Header() {
             Home
           </NavLink>
           <div className="group relative">
-            <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-subtle">
-              Shop
+            <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors duration-[--duration-fast] hover:bg-subtle">
+              Sports
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="mt-0.5 transition-transform group-hover:rotate-180">
                 <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -161,10 +165,10 @@ export function Header() {
               </div>
             </div>
           </div>
-          <NavLink href="/shop?group=cricket">Cricket</NavLink>
-          <NavLink href="/shop?group=badminton">Badminton</NavLink>
-          <NavLink href="/shop?group=shoes">Shoes</NavLink>
-          <NavLink href="/shop">All Gear</NavLink>
+          <NavLink href="/shop?deals=1" active={pathname === "/shop"}>
+            Deals
+          </NavLink>
+          <NavLink href="/about">Brand</NavLink>
         </nav>
 
         <div className="ml-auto flex items-center gap-1.5">

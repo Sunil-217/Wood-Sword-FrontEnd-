@@ -38,33 +38,34 @@ const SOCIALS = [
 export function Footer() {
   const groupHref = (slug: string) => {
     const leaves = categoriesInGroup(slug as (typeof groups)[number]["slug"]);
-    return leaves.length === 1 ? `/shop?category=${leaves[0].slug}` : `/shop?group=${slug}`;
+    return leaves.length === 1
+      ? `/shop?category=${leaves[0].slug}`
+      : `/shop?group=${slug}`;
   };
+
   const cols = [
     {
       title: "Shop",
-      links: groups.slice(0, 4).map((g) => ({
-        label: g.name,
-        href: groupHref(g.slug),
-      })),
+      links: [
+        { label: "All gear", href: "/shop" },
+        { label: "Deals", href: "/shop?deals=1" },
+        { label: "New arrivals", href: "/shop?sort=newest" },
+        { label: "Your orders", href: "/orders" },
+        { label: "Wishlist", href: "/wishlist" },
+      ],
     },
     {
-      title: "More",
-      links: [
-        ...groups.slice(4).map((g) => ({
-          label: g.name,
-          href: groupHref(g.slug),
-        })),
-        { label: "All Gear", href: "/shop" },
-      ],
+      title: "Sports",
+      links: groups
+        .slice(0, 7)
+        .map((g) => ({ label: g.name, href: groupHref(g.slug) })),
     },
     {
       title: "Company",
       links: [
         { label: "About us", href: "/about" },
         { label: "Contact us", href: "/contact" },
-        { label: "Your Orders", href: "/orders" },
-        { label: "Knocking-in Service", href: "/shop?category=cricket-bats" },
+        { label: "Knocking-in service", href: "/shop?category=cricket-bats" },
       ],
     },
   ];
@@ -72,32 +73,61 @@ export function Footer() {
   return (
     <footer
       style={{ viewTransitionName: "site-footer" }}
-      className="mt-24 bg-brand-950 text-brand-100"
+      className="relative mt-24 overflow-hidden bg-brand-950 text-brand-100"
     >
-      {/* boundary rope along the top edge */}
+      {/* red-to-orange edge */}
       <div
         aria-hidden
-        className="h-1.5"
+        className="h-1"
         style={{
           background:
-            "repeating-linear-gradient(-55deg, #e0a82e 0 6px, #a37014 6px 12px)",
-          opacity: 0.7,
+            "linear-gradient(90deg, var(--color-brand-500), var(--color-gold-500))",
         }}
       />
-      <Container className="py-14">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+
+      {/* Closing statement */}
+      <Container className="relative pb-4 pt-16 sm:pt-20">
+        <p className="font-display text-[clamp(2.25rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight text-white">
+          Play harder.
+          <br />
+          Move faster.
+          <br />
+          <span className="bg-gradient-to-r from-brand-400 to-gold-500 bg-clip-text text-transparent">
+            Go Oneup.
+          </span>
+        </p>
+      </Container>
+
+      <Container className="relative pb-14 pt-12">
+        <div className="grid gap-10 border-t border-white/10 pt-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <WordMark className="h-9 w-auto" />
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-brand-100/60">
-              Exclusive sports store in Chennai — cricket, badminton, football,
-              table tennis, fitness and leisure gear. Worldwide shipping available.
-            </p>
-            <address className="mt-4 space-y-1 text-sm not-italic leading-relaxed text-brand-100/60">
-              <p>No.37, Ramachandra Road, Nehru Nagar, Chromepet, Chennai&nbsp;600&nbsp;044</p>
-              <p>+91 80561 26269 · +91 90438 84205</p>
-              <p>support@oneupsports.in · MON–SUN 11:00&nbsp;AM–09:00&nbsp;PM</p>
+            <WordMark className="h-8 w-auto" />
+            <address className="mt-5 space-y-1.5 text-sm not-italic leading-relaxed text-brand-100/60">
+              <p>
+                No.37, Ramachandra Road, Nehru Nagar, Chromepet,
+                Chennai&nbsp;600&nbsp;044
+              </p>
+              <p>
+                <a href="tel:+918056126269" className="transition-colors hover:text-white">
+                  +91 80561 26269
+                </a>
+                {" · "}
+                <a href="tel:+919043884205" className="transition-colors hover:text-white">
+                  +91 90438 84205
+                </a>
+              </p>
+              <p>
+                <a
+                  href="mailto:support@oneupsports.in"
+                  className="transition-colors hover:text-white"
+                >
+                  support@oneupsports.in
+                </a>
+              </p>
+              <p>MON–SUN · 11:00&nbsp;AM – 09:00&nbsp;PM</p>
             </address>
-            <div className="mt-5 flex gap-3">
+
+            <div className="mt-6 flex gap-3">
               {SOCIALS.map((s) => (
                 <a
                   key={s.label}
@@ -105,7 +135,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="press inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-brand-100/70 ring-1 ring-white/10 transition-colors hover:bg-brand-500 hover:text-white"
+                  className="press inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-brand-100/70 ring-1 ring-white/10 transition-colors duration-[--duration-fast] hover:bg-brand-500 hover:text-white"
                 >
                   {s.icon}
                 </a>
@@ -114,39 +144,39 @@ export function Footer() {
           </div>
 
           {cols.map((col) => (
-            <div key={col.title}>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-gold-400/90">
+            <nav key={col.title} aria-label={col.title}>
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-400/90">
                 {col.title}
-              </h4>
+              </h2>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     <Link
                       href={l.href}
-                      className="text-sm text-brand-100/70 transition-colors hover:text-white"
+                      className="text-sm text-brand-100/65 transition-colors duration-[--duration-fast] hover:text-white"
                     >
                       {l.label}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/50 sm:flex-row">
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-xs text-brand-100/45 sm:flex-row">
           <p>© {new Date().getFullYear()} Oneup Sports. All rights reserved.</p>
           <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span>Secure checkout</span>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>UPI</span>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>Visa</span>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>Mastercard</span>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>RuPay</span>
-            <span>·</span>
+            <span aria-hidden>·</span>
             <span>Net Banking</span>
           </p>
         </div>
