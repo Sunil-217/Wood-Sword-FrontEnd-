@@ -1,6 +1,6 @@
 /**
  * Product photography, vendored into public/products/ by
- * scripts/vendor-product-images.mjs — resized to 900px and re-encoded
+ * scripts/vendor-product-images.mjs — resized to 800px and re-encoded
  * as WebP, so the storefront serves its own images.
  *
  * Generated — do not edit by hand.

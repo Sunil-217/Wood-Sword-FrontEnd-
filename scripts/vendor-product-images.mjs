@@ -15,12 +15,21 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const MAP_FILE = path.join(ROOT, "src/lib/productImages.ts");
 const OUT_DIR = path.join(ROOT, "public/products");
 
-/** Long edge in px. Enough for the product hero on a 2x display. */
-const MAX_EDGE = 900;
-const QUALITY = 78;
+/**
+ * Long edge in px. The product hero renders at roughly 600 CSS px, so 800
+ * still covers a 1.3x display and next/image downscales from here for the
+ * grid. Effort 6 costs encode time but buys a real size reduction — at 900px
+ * / q78 / effort 4 the files were about twice this size.
+ */
+const MAX_EDGE = 800;
+const QUALITY = 72;
+const EFFORT = 6;
 const CONCURRENCY = 6;
 
-const source = await readFile(MAP_FILE, "utf8");
+/** Optional: read the source map from another file (e.g. a git revision). */
+const SOURCE_MAP = process.env.SOURCE_MAP || MAP_FILE;
+
+const source = await readFile(SOURCE_MAP, "utf8");
 const entries = [...source.matchAll(/"([^"]+)":\s*"(https:\/\/[^"]+)"/g)].map(
   ([, slug, url]) => ({ slug, url }),
 );
@@ -48,7 +57,7 @@ async function handle({ slug, url }) {
     const out = await sharp(input)
       .rotate()
       .resize(MAX_EDGE, MAX_EDGE, { fit: "inside", withoutEnlargement: true })
-      .webp({ quality: QUALITY })
+      .webp({ quality: QUALITY, effort: EFFORT })
       .toBuffer();
 
     const file = `${slug}.webp`;
