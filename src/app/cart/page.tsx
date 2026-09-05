@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
+import { useCatalog } from "@/context/CatalogContext";
+import { LineNotice } from "@/components/cart/LineNotice";
 import { useCoupons, couponLabel } from "@/context/CouponsContext";
 import { inr } from "@/lib/format";
 
@@ -12,7 +14,8 @@ const FREE_SHIPPING = 2000;
 const SHIPPING_FEE = 99;
 
 export default function CartPage() {
-  const { lines, subtotal, count, setQty, remove, clear, ready } = useCart();
+  const { lines, subtotal, count, setQty, remove, repriceLine, clear, ready } = useCart();
+  const { getById, ready: catalogReady } = useCatalog();
   const { applied, apply, clearApplied, resultFor } = useCoupons();
   const [code, setCode] = useState("");
   const [codeErr, setCodeErr] = useState<string | null>(null);
@@ -105,8 +108,27 @@ export default function CartPage() {
           </div>
 
           <ul className="divide-y divide-line/8 overflow-hidden rounded-2xl border border-line/8 bg-surface">
-            {lines.map((line) => (
-              <li key={line.id} className="flex gap-4 p-4">
+            {lines.map((line) => {
+              // The bag stores its own copy of name and price, so compare it
+              // with the live catalog rather than trusting the snapshot.
+              const live = catalogReady ? getById(line.productId) : undefined;
+              const withdrawn = catalogReady && !live;
+              const repriced =
+                !!live && Number.isFinite(live.price) && live.price !== line.price;
+
+              return (
+              <li key={line.id} className="p-4">
+                {withdrawn && (
+                  <LineNotice kind="unavailable" onResolve={() => remove(line.id)} />
+                )}
+                {repriced && (
+                  <LineNotice
+                    kind="reprice"
+                    currentPrice={inr(live.price)}
+                    onResolve={() => repriceLine(line.id, live.price)}
+                  />
+                )}
+                <div className="flex gap-4">
                 <Link
                   href={`/product/${line.slug}`}
                   className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line/8 sm:h-24 sm:w-24"
@@ -164,8 +186,10 @@ export default function CartPage() {
                     </p>
                   </div>
                 </div>
+                </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           <Link href="/shop" className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
