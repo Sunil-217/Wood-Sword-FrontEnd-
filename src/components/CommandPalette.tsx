@@ -21,6 +21,7 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [recent, setRecent] = useState<string[]>([]);
+  const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -102,6 +103,54 @@ export function CommandPalette() {
     return groups.filter((g) => g.name.toLowerCase().includes(q)).slice(0, 4);
   }, [query]);
 
+  /** Sports first, then products — the order they're rendered in. */
+  const options = useMemo(
+    () => [
+      ...sportHits.map((g) => ({
+        key: `sport-${g.slug}`,
+        href: `/shop?group=${g.slug}`,
+        label: g.name,
+      })),
+      ...(result?.products ?? []).map((p) => ({
+        key: `product-${p.id}`,
+        href: `/product/${p.slug}`,
+        label: p.name,
+      })),
+    ],
+    [sportHits, result],
+  );
+
+  // A new query invalidates the old highlight position.
+  useEffect(() => {
+    setActive(0);
+  }, [query]);
+
+  function onInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (options.length === 0) {
+      if (e.key === "Enter" && result?.href) go(result.href, query);
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActive((i) => (i + 1) % options.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActive((i) => (i - 1 + options.length) % options.length);
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      setActive(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      setActive(options.length - 1);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const opt = options[active];
+      if (opt) go(opt.href, query);
+    }
+  }
+
+  const activeId = options[active]?.key;
+
   /* ---- trigger button (in the header) ---- */
   if (!open) {
     return (
@@ -146,10 +195,13 @@ export function CommandPalette() {
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && result?.href) go(result.href, query);
-            }}
+            onKeyDown={onInputKeyDown}
             placeholder="What are you looking for?"
+            role="combobox"
+            aria-expanded={options.length > 0}
+            aria-controls="search-listbox"
+            aria-activedescendant={activeId}
+            aria-autocomplete="list"
             aria-label="Search products, sports and brands"
             className="flex-1 bg-transparent text-base text-ink outline-none placeholder:text-muted/40"
           />
@@ -162,7 +214,12 @@ export function CommandPalette() {
           </button>
         </div>
 
-        <div className="overflow-y-auto p-3">
+        <div
+          id="search-listbox"
+          role={options.length > 0 ? "listbox" : undefined}
+          aria-label="Search results"
+          className="overflow-y-auto p-3"
+        >
           {!query.trim() ? (
             <>
               {recent.length > 0 && (
@@ -203,6 +260,8 @@ export function CommandPalette() {
                   {sportHits.map((g) => (
                     <Row
                       key={g.slug}
+                      id={`sport-${g.slug}`}
+                      highlighted={activeId === `sport-${g.slug}`}
                       onClick={() => go(`/shop?group=${g.slug}`, query)}
                     >
                       {g.name}
@@ -222,8 +281,15 @@ export function CommandPalette() {
                       {result.products.map((p) => (
                         <li key={p.id}>
                           <button
+                            id={`product-${p.id}`}
+                            role="option"
+                            aria-selected={activeId === `product-${p.id}`}
                             onClick={() => go(`/product/${p.slug}`, query)}
-                            className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors duration-[--duration-fast] hover:bg-subtle"
+                            className={`flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors duration-[--duration-fast] ${
+                              activeId === `product-${p.id}`
+                                ? "bg-brand-100 ring-1 ring-brand-500/30"
+                                : "hover:bg-subtle"
+                            }`}
                           >
                             <ProductArt
                               art={p.art}
@@ -293,14 +359,23 @@ function Section({
 function Row({
   children,
   onClick,
+  id,
+  highlighted,
 }: {
   children: React.ReactNode;
   onClick: () => void;
+  id?: string;
+  highlighted?: boolean;
 }) {
   return (
     <button
+      id={id}
+      role={id ? "option" : undefined}
+      aria-selected={id ? !!highlighted : undefined}
       onClick={onClick}
-      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-ink transition-colors duration-[--duration-fast] hover:bg-subtle"
+      className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-ink transition-colors duration-[--duration-fast] ${
+        highlighted ? "bg-brand-100 ring-1 ring-brand-500/30" : "hover:bg-subtle"
+      }`}
     >
       <span className="text-muted/35" aria-hidden>
         <ArrowIcon />
