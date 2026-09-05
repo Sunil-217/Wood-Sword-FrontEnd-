@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 export function AccountMenu() {
-  const { user, isAdmin, ready, logout } = useAuth();
+  const { user, ready, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -45,30 +45,16 @@ export function AccountMenu() {
         className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-900 text-sm font-bold text-white transition-transform press"
       >
         {initial}
-        {isAdmin && (
-          <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-white bg-gold-500" />
-        )}
-      </button>
+              </button>
 
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-line/10 bg-surface shadow-xl shadow-brand-900/10">
           <div className="border-b border-line/8 px-4 py-3">
             <p className="text-xs text-muted/50">Signed in as</p>
             <p className="truncate text-sm font-semibold text-ink">{user.email}</p>
-            {isAdmin && (
-              <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-gold-500/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-gold-700">
-                Admin
-              </span>
-            )}
-          </div>
+                      </div>
           <div className="p-1.5">
-            {isAdmin && (
-              <MenuLink href="/admin" onClick={() => setOpen(false)}>
-                <GaugeIcon />
-                Admin Dashboard
-              </MenuLink>
-            )}
-            <MenuLink href="/orders" onClick={() => setOpen(false)}>
+                        <MenuLink href="/orders" onClick={() => setOpen(false)}>
               <BoxIcon />
               Your Orders
             </MenuLink>

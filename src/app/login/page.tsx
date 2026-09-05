@@ -6,119 +6,185 @@ import { Suspense, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { WordMark } from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
-
-function LoginForm() {
-  const { login } = useAuth();
-  const router = useRouter();
-  const params = useSearchParams();
-  const next = params.get("next") || "/";
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [show, setShow] = useState(false);
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const res = login(email, password);
-    if (!res.ok) {
-      setError(res.error ?? "Login failed.");
-      return;
-    }
-    setError(null);
-    // Admins go to the dashboard; customers to where they came from.
-    const dest = email.trim().toLowerCase() === "dhoniacademy@gmail.com" ? "/admin" : next;
-    router.push(dest);
-  }
-
-  return (
-    <div className="mx-auto w-full max-w-md">
-      <div className="mb-6 flex flex-col items-center text-center">
-        <WordMark className="h-10 w-auto" />
-        <h1 className="mt-4 font-display text-2xl font-bold text-ink">Sign in to Oneup Sports</h1>
-        <p className="mt-1.5 text-sm text-muted/55">
-          Access your bag, wishlist and orders.
-        </p>
-      </div>
-
-      <form onSubmit={submit} className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm sm:p-8">
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-muted/60">Email</span>
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setError(null);
-            }}
-            placeholder="you@email.com"
-            className="w-full rounded-xl border border-line/15 bg-surface px-3.5 py-2.5 text-sm outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
-          />
-        </label>
-
-        <label className="mt-4 block">
-          <span className="mb-1 block text-xs font-medium text-muted/60">Password</span>
-          <div className="flex items-center rounded-xl border border-line/15 bg-surface pr-2 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20">
-            <input
-              type={show ? "text" : "password"}
-              required
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError(null);
-              }}
-              placeholder="••••••••"
-              className="w-full rounded-xl bg-transparent px-3.5 py-2.5 text-sm outline-none"
-            />
-            <button
-              type="button"
-              onClick={() => setShow((s) => !s)}
-              className="press rounded-lg px-2 py-1 text-xs font-semibold text-accent"
-            >
-              {show ? "Hide" : "Show"}
-            </button>
-          </div>
-        </label>
-
-        {error && (
-          <p className="mt-3 flex items-center gap-2 rounded-lg bg-ball-500/10 px-3 py-2 text-sm text-ball-600">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.8" />
-              <path d="M12 7.5v5M12 16h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            {error}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          className="press mt-5 w-full rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
-        >
-          Sign in
-        </button>
-
-        <p className="mt-4 text-center text-xs text-muted/45">
-          Demo store — any email + a 6+ character password signs you in as a customer.
-        </p>
-      </form>
-
-      <p className="mt-5 text-center text-sm text-muted/55">
-        <Link href="/shop" className="font-semibold text-accent hover:underline">
-          ← Continue shopping
-        </Link>
-      </p>
-    </div>
-  );
-}
+import { AUTH_BACKEND_CONFIGURED, isValidEmail } from "@/lib/services/auth";
 
 export default function LoginPage() {
   return (
-    <Container className="py-16 sm:py-24">
-      <Suspense fallback={<div className="skeleton mx-auto h-96 max-w-md rounded-2xl" />}>
-        <LoginForm />
-      </Suspense>
+    <Suspense fallback={null}>
+      <SignIn />
+    </Suspense>
+  );
+}
+
+function SignIn() {
+  const { signIn } = useAuth();
+  const router = useRouter();
+  const params = useSearchParams();
+  const next = params.get("next") || "/account";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [busy, setBusy] = useState(false);
+
+  function validate() {
+    const e: typeof errors = {};
+    if (!email.trim()) e.email = "Enter your email address.";
+    else if (!isValidEmail(email)) e.email = "That doesn't look like an email address.";
+    if (!password) e.password = "Enter your password.";
+    return e;
+  }
+
+  async function submit(ev: React.FormEvent) {
+    ev.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
+
+    setBusy(true);
+    const res = await signIn(email, password);
+    setBusy(false);
+    if (res.ok) router.push(next);
+    else setErrors({ [res.field ?? "email"]: res.error });
+  }
+
+  return (
+    <Container className="py-10 sm:py-16">
+      <div className="mx-auto w-full max-w-md">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <WordMark className="h-9 w-auto" />
+          <h1 className="mt-6 font-display text-2xl font-bold text-ink">
+            Sign in
+          </h1>
+          <p className="mt-1.5 text-sm text-muted/55">
+            Keep your bag and saved gear together on this device.
+          </p>
+        </div>
+
+        {!AUTH_BACKEND_CONFIGURED && (
+          <p className="mb-5 rounded-xl bg-subtle px-4 py-3 text-xs leading-relaxed text-muted/65">
+            Accounts aren&apos;t connected to a server yet, so nothing is
+            verified and your details stay in this browser. Don&apos;t enter a
+            password you use elsewhere.
+          </p>
+        )}
+
+        <form
+          onSubmit={submit}
+          noValidate
+          className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm sm:p-8"
+        >
+          <Field
+            id="email"
+            label="Email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={setEmail}
+            error={errors.email}
+          />
+
+          <div className="mt-4">
+            <Field
+              id="password"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={setPassword}
+              error={errors.password}
+            />
+          </div>
+
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-muted/70">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="h-4 w-4 accent-[var(--color-brand-500)]"
+              />
+              Remember me
+            </label>
+            <Link
+              href="/forgot-password"
+              className="text-sm font-semibold text-accent hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          <button
+            type="submit"
+            disabled={busy}
+            className="press btn-shine mt-6 flex min-h-12 w-full items-center justify-center rounded-full bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 disabled:opacity-60"
+          >
+            {busy ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+
+        <p className="mt-6 text-center text-sm text-muted/60">
+          New here?{" "}
+          <Link href="/register" className="font-semibold text-accent hover:underline">
+            Create an account
+          </Link>
+        </p>
+      </div>
     </Container>
+  );
+}
+
+export function Field({
+  id,
+  label,
+  type = "text",
+  value,
+  onChange,
+  error,
+  autoComplete,
+  hint,
+  inputMode,
+}: {
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  autoComplete?: string;
+  hint?: React.ReactNode;
+  inputMode?: "text" | "tel" | "email" | "numeric";
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="block text-xs font-medium text-muted/60">
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
+        onChange={(e) => onChange(e.target.value)}
+        className={`mt-1 min-h-12 w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors ${
+          error
+            ? "border-ball-500 focus:ring-2 focus:ring-ball-500/25"
+            : "border-line/15 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+        }`}
+      />
+      {error ? (
+        <p id={`${id}-error`} role="alert" className="mt-1.5 text-xs text-ball-600">
+          {error}
+        </p>
+      ) : hint ? (
+        <div id={`${id}-hint`} className="mt-1.5">
+          {hint}
+        </div>
+      ) : null}
+    </div>
   );
 }

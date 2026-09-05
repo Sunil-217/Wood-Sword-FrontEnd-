@@ -23,7 +23,7 @@ export function Header() {
   const pathname = usePathname();
   const { count, ready } = useCart();
   const { count: wishCount, ready: wishReady } = useWishlist();
-  const { user, isAdmin, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -378,21 +378,6 @@ export function Header() {
                   )}
                 </Link>
               </li>
-
-              {isAdmin && (
-                <li className="border-b border-line/8">
-                  <Link
-                    href="/admin"
-                    onClick={closeDrawer}
-                    className="flex items-center justify-between py-4 text-[17px] font-medium text-ink"
-                  >
-                    Admin Dashboard
-                    <span className="rounded-full bg-gold-500/15 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-gold-700">
-                      Admin
-                    </span>
-                  </Link>
-                </li>
-              )}
             </ul>
           </nav>
 

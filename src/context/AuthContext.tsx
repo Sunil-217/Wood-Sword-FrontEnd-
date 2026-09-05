@@ -8,27 +8,34 @@ import {
   useMemo,
   useState,
 } from "react";
+import {
+  authService,
+  type AuthResult,
+  type AuthUser,
+} from "@/lib/services/auth";
 
 /**
- * DEMO auth only. This runs entirely in the browser, so these
- * credentials are visible in the client bundle — this is NOT real
- * security. A production store needs a backend with hashed passwords
- * and server-side sessions.
+ * Local profile state.
+ *
+ * This is NOT authentication — no credential is verified and nothing here
+ * grants privileges. It remembers who is using this device so the bag and
+ * order history can be attributed. Swap lib/services/auth for a real backend
+ * and this provider keeps working.
  */
-const ADMIN_EMAIL = "dhoniacademy@gmail.com";
-const ADMIN_PASSWORD = "Mm@Sports@2026";
-const STORAGE_KEY = "oneup-auth-v1";
-
-export interface AuthUser {
-  email: string;
-  isAdmin: boolean;
-}
+const STORAGE_KEY = "oneup-profile-v1";
+const LEGACY_KEY = "oneup-auth-v1";
 
 interface AuthApi {
   user: AuthUser | null;
-  isAdmin: boolean;
   ready: boolean;
-  login: (email: string, password: string) => { ok: boolean; error?: string };
+  signIn: (email: string, password: string) => Promise<AuthResult>;
+  register: (input: {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+  }) => Promise<AuthResult>;
+  updateProfile: (patch: Partial<AuthUser>) => void;
   logout: () => void;
 }
 
@@ -40,10 +47,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
+      // The old key stored an isAdmin flag from the removed demo login.
+      localStorage.removeItem(LEGACY_KEY);
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setUser(JSON.parse(raw));
     } catch {
-      /* ignore */
+      /* storage unavailable */
     }
     setReady(true);
   }, []);
@@ -58,27 +67,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user, ready]);
 
-  const login = useCallback((emailRaw: string, password: string) => {
-    const email = emailRaw.trim().toLowerCase();
-    if (!email || !password) return { ok: false, error: "Enter your email and password." };
-
-    if (email === ADMIN_EMAIL) {
-      if (password !== ADMIN_PASSWORD) return { ok: false, error: "Incorrect password." };
-      setUser({ email, isAdmin: true });
-      return { ok: true };
-    }
-
-    // Any other email is treated as a demo customer login.
-    if (password.length < 6) return { ok: false, error: "Password must be at least 6 characters." };
-    setUser({ email, isAdmin: false });
-    return { ok: true };
+  const signIn = useCallback(async (email: string, password: string) => {
+    const res = await authService.signIn(email, password);
+    if (res.ok) setUser(res.user);
+    return res;
   }, []);
 
-  const logout = useCallback(() => setUser(null), []);
+  const register = useCallback(
+    async (input: { name: string; email: string; phone: string; password: string }) => {
+      const res = await authService.register(input);
+      if (res.ok) setUser(res.user);
+      return res;
+    },
+    [],
+  );
+
+  const updateProfile = useCallback((patch: Partial<AuthUser>) => {
+    setUser((u) => (u ? { ...u, ...patch } : u));
+  }, []);
+
+  const logout = useCallback(() => {
+    void authService.signOut();
+    setUser(null);
+  }, []);
 
   const value = useMemo<AuthApi>(
-    () => ({ user, isAdmin: !!user?.isAdmin, ready, login, logout }),
-    [user, ready, login, logout],
+    () => ({ user, ready, signIn, register, updateProfile, logout }),
+    [user, ready, signIn, register, updateProfile, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -86,6 +101,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth(): AuthApi {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within <AuthProvider>");
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
 }
+
+export type { AuthUser };

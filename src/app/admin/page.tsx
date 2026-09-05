@@ -21,12 +21,7 @@ type Editing =
   | null;
 
 export default function AdminPage() {
-  const { isAdmin, ready, user, logout } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (ready && !isAdmin) router.replace("/login?next=/admin");
-  }, [ready, isAdmin, router]);
+  const { ready, user, logout } = useAuth();
 
   if (!ready) {
     return (
@@ -35,9 +30,8 @@ export default function AdminPage() {
       </Container>
     );
   }
-  if (!isAdmin) return null;
 
-  return <Dashboard email={user!.email} onLogout={logout} />;
+  return <Dashboard email={user?.email ?? "Not signed in"} onLogout={logout} />;
 }
 
 function Dashboard({ email, onLogout }: { email: string; onLogout: () => void }) {
