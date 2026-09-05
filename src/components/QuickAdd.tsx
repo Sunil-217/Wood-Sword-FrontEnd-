@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
-import { showToast } from "@/components/Toaster";
 import { flyToCart } from "@/lib/flyToCart";
 import type { ArtKind } from "@/lib/types";
 
@@ -47,7 +46,6 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
       qty: 1,
     });
     setAdded(true);
-    showToast(`${product.name} added to your bag`);
     window.setTimeout(() => setAdded(false), 1400);
   }
 
@@ -55,7 +53,7 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
     <button
       type="button"
       onClick={handleAdd}
-      aria-label={`Add ${product.name} to bag`}
+      aria-label={added ? `${product.name} added to bag` : `Add ${product.name} to bag`}
       className={`press inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors duration-300 sm:h-10 sm:w-10 ${
         added
           ? "bg-brand-600 text-white"

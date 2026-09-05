@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
-import { showToast } from "@/components/Toaster";
 import { flyToCart } from "@/lib/flyToCart";
 import { inr } from "@/lib/format";
 import type { Product } from "@/lib/types";
@@ -18,6 +17,7 @@ export function ProductActions({
   const { addLine } = useCart();
   const router = useRouter();
 
+  const [added, setAdded] = useState(false);
   const [color, setColor] = useState(product.colors[0]);
   const [size, setSize] = useState(product.sizes[0]);
   const [hand, setHand] = useState(product.hands?.[0]);
@@ -45,7 +45,9 @@ export function ProductActions({
   function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
     flyToCart(e.currentTarget);
     addLine(buildLine());
-    showToast(`${product.name} added to your bag`);
+    // Confirm on the button itself rather than throwing a toast over the page.
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1600);
     onDone?.();
   }
 
@@ -100,9 +102,24 @@ export function ProductActions({
         <button
           onClick={handleAdd}
           disabled={!product.inStock}
-          className="press btn-shine flex-1 rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800 hover:shadow-brand-900/25 disabled:cursor-not-allowed disabled:bg-brand-900/40 disabled:shadow-none"
+          className={`press btn-shine flex flex-1 items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-colors duration-[--duration-normal] disabled:cursor-not-allowed disabled:bg-brand-900/40 disabled:shadow-none ${
+            added
+              ? "bg-brand-600 shadow-brand-600/25"
+              : "bg-brand-900 shadow-brand-900/15 hover:bg-brand-800 hover:shadow-brand-900/25"
+          }`}
         >
-          {product.inStock ? `Add to bag · ${inr(product.price * qty)}` : "Out of stock"}
+          {!product.inStock ? (
+            "Out of stock"
+          ) : added ? (
+            <>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Added to bag
+            </>
+          ) : (
+            `Add to bag · ${inr(product.price * qty)}`
+          )}
         </button>
       </div>
 

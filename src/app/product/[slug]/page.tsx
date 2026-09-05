@@ -8,6 +8,7 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductPurchase } from "@/components/product/ProductPurchase";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
+import { ProductInfo } from "@/components/product/ProductInfo";
 import { ProductJsonLd } from "@/components/JsonLd";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
 
@@ -94,36 +95,7 @@ export default async function ProductPage({
             ))}
           </div>
 
-          {/* Delivery */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 rounded-xl bg-subtle px-4 py-3 text-xs text-muted/70 sm:justify-start">
-            <span className="flex items-center gap-1.5">
-              <Dot /> Cash on Delivery available
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Dot /> Ships within 48 hours
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Dot /> GST invoice on request
-            </span>
-          </div>
-
-          {/* Features */}
-          <div className="mt-8 rounded-2xl border border-line/8 bg-surface p-6">
-            <h2 className="font-display text-lg font-bold text-ink">Why you&apos;ll love it</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted/65">{product.description}</p>
-            <ul className="mt-4 space-y-2.5">
-              {product.features.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-muted/80">
-                  <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-accent">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ProductInfo product={product} />
         </div>
       </div>
 
@@ -147,11 +119,3 @@ export default async function ProductPage({
   );
 }
 
-function Dot() {
-  return (
-    <span
-      aria-hidden
-      className="inline-block h-1.5 w-1.5 rotate-45 bg-brand-500/70"
-    />
-  );
-}
