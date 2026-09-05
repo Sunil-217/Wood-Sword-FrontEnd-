@@ -73,7 +73,7 @@ export function FeaturedProducts() {
 
       {/* Re-keyed so the stagger entrance replays on tab change */}
       <div key={tab} className="grid-stagger mt-6">
-        <ProductGrid products={lists[tab]} />
+        <ProductGrid products={lists[tab]} spotlight />
       </div>
     </Container>
   );

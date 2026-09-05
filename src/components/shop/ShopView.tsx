@@ -227,7 +227,10 @@ export function ShopView() {
           {list.length > 0 ? (
             <>
               <div key={filterKey} className="grid-stagger mt-6">
-                <ProductGrid products={visible} />
+                <ProductGrid
+                  products={visible}
+                  spotlight={!q && !dealsOnly && sizes.length === 0 && hands.length === 0 && !price}
+                />
               </div>
 
               <p aria-live="polite" className="sr-only">
