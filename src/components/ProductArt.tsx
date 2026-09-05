@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ArtKind } from "@/lib/types";
 
 /**
@@ -11,22 +12,38 @@ export function ProductArt({
   className = "",
   label,
   image,
+  sizes = "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1536px) 25vw, 20vw",
 }: {
   art: ArtKind;
   accent: string;
   className?: string;
   label?: string;
   image?: string;
+  /** Layout width hint for next/image; default suits the product grid. */
+  sizes?: string;
 }) {
-  // An uploaded photo takes over the whole panel.
+  // A real photo takes over the whole panel. Product shots sit on white, so
+  // `contain` keeps the whole item visible instead of cropping into it.
   if (image) {
     return (
-      <div className={`relative isolate overflow-hidden bg-subtle ${className}`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div
+        className={`relative isolate overflow-hidden ${className}`}
+        style={{
+          // Photo shots arrive on white; a faint accent wash underneath keeps
+          // them sitting in the same visual system as the SVG artwork tiles.
+          backgroundImage: `radial-gradient(120% 100% at 20% 0%,
+            #ffffff 0%,
+            color-mix(in srgb, ${accent} 5%, #ffffff) 55%,
+            color-mix(in srgb, ${accent} 14%, #f2f0ef) 100%)`,
+        }}
+      >
+        <Image
           src={image}
           alt={label ?? "product photo"}
-          className="h-full w-full object-cover"
+          fill
+          sizes={sizes}
+          className="object-contain p-2 transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.06]"
+          unoptimized={image.startsWith("data:")}
         />
       </div>
     );

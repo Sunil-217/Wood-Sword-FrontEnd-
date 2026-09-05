@@ -22,6 +22,7 @@ export function ProductGallery({ product: base }: { product: Product }) {
             accent={product.accent}
             image={product.image}
             label={product.name}
+            sizes="(max-width: 1024px) 100vw, 46vw"
             className="aspect-square w-full"
           />
         </ViewTransition>
@@ -40,6 +41,7 @@ export function ProductGallery({ product: base }: { product: Product }) {
                 art={product.art}
                 accent={mixShade(product.accent, i)}
                 label={`${product.name} ${view}`}
+                sizes="(max-width: 1024px) 22vw, 11vw"
                 className="aspect-square w-full"
               />
             </div>

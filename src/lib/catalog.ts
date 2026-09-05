@@ -1,3 +1,4 @@
+import { PRODUCT_IMAGES } from "./productImages";
 import type {
   ArtKind,
   Badge,
@@ -647,6 +648,7 @@ function P(p: Seed): Product {
     description: p.description ?? copy.desc(p.name, brand),
     features: p.features ?? copy.features,
     inStock: p.inStock ?? true,
+    image: PRODUCT_IMAGES[id],
   };
 }
 

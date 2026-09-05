@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductPurchase } from "@/components/product/ProductPurchase";
 import { ProductReviews } from "@/components/product/ProductReviews";
+import { StickyBuyBar } from "@/components/product/StickyBuyBar";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
 
 export function generateStaticParams() {
@@ -73,7 +74,9 @@ export default async function ProductPage({
             <Rating value={product.rating} reviews={product.reviews} size="md" />
           </div>
 
-          <ProductPurchase product={product} />
+          <div id="purchase-panel">
+            <ProductPurchase product={product} />
+          </div>
 
           {/* Trust row */}
           <div className="mt-7 grid grid-cols-3 gap-3">
@@ -121,6 +124,8 @@ export default async function ProductPage({
           </div>
         </div>
       </div>
+
+      <StickyBuyBar product={product} />
 
       {/* Reviews */}
       <ProductReviews product={product} />
