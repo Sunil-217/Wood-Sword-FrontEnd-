@@ -26,8 +26,8 @@ export function ProductCard({ product }: { product: Product }) {
   const { base, variant } = splitName(product.name);
 
   return (
-    <article className="glow-ring group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
-      <div className="relative aspect-square overflow-hidden">
+    <article className="aurora-ring group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
+      <div className="holo relative aspect-square overflow-hidden">
         <ViewTransition name={`product-${product.slug}`} share="morph">
           <ProductArt
             art={product.art}

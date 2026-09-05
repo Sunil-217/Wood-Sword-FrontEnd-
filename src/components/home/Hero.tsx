@@ -31,7 +31,7 @@ const BRANDS = [
 
 export function Hero() {
   return (
-    <section className="stadium grain relative overflow-hidden text-white">
+    <section className="stadium grain aurora-field relative overflow-hidden text-white">
       <CursorGlow />
       {/* drifting speed lines + brand glows */}
       <div aria-hidden className="speed-lines pointer-events-none absolute inset-0" />

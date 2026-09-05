@@ -525,6 +525,166 @@ h2 {
   opacity: 1;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Aurora layer — @property makes gradients animatable                 */
+/* ------------------------------------------------------------------ */
+
+@property --aurora-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@property --aurora-x {
+  syntax: "<percentage>";
+  initial-value: 20%;
+  inherits: false;
+}
+@property --aurora-y {
+  syntax: "<percentage>";
+  initial-value: 15%;
+  inherits: false;
+}
+
+@keyframes ws-aurora-spin {
+  to {
+    --aurora-angle: 360deg;
+  }
+}
+
+/**
+ * A light source that travels around the card edge. Without @property the
+ * conic gradient's angle can't tween, so this would snap instead of orbit.
+ */
+.aurora-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  z-index: 30;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--aurora-angle),
+    transparent 0deg,
+    var(--color-brand-500) 45deg,
+    var(--color-gold-400) 100deg,
+    var(--color-brand-400) 150deg,
+    transparent 230deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-spring);
+  pointer-events: none;
+}
+.aurora-ring:hover::before {
+  opacity: 1;
+  animation: ws-aurora-spin 3.4s linear infinite;
+}
+
+/* Iridescent film that slides across artwork on hover */
+.holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    transparent 28%,
+    color-mix(in oklab, #63d7ff 55%, transparent) 40%,
+    color-mix(in oklab, #ff7ae0 45%, transparent) 49%,
+    color-mix(in oklab, #7dffc4 45%, transparent) 58%,
+    transparent 72%
+  );
+  opacity: 0;
+  transform: translateX(-25%);
+  mix-blend-mode: soft-light;
+  transition:
+    opacity 0.45s var(--ease-spring),
+    transform 0.9s var(--ease-spring);
+}
+.group:hover .holo::after {
+  opacity: 1;
+  transform: translateX(25%);
+}
+
+/* Slow-drifting aurora field for dark sections */
+@keyframes ws-aurora-drift {
+  0%,
+  100% {
+    --aurora-x: 18%;
+    --aurora-y: 12%;
+  }
+  33% {
+    --aurora-x: 72%;
+    --aurora-y: 30%;
+  }
+  66% {
+    --aurora-x: 40%;
+    --aurora-y: 68%;
+  }
+}
+.aurora-field::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      38rem 26rem at var(--aurora-x) var(--aurora-y),
+      color-mix(in oklab, var(--color-brand-500) 32%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30rem 22rem at calc(100% - var(--aurora-x)) calc(100% - var(--aurora-y)),
+      color-mix(in oklab, var(--color-gold-500) 22%, transparent),
+      transparent 70%
+    );
+  animation: ws-aurora-drift 22s ease-in-out infinite;
+  filter: blur(18px);
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------------ */
+/*  CSS carousel — the rail gets native markers where supported        */
+/* ------------------------------------------------------------------ */
+
+@supports selector(::scroll-marker) {
+  .rail {
+    scroll-marker-group: after;
+    scroll-snap-type: x proximity;
+  }
+  .rail > * {
+    scroll-snap-align: start;
+  }
+  .rail::scroll-marker-group {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding-top: 12px;
+  }
+  .rail > *::scroll-marker {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-ink) 18%, transparent);
+    transition: background 0.3s, width 0.3s var(--ease-spring);
+  }
+  .rail > *::scroll-marker:target-current {
+    width: 20px;
+    background: var(--color-brand-500);
+  }
+}
+
 /* Fly-to-cart ball (created by src/lib/flyToCart.ts) */
 .fly-ball {
   position: fixed;
@@ -801,6 +961,8 @@ h2 {
   .text-shimmer,
   .hero-scroll-fx,
   .animate-word,
+  .aurora-ring:hover::before,
+  .aurora-field::after,
   .animate-rise,
   .animate-toast-in,
   .animate-ball-bounce,

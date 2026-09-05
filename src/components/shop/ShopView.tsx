@@ -132,7 +132,7 @@ export function ShopView() {
 
       {/* Sport rail — quick hop between departments */}
       <div className="scrollbar-none -mx-4 mt-6 overflow-x-auto px-4">
-        <div className="flex w-max gap-2">
+        <div className="rail flex w-max gap-2">
           <Link
             href="/shop"
             className={`press whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
