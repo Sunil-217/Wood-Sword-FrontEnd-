@@ -430,6 +430,40 @@ h2 {
   }
 }
 
+/* Skip link: off-screen until focused, then a real target at the top-left.
+   Written out rather than using sr-only + not-sr-only, because this build of
+   Tailwind does not emit a not-sr-only utility to undo it with. */
+.skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+}
+.skip-link:focus-visible,
+.skip-link:focus {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  overflow: visible;
+  clip-path: none;
+  border-radius: 999px;
+  background: var(--color-brand-900);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
+}
+
 /* Mega menu panel entrance. The panel is display:none while closed, so this
    plays on open only — there is no exit animation to keep in sync. */
 @keyframes mega-in {

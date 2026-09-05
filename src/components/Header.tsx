@@ -305,7 +305,7 @@ export function Header() {
       {/* ---------------- Mobile drawer ---------------- */}
       <div
         className={`fixed inset-0 z-[90] lg:hidden ${mobileOpen ? "" : "pointer-events-none"}`}
-        aria-hidden={!mobileOpen}
+        inert={!mobileOpen}
       >
         {/* Backdrop */}
         <div

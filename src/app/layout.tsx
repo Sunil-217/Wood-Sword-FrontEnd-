@@ -77,6 +77,12 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {`try{var t=localStorage.getItem('oneup-theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}else if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}`}
         </Script>
+        <a
+          href="#main"
+          className="skip-link"
+        >
+          Skip to content
+        </a>
         <AuthProvider>
           <CatalogProvider>
             <OrdersProvider>
@@ -87,7 +93,9 @@ export default function RootLayout({
                       <QuickViewProvider>
                         <AnnouncementBar />
                         <Header />
-                        <main className="flex-1 pb-16 lg:pb-0">{children}</main>
+                        <main id="main" tabIndex={-1} className="flex-1 pb-16 lg:pb-0">
+                          {children}
+                        </main>
                         <Footer />
                         <MobileNav />
                         <Toaster />
