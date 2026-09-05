@@ -104,13 +104,14 @@ function OrderCard({ order }: { order: Order }) {
         <div className="flex items-center gap-3">
           <StatusBadge status={order.status} />
           <span className="font-display text-base font-bold text-ink">{inr(order.total)}</span>
+          <Link
+            href={`/orders/${encodeURIComponent(order.id)}`}
+            className="press inline-flex min-h-11 items-center rounded-full bg-brand-500 px-4 py-2 text-xs font-semibold text-white"
+          >
+            View order
+          </Link>
         </div>
       </div>
-      {/* Tracking timeline */}
-      <div className="px-5 pt-5">
-        <OrderTracker status={order.status} />
-      </div>
-
       <div className="flex flex-wrap gap-4 px-5 py-4">
         {order.items.map((line) => (
           <div key={line.id} className="flex items-center gap-3">
@@ -132,38 +133,3 @@ function OrderCard({ order }: { order: Order }) {
   );
 }
 
-const STEPS: OrderStatus[] = ["Pending", "Packed", "Shipped", "Delivered"];
-
-function OrderTracker({ status }: { status: OrderStatus }) {
-  const current = STEPS.indexOf(status);
-  return (
-    <div className="flex items-center">
-      {STEPS.map((step, i) => {
-        const done = i <= current;
-        return (
-          <div key={step} className={`flex items-center ${i < STEPS.length - 1 ? "flex-1" : ""}`}>
-            <div className="flex flex-col items-center gap-1.5">
-              <span
-                className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold transition-colors ${
-                  done ? "bg-brand-600 text-white" : "bg-subtle text-muted/50"
-                }`}
-              >
-                {i < current ? (
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : (
-                  i + 1
-                )}
-              </span>
-              <span className={`text-[10px] font-semibold ${done ? "text-ink" : "text-muted/45"}`}>{step}</span>
-            </div>
-            {i < STEPS.length - 1 && (
-              <span className={`mx-1 mb-4 h-0.5 flex-1 rounded-full ${i < current ? "bg-brand-600" : "bg-subtle"}`} />
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-}

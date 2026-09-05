@@ -82,7 +82,7 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
   const addOrder = useCallback((input: NewOrderInput): Order => {
     const order: Order = {
       ...input,
-      id: `MM-${Math.floor(100000 + Math.random() * 900000)}`,
+      id: `ONE-${Math.floor(100000 + Math.random() * 900000)}`,
       createdAt: new Date().toISOString(),
       status: "Pending",
     };
