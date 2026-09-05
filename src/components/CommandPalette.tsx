@@ -31,6 +31,16 @@ export function CommandPalette() {
     setQuery("");
   }, []);
 
+  const openPalette = useCallback(() => {
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      setRecent(raw ? JSON.parse(raw) : []);
+    } catch {
+      /* storage unavailable — recents are optional */
+    }
+    setOpen(true);
+  }, []);
+
   /* ---- open / close shortcuts ---- */
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -43,32 +53,27 @@ export function CommandPalette() {
 
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((v) => !v);
+        if (open) close();
+        else openPalette();
         return;
       }
       if (e.key === "/" && !typing) {
         e.preventDefault();
-        setOpen(true);
+        openPalette();
         return;
       }
       if (e.key === "Escape" && open) close();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, close]);
+  }, [open, close, openPalette]);
 
-  /* ---- focus, scroll lock, recent searches ---- */
+  /* ---- focus and scroll lock ---- */
   useEffect(() => {
     if (!open) return;
     inputRef.current?.focus();
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    try {
-      const raw = localStorage.getItem(RECENT_KEY);
-      if (raw) setRecent(JSON.parse(raw));
-    } catch {
-      /* storage unavailable — recents are optional */
-    }
     return () => {
       document.body.style.overflow = prev;
     };
@@ -101,7 +106,7 @@ export function CommandPalette() {
   if (!open) {
     return (
       <button
-        onClick={() => setOpen(true)}
+        onClick={openPalette}
         aria-label="Search products and sports"
         aria-keyshortcuts="Control+K"
         className="press group flex items-center gap-2 rounded-full bg-subtle py-2 pl-3.5 pr-2 text-sm text-muted/60 ring-1 ring-line/10 transition-colors duration-[--duration-fast] hover:bg-brand-100 hover:text-ink md:w-64"
