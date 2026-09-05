@@ -1,0 +1,329 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ProductArt } from "@/components/ProductArt";
+import { answer, samplePrompts } from "@/lib/concierge";
+import { categoryMap, groups } from "@/lib/catalog";
+import { inr } from "@/lib/format";
+
+const RECENT_KEY = "oneup-recent-searches";
+const MAX_RECENT = 5;
+
+/**
+ * Command palette. Opens on Ctrl/Cmd+K or "/" and answers in one of two
+ * ways: matching sports, or matching products via the catalog parser in
+ * lib/concierge. Every result is a real catalog entry.
+ */
+export function CommandPalette() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [recent, setRecent] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  const prompts = useMemo(() => samplePrompts(), []);
+
+  const close = useCallback(() => {
+    setOpen(false);
+    setQuery("");
+  }, []);
+
+  /* ---- open / close shortcuts ---- */
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const el = e.target as HTMLElement | null;
+      const typing =
+        el &&
+        (el.tagName === "INPUT" ||
+          el.tagName === "TEXTAREA" ||
+          el.isContentEditable);
+
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen((v) => !v);
+        return;
+      }
+      if (e.key === "/" && !typing) {
+        e.preventDefault();
+        setOpen(true);
+        return;
+      }
+      if (e.key === "Escape" && open) close();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, close]);
+
+  /* ---- focus, scroll lock, recent searches ---- */
+  useEffect(() => {
+    if (!open) return;
+    inputRef.current?.focus();
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      if (raw) setRecent(JSON.parse(raw));
+    } catch {
+      /* storage unavailable — recents are optional */
+    }
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  function remember(q: string) {
+    const next = [q, ...recent.filter((r) => r !== q)].slice(0, MAX_RECENT);
+    setRecent(next);
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function go(href: string, q?: string) {
+    if (q) remember(q);
+    close();
+    router.push(href);
+  }
+
+  const result = useMemo(() => (query.trim() ? answer(query) : null), [query]);
+  const sportHits = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return groups.filter((g) => g.name.toLowerCase().includes(q)).slice(0, 4);
+  }, [query]);
+
+  /* ---- trigger button (in the header) ---- */
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Search products and sports"
+        aria-keyshortcuts="Control+K"
+        className="press group flex items-center gap-2 rounded-full bg-subtle py-2 pl-3.5 pr-2 text-sm text-muted/60 ring-1 ring-line/10 transition-colors duration-[--duration-fast] hover:bg-brand-100 hover:text-ink md:w-64"
+      >
+        <SearchIcon />
+        <span className="hidden flex-1 text-left md:block">Search gear…</span>
+        <kbd className="hidden rounded border border-line/15 bg-surface px-1.5 py-0.5 font-sans text-[10px] font-semibold text-muted/50 md:block">
+          Ctrl K
+        </kbd>
+      </button>
+    );
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center p-4 pt-[10vh]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search"
+    >
+      <div
+        className="absolute inset-0 bg-brand-950/60 backdrop-blur-sm"
+        onClick={close}
+        aria-hidden
+      />
+
+      <div
+        ref={dialogRef}
+        className="animate-toast-in relative flex max-h-[76vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-surface shadow-2xl ring-1 ring-line/10"
+      >
+        {/* Prompt line */}
+        <div className="flex items-center gap-3 border-b border-line/8 px-4 py-3.5">
+          <span className="text-accent" aria-hidden>
+            <SearchIcon />
+          </span>
+          <input
+            ref={inputRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && result?.href) go(result.href, query);
+            }}
+            placeholder="What are you looking for?"
+            aria-label="Search products, sports and brands"
+            className="flex-1 bg-transparent text-base text-ink outline-none placeholder:text-muted/40"
+          />
+          <button
+            onClick={close}
+            aria-label="Close search"
+            className="press rounded-full p-1.5 text-muted/50 hover:bg-subtle hover:text-ink"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto p-3">
+          {!query.trim() ? (
+            <>
+              {recent.length > 0 && (
+                <Section title="Recent">
+                  {recent.map((r) => (
+                    <Row key={r} onClick={() => setQuery(r)}>
+                      {r}
+                    </Row>
+                  ))}
+                </Section>
+              )}
+              <Section title="Ask Oneup">
+                {prompts.map((p) => (
+                  <Row key={p} onClick={() => setQuery(p)}>
+                    {p}
+                  </Row>
+                ))}
+              </Section>
+              <Section title="Sports">
+                <div className="flex flex-wrap gap-1.5 px-1 pb-1">
+                  {groups.map((g) => (
+                    <Link
+                      key={g.slug}
+                      href={`/shop?group=${g.slug}`}
+                      onClick={close}
+                      className="rounded-full bg-subtle px-3 py-1.5 text-xs font-semibold text-ink ring-1 ring-line/8 transition-colors duration-[--duration-fast] hover:bg-brand-100"
+                    >
+                      {g.name}
+                    </Link>
+                  ))}
+                </div>
+              </Section>
+            </>
+          ) : (
+            <>
+              {sportHits.length > 0 && (
+                <Section title="Sports">
+                  {sportHits.map((g) => (
+                    <Row
+                      key={g.slug}
+                      onClick={() => go(`/shop?group=${g.slug}`, query)}
+                    >
+                      {g.name}
+                    </Row>
+                  ))}
+                </Section>
+              )}
+
+              {result && (
+                <Section title={result.summary || "Results"}>
+                  {result.products.length === 0 ? (
+                    <p className="px-3 py-6 text-center text-sm text-muted/55">
+                      Try a different sport, product type or budget.
+                    </p>
+                  ) : (
+                    <ul>
+                      {result.products.map((p) => (
+                        <li key={p.id}>
+                          <button
+                            onClick={() => go(`/product/${p.slug}`, query)}
+                            className="flex w-full items-center gap-3 rounded-xl px-2 py-2 text-left transition-colors duration-[--duration-fast] hover:bg-subtle"
+                          >
+                            <ProductArt
+                              art={p.art}
+                              accent={p.accent}
+                              image={p.image}
+                              label={p.name}
+                              sizes="56px"
+                              className="h-12 w-12 shrink-0 overflow-hidden rounded-lg"
+                            />
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-[11px] font-semibold uppercase tracking-wide text-accent">
+                                {p.brand} · {categoryMap[p.category].name}
+                              </span>
+                              <span className="block truncate text-sm font-medium text-ink">
+                                {p.name}
+                              </span>
+                            </span>
+                            <span className="shrink-0 font-display text-sm font-bold text-ink">
+                              {inr(p.price)}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {result.href && result.products.length > 0 && (
+                    <button
+                      onClick={() => go(result.href!, query)}
+                      className="press mt-2 w-full rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white"
+                    >
+                      See all in shop
+                    </button>
+                  )}
+                </Section>
+              )}
+            </>
+          )}
+        </div>
+
+        <p className="border-t border-line/8 px-4 py-2.5 text-[11px] text-muted/45">
+          Results come from the Oneup catalog — budget, sport and product type
+          are read from what you type.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mb-3 last:mb-0">
+      <p className="px-2 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted/45">
+        {title}
+      </p>
+      {children}
+    </div>
+  );
+}
+
+function Row({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm text-ink transition-colors duration-[--duration-fast] hover:bg-subtle"
+    >
+      <span className="text-muted/35" aria-hidden>
+        <ArrowIcon />
+      </span>
+      {children}
+    </button>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+      <path d="M20 20l-3.2-3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+function CloseIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+function ArrowIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

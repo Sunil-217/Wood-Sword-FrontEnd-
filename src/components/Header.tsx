@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
 import { Logo } from "./Logo";
-import { SearchBox } from "./SearchBox";
+import { CommandPalette } from "./CommandPalette";
 import { AccountMenu } from "./AccountMenu";
 import { ThemeToggle } from "./ThemeToggle";
 import { ScrollProgress } from "./ScrollProgress";
@@ -168,10 +168,8 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-1.5">
-          {/* Search (desktop) with autocomplete */}
-          <div className="hidden md:block">
-            <SearchBox />
-          </div>
+          {/* Command palette trigger — Ctrl/Cmd+K or "/" */}
+          <CommandPalette />
 
           {/* Wishlist */}
           <Link
@@ -251,9 +249,7 @@ export function Header() {
           </div>
 
           {/* Search with autocomplete */}
-          <div className="px-5 pb-4 pt-2">
-            <SearchBox variant="mobile" onNavigate={closeDrawer} />
-          </div>
+
 
           {/* Nav list — items cascade in when the drawer opens */}
           <nav className="flex-1 overflow-y-auto px-5">
