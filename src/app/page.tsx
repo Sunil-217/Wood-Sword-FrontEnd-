@@ -5,7 +5,6 @@ import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { PromoBand } from "@/components/home/PromoBand";
 import { Newsletter } from "@/components/home/Newsletter";
 import { Reveal } from "@/components/Reveal";
-import { SportsTicker } from "@/components/home/SportsTicker";
 import { SportsOS } from "@/components/home/SportsOS";
 import { BrandStatement } from "@/components/home/BrandStatement";
 import { ConciergeSection } from "@/components/home/ConciergeSection";
@@ -29,7 +28,6 @@ export default function HomePage() {
         <PromoBand />
       </Reveal>
       <ConciergeSection />
-      <SportsTicker />
       <Reveal>
         <Newsletter />
       </Reveal>

@@ -35,15 +35,9 @@ export function Hero() {
     <section className="stadium grain aurora-field relative overflow-hidden text-white">
       <CursorGlow />
       {/* drifting speed lines + brand glows */}
-      <div aria-hidden className="speed-lines pointer-events-none absolute inset-0" />
       <div
         aria-hidden
         className="animate-glow pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-brand-500/25 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="animate-glow pointer-events-none absolute -right-24 top-1/4 h-80 w-80 rounded-full bg-gold-500/15 blur-3xl"
-        style={{ animationDelay: "3.5s" }}
       />
 
       <Container className="hero-scroll-fx relative z-10 grid items-center gap-12 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pb-24 lg:pt-20">
@@ -65,7 +59,7 @@ export function Hero() {
             <br />
             <SplitWords text="of sport" delay={280} step={80} />
             <br />
-            <span className="text-shimmer inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
+            <span className="inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
               is here.
             </span>
           </h1>
@@ -74,9 +68,7 @@ export function Hero() {
             className="animate-rise mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/65 lg:mx-0"
             style={{ animationDelay: "160ms" }}
           >
-            One stop shop for all your sporting requirements — cricket,
-            badminton, football, table tennis, fitness, swimming and more, from
-            an exclusive sports store in Chennai. Worldwide shipping.
+            Fourteen sports. One counter in Chennai. Shipped worldwide.
           </p>
 
           <div
@@ -85,7 +77,7 @@ export function Hero() {
           >
             <Magnetic>
               <Link
-                href="/shop"
+                href="#sports-os"
                 className="press btn-shine inline-flex items-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
               >
                 Explore sports
@@ -95,10 +87,10 @@ export function Hero() {
               </Link>
             </Magnetic>
             <Link
-              href="/about"
+              href="/shop"
               className="press inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
-              Enter Oneup
+              Explore gear
             </Link>
           </div>
 
@@ -125,7 +117,7 @@ export function Hero() {
         {/* ---- Floating category cards ---- */}
         <div className="animate-rise hidden grid-cols-2 gap-5 pt-4 md:grid" style={{ animationDelay: "200ms" }}>
           <TiltCard
-            className="animate-float-tilt row-span-2 self-center"
+            className="row-span-2 self-center"
             maxTilt={8}
             style={{ "--tilt": TILES[0].tilt, animationDelay: TILES[0].delay } as React.CSSProperties}
           >
@@ -146,7 +138,7 @@ export function Hero() {
           {TILES.slice(1).map((t) => (
             <TiltCard
               key={t.label}
-              className="animate-float-tilt"
+              
               maxTilt={8}
               style={{ "--tilt": t.tilt, animationDelay: t.delay } as React.CSSProperties}
             >

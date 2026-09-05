@@ -21,7 +21,7 @@ export function BrandStatement() {
   }).filter(Boolean) as { group: (typeof groups)[number]; hero: NonNullable<ReturnType<typeof productsByGroup>[number]> }[];
 
   return (
-    <section className="grain aurora-field relative overflow-hidden bg-brand-950 text-white">
+    <section className="grain relative overflow-hidden bg-brand-950 text-white">
       <Container className="relative py-20 sm:py-28">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
           The Oneup standard

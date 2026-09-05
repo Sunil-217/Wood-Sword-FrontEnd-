@@ -28,9 +28,10 @@ export function SportsOS() {
 
   return (
     <section
+      id="sports-os"
       aria-labelledby="sports-os-heading"
+      style={{ scrollMarginTop: "5rem", "--sport": group.accent } as React.CSSProperties}
       className="relative overflow-hidden border-y border-line/10 bg-brand-950 text-white"
-      style={{ "--sport": group.accent } as React.CSSProperties}
     >
       {/* accent wash — re-lights as the selection changes */}
       <div
@@ -45,15 +46,15 @@ export function SportsOS() {
       <Container className="relative py-14 sm:py-20">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
-              Sports index
-            </p>
             <h2
               id="sports-os-heading"
-              className="mt-2 font-display text-3xl font-extrabold uppercase tracking-tight sm:text-4xl"
+              className="font-display text-3xl font-extrabold uppercase tracking-tight sm:text-4xl"
             >
-              Choose your game
+              Sports OS
             </h2>
+            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
+              Select your game
+            </p>
           </div>
           <p className="font-display text-sm tabular-nums text-white/40">
             {index} <span className="text-white/25">/ {total}</span>
@@ -64,7 +65,7 @@ export function SportsOS() {
         <div
           role="tablist"
           aria-label="Sports"
-          className="scrollbar-none -mx-4 mt-8 overflow-x-auto px-4"
+          className="scrollbar-none -mx-4 mt-8 overflow-x-auto px-4 [scroll-snap-type:x_proximity]"
         >
           <div className="flex w-max gap-2">
             {groups.map((g, i) => {
@@ -76,12 +77,12 @@ export function SportsOS() {
                   aria-selected={on}
                   aria-controls="sports-os-panel"
                   onClick={() => setActive(i)}
-                  className={`press whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition-[background-color,color,transform] duration-[--duration-fast] ease-[--ease-standard] ${
+                  style={on ? { background: g.accent } : undefined}
+                  className={`press min-h-11 whitespace-nowrap rounded-full px-5 py-2.5 [scroll-snap-align:center] text-sm font-semibold transition-[background-color,color,transform] duration-[--duration-fast] ease-[--ease-standard] ${
                     on
                       ? "scale-105 text-white"
-                      : "bg-white/5 text-white/55 ring-1 ring-white/10 hover:bg-white/10 hover:text-white"
+                      : "bg-white/5 text-white/45 opacity-60 ring-1 ring-white/10 hover:bg-white/10 hover:text-white hover:opacity-100"
                   }`}
-                  style={on ? { background: g.accent } : undefined}
                 >
                   {g.name}
                 </button>

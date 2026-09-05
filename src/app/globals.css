@@ -232,20 +232,6 @@ h2 {
   animation: ws-rise 0.8s var(--ease-out-expo) both;
 }
 
-/* Gentle bob for floating scene cards */
-@keyframes ws-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-.animate-float {
-  animation: ws-float 6s ease-in-out infinite;
-}
-
 /* Floodlight breathing glow */
 @keyframes ws-glow {
   0%,
@@ -631,21 +617,6 @@ h2 {
   box-shadow: 0 4px 12px rgba(232, 35, 42, 0.5);
 }
 
-/* Shimmering gradient text — pair with bg-clip-text + a gradient */
-@keyframes ws-text-shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-.text-shimmer {
-  background-size: 200% auto;
-  animation: ws-text-shimmer 4.5s ease-in-out infinite;
-}
-
 /* Scroll-driven hero exit — progressive enhancement, no JS */
 @supports (animation-timeline: scroll()) {
   .hero-scroll-fx {
@@ -775,25 +746,6 @@ h2 {
   -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
-/* Drifting diagonal speed lines for dark hero surfaces */
-@keyframes ws-drift {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 240px 0;
-  }
-}
-.speed-lines {
-  background-image: repeating-linear-gradient(
-    115deg,
-    transparent 0 44px,
-    rgba(255, 255, 255, 0.045) 44px 46px,
-    transparent 46px 120px
-  );
-  animation: ws-drift 14s linear infinite;
-}
-
 /* CTA shine — light sweep across a button on hover */
 .btn-shine {
   position: relative;
@@ -816,21 +768,6 @@ h2 {
   transform: translateX(160%);
 }
 
-/* Slow floating tilt for hero cards */
-@keyframes ws-float-tilt {
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--tilt, 0deg));
-  }
-  50% {
-    transform: translateY(-12px) rotate(var(--tilt, 0deg));
-  }
-}
-.animate-float-tilt {
-  animation: ws-float-tilt 7s ease-in-out infinite;
-  will-change: transform;
-}
-
 /* Ball-seam stitch — a red stitched accent line */
 .seam-stitch {
   height: 3px;
@@ -847,13 +784,9 @@ h2 {
 /* ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .animate-float-tilt,
   .animate-marquee,
   .animate-pop,
-  .speed-lines,
   .grid-stagger > * > *,
-  .text-shimmer,
   .hero-scroll-fx,
   .animate-word,
   .aurora-ring:hover::before,

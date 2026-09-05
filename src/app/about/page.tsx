@@ -32,7 +32,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="stadium grain relative overflow-hidden text-white">
+      <section className="stadium relative overflow-hidden text-white">
         <div className="pitch-stripes pointer-events-none absolute inset-0 opacity-40" />
         <Container className="relative py-16 text-center sm:py-20">
           <div className="mx-auto flex justify-center">

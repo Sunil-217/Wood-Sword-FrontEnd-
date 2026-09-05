@@ -30,7 +30,7 @@ export function ConciergeSection() {
   return (
     <section
       aria-labelledby="assist-heading"
-      className="grain aurora-field relative overflow-hidden border-y border-line/10 bg-brand-950 text-white"
+      className="grain relative overflow-hidden border-y border-line/10 bg-brand-950 text-white"
     >
       <Container className="relative py-20 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">

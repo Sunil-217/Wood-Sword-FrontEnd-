@@ -109,7 +109,7 @@ export function CommandPalette() {
         onClick={openPalette}
         aria-label="Search products and sports"
         aria-keyshortcuts="Control+K"
-        className="press group flex items-center gap-2 rounded-full bg-subtle py-2 pl-3.5 pr-2 text-sm text-muted/60 ring-1 ring-line/10 transition-colors duration-[--duration-fast] hover:bg-brand-100 hover:text-ink md:w-64"
+        className="press group flex min-h-11 items-center gap-2 rounded-full bg-subtle py-2 pl-3.5 pr-2 text-sm text-muted/60 ring-1 ring-line/10 transition-colors duration-[--duration-fast] hover:bg-brand-100 hover:text-ink md:w-64"
       >
         <SearchIcon />
         <span className="hidden flex-1 text-left md:block">Search gear…</span>

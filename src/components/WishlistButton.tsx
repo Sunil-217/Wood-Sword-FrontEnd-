@@ -28,7 +28,7 @@ export function WishlistButton({
       onClick={onClick}
       aria-pressed={active}
       aria-label={active ? `Remove ${name} from wishlist` : `Save ${name} to wishlist`}
-      className={`press inline-flex h-9 w-9 items-center justify-center rounded-full backdrop-blur transition-colors ${
+      className={`press inline-flex h-11 w-11 items-center justify-center rounded-full backdrop-blur transition-colors sm:h-9 sm:w-9 ${
         active
           ? "bg-ball-500 text-white"
           : "bg-white/85 text-ink hover:bg-surface"
