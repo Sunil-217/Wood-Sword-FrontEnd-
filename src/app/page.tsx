@@ -8,10 +8,13 @@ import { Reveal } from "@/components/Reveal";
 import { SportsTicker } from "@/components/home/SportsTicker";
 import { SportsOS } from "@/components/home/SportsOS";
 import { BrandStatement } from "@/components/home/BrandStatement";
+import { ConciergeSection } from "@/components/home/ConciergeSection";
+import { StoreJsonLd } from "@/components/JsonLd";
 
 export default function HomePage() {
   return (
     <>
+      <StoreJsonLd />
       <Hero />
       <ValueProps />
       <Reveal>
@@ -25,6 +28,7 @@ export default function HomePage() {
       <Reveal>
         <PromoBand />
       </Reveal>
+      <ConciergeSection />
       <SportsTicker />
       <Reveal>
         <Newsletter />

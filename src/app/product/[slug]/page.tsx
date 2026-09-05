@@ -8,6 +8,7 @@ import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductPurchase } from "@/components/product/ProductPurchase";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
+import { ProductJsonLd } from "@/components/JsonLd";
 import { getProduct, products, relatedProducts, categoryMap } from "@/lib/catalog";
 
 export function generateStaticParams() {
@@ -42,6 +43,7 @@ export default async function ProductPage({
 
   return (
     <Container className="py-8 sm:py-10">
+      <ProductJsonLd product={product} />
       {/* Breadcrumb */}
       <nav className="flex flex-wrap items-center gap-1.5 text-xs text-muted/50">
         <Link href="/" className="hover:text-accent">Home</Link>
