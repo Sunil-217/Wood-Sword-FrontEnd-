@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CheckoutSteps } from "@/components/checkout/CheckoutSteps";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrdersContext";
@@ -37,20 +38,27 @@ export default function CheckoutPage() {
   // ---- Order confirmation ----
   if (placed) {
     return (
-      <Container className="py-20">
-        <div className="mx-auto max-w-lg rounded-3xl border border-line/8 bg-surface p-8 text-center shadow-sm sm:p-10">
+      <Container className="py-10 sm:py-14">
+        <CheckoutSteps current={4} />
+        <div className="mx-auto mt-10 max-w-lg rounded-3xl border border-line/8 bg-surface p-8 text-center shadow-sm sm:p-10">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 text-accent">
             <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
               <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <h1 className="mt-5 font-display text-2xl font-bold text-ink">Order confirmed!</h1>
+          <h1 className="mt-5 font-display text-2xl font-bold text-ink">Order recorded</h1>
           <p className="mt-2 text-sm text-muted/60">
-            Thanks for shopping with Oneup Sports. Your order number is{" "}
-            <span className="font-semibold text-ink">{placed}</span>.
+            Reference{" "}
+            <span className="font-semibold text-ink">{placed}</span>. To confirm
+            stock and arrange payment, call{" "}
+            <a href="tel:+918056126269" className="font-semibold text-accent">
+              +91 80561 26269
+            </a>{" "}
+            or message us on WhatsApp.
           </p>
-          <p className="mt-1 text-xs text-muted/45">
-            We&apos;ll WhatsApp you the tracking details once it ships.
+          <p className="mt-3 rounded-xl bg-subtle px-4 py-3 text-xs leading-relaxed text-muted/60">
+            This storefront has no payment or order backend yet — your order is
+            saved in this browser only, so it is not visible to the store.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/orders" className="press rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-800">
@@ -122,7 +130,7 @@ export default function CheckoutPage() {
       <h1 className="title-fluid mt-3 font-display font-extrabold tracking-tight text-ink">
         Checkout
       </h1>
-      <div className="seam-stitch mt-3 w-16" aria-hidden />
+      <CheckoutSteps current={3} />
 
       <form onSubmit={placeOrder} className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
         {/* form column */}
@@ -171,6 +179,12 @@ export default function CheckoutPage() {
               <Choice checked={pay === "upi"} onChange={() => setPay("upi")} title="UPI" sub="Google Pay, PhonePe, Paytm" />
               <Choice checked={pay === "card"} onChange={() => setPay("card")} title="Card" sub="Visa · Mastercard · RuPay" />
             </div>
+            {/* Razorpay drops in here: the selection above becomes the method
+                passed to the order API, which returns a payment session. */}
+            <p className="mt-3 rounded-xl bg-subtle px-4 py-3 text-xs leading-relaxed text-muted/60">
+              Online payment isn&apos;t connected yet. Placing an order records
+              your details and the store will contact you to take payment.
+            </p>
           </Section>
         </div>
 

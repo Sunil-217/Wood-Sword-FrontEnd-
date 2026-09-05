@@ -76,7 +76,8 @@ export default function OrdersPage() {
       </h1>
       <div className="seam-stitch mt-3 w-16" aria-hidden />
       <p className="mt-2 text-sm text-muted/55">
-        {list.length} {list.length === 1 ? "order" : "orders"}
+        {list.length} {list.length === 1 ? "order" : "orders"} · saved in this
+        browser only, not yet synced to the store
         {user ? ` · ${user.email}` : ""}
       </p>
 
