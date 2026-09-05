@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { CheckoutSteps } from "@/components/checkout/CheckoutSteps";
+import { isValidEmail, isValidPhone } from "@/lib/services/auth";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrdersContext";
@@ -25,6 +26,8 @@ export default function CheckoutPage() {
   const { user } = useAuth();
   const [ship, setShip] = useState<Ship>("standard");
   const [pay, setPay] = useState<Pay>("cod");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
   const [placed, setPlaced] = useState<string | null>(null);
 
   if (!ready) {
@@ -94,10 +97,41 @@ export default function CheckoutPage() {
   const shipping = ship === "express" ? EXPRESS_FEE : shippingBase;
   const total = Math.max(0, subtotal - coupon.discount + shipping);
 
+  function validate(get: (k: string) => string) {
+    const e: Record<string, string> = {};
+    if (!get("name")) e.name = "Enter the name for delivery.";
+    if (!get("phone")) e.phone = "Enter a contact number.";
+    else if (!isValidPhone(get("phone")))
+      e.phone = "Enter a 10-digit Indian mobile number.";
+    if (!get("email")) e.email = "Enter an email for the order confirmation.";
+    else if (!isValidEmail(get("email")))
+      e.email = "That doesn't look like an email address.";
+    if (!get("address")) e.address = "Enter the street address.";
+    if (!get("city")) e.city = "Enter the city.";
+    if (!get("state")) e.state = "Enter the state.";
+    if (!get("pincode")) e.pincode = "Enter the PIN code.";
+    else if (!/^[1-9]\d{5}$/.test(get("pincode")))
+      e.pincode = "An Indian PIN code is 6 digits.";
+    return e;
+  }
+
   function placeOrder(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    // A second submit while the first is in flight would place two orders.
+    if (submitting) return;
+
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const get = (k: string) => String(fd.get(k) ?? "").trim();
+
+    const found = validate(get);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      const firstKey = Object.keys(found)[0];
+      form.querySelector<HTMLInputElement>(`[name="${firstKey}"]`)?.focus();
+      return;
+    }
+    setSubmitting(true);
     const address = [get("address"), get("city"), get("state"), get("pincode")]
       .filter(Boolean)
       .join(", ");
@@ -132,15 +166,15 @@ export default function CheckoutPage() {
       </h1>
       <CheckoutSteps current={3} />
 
-      <form onSubmit={placeOrder} className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
+      <form onSubmit={placeOrder} noValidate className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
         {/* form column */}
         <div className="space-y-6">
           <Section title="Contact details">
             <div className="grid gap-3 sm:grid-cols-2">
-              <Field label="Full name" name="name" autoComplete="name" />
-              <Field label="Phone" name="phone" type="tel" autoComplete="tel" />
+              <Field label="Full name" name="name" error={errors.name} autoComplete="name" />
+              <Field label="Phone" name="phone" error={errors.phone} inputMode="tel" type="tel" autoComplete="tel" />
               <div className="sm:col-span-2">
-                <Field label="Email" name="email" type="email" autoComplete="email" />
+                <Field label="Email" name="email" error={errors.email} type="email" autoComplete="email" />
               </div>
             </div>
           </Section>
@@ -148,11 +182,11 @@ export default function CheckoutPage() {
           <Section title="Shipping address">
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <Field label="Address" name="address" autoComplete="street-address" />
+                <Field label="Address" name="address" error={errors.address} autoComplete="street-address" />
               </div>
-              <Field label="City" name="city" autoComplete="address-level2" />
-              <Field label="State" name="state" autoComplete="address-level1" />
-              <Field label="PIN code" name="pincode" autoComplete="postal-code" />
+              <Field label="City" name="city" error={errors.city} autoComplete="address-level2" />
+              <Field label="State" name="state" error={errors.state} autoComplete="address-level1" />
+              <Field label="PIN code" name="pincode" error={errors.pincode} inputMode="numeric" autoComplete="postal-code" />
             </div>
           </Section>
 
@@ -237,10 +271,17 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              className="press btn-shine mt-6 w-full rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
+              disabled={submitting}
+              aria-busy={submitting}
+              className="press btn-shine mt-6 min-h-12 w-full rounded-full bg-brand-900 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Place order · {inr(total)}
+              {submitting ? "Placing order…" : `Place order · ${inr(total)}`}
             </button>
+            {Object.keys(errors).length > 0 && (
+              <p role="alert" className="mt-3 text-center text-xs text-ball-600">
+                Check the highlighted fields above.
+              </p>
+            )}
             <Link href="/cart" className="mt-3 block text-center text-xs font-medium text-muted/55 hover:text-ink">
               ← Back to bag
             </Link>
@@ -265,11 +306,15 @@ function Field({
   name,
   type = "text",
   autoComplete,
+  error,
+  inputMode,
 }: {
   label: string;
   name: string;
   type?: string;
   autoComplete?: string;
+  error?: string;
+  inputMode?: "text" | "tel" | "email" | "numeric";
 }) {
   return (
     <label className="block">
@@ -277,10 +322,21 @@ function Field({
       <input
         name={name}
         type={type}
-        required
+        inputMode={inputMode}
         autoComplete={autoComplete}
-        className="w-full rounded-xl border border-line/15 bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={`min-h-12 w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition-colors ${
+          error
+            ? "border-ball-500 focus:ring-2 focus:ring-ball-500/25"
+            : "border-line/15 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+        }`}
       />
+      {error && (
+        <span id={`${name}-error`} role="alert" className="mt-1.5 block text-xs text-ball-600">
+          {error}
+        </span>
+      )}
     </label>
   );
 }
