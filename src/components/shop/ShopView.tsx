@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductGrid } from "@/components/ProductGrid";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
@@ -18,6 +18,9 @@ import {
   type SortKey,
 } from "@/lib/filters";
 import type { CategorySlug, GroupSlug } from "@/lib/types";
+
+/** Cards mounted per page — keeps first paint light on a 295-item catalog. */
+const PAGE_SIZE = 24;
 
 export function ShopView() {
   const sp = useSearchParams();
@@ -44,6 +47,7 @@ export function ShopView() {
   const bucket = PRICE_BUCKETS.find((b) => b.value === price);
   // Only products that carry a real MRP above their price are on offer.
   const dealsOnly = params.deals === "1";
+  const [shown, setShown] = useState(PAGE_SIZE);
 
   const { list, categoryCounts, sizeOptions, handOptions } = useMemo(() => {
     const base = products.filter((p) => {
@@ -76,6 +80,14 @@ export function ShopView() {
 
     return { list: l, categoryCounts: counts, sizeOptions: sizeOpts, handOptions: handOpts };
   }, [products, q, bucket, dealsOnly, category, group, sizes, hands, sort]);
+
+  const filterKey = `${category ?? ""}|${group ?? ""}|${q ?? ""}|${price ?? ""}|${dealsOnly}|${sizes.join()}|${hands.join()}|${sort}`;
+  useEffect(() => {
+    setShown(PAGE_SIZE);
+  }, [filterKey]);
+
+  const visible = list.slice(0, shown);
+  const remaining = list.length - visible.length;
 
   const heading = category
     ? categoryMap[category].name
@@ -213,12 +225,29 @@ export function ShopView() {
           )}
 
           {list.length > 0 ? (
-            <div
-              key={`${heading}-${sort}-${price ?? ""}-${dealsOnly}-${sizes.join()}-${hands.join()}-${list.length}`}
-              className="grid-stagger mt-6"
-            >
-              <ProductGrid products={list} />
-            </div>
+            <>
+              <div key={filterKey} className="grid-stagger mt-6">
+                <ProductGrid products={visible} />
+              </div>
+
+              <p aria-live="polite" className="sr-only">
+                Showing {visible.length} of {list.length} products
+              </p>
+
+              {remaining > 0 && (
+                <div className="mt-10 flex flex-col items-center gap-3">
+                  <p className="text-xs text-muted/50">
+                    Showing {visible.length} of {list.length}
+                  </p>
+                  <button
+                    onClick={() => setShown((n) => n + PAGE_SIZE)}
+                    className="press rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-colors duration-[--duration-fast] hover:bg-brand-800"
+                  >
+                    Load {Math.min(PAGE_SIZE, remaining)} more
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-line/15 bg-white/60 px-6 py-16 text-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-subtle text-accent">
