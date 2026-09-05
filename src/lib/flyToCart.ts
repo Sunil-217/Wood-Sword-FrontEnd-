@@ -6,7 +6,12 @@
 export function flyToCart(from: HTMLElement | null) {
   if (!from || typeof window === "undefined") return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const target = document.getElementById("cart-icon");
+  // The header icon is hidden below lg, where the bottom nav owns the bag.
+  // Aim at whichever one is actually on screen.
+  const target = [
+    document.getElementById("cart-icon"),
+    document.getElementById("cart-icon-mobile"),
+  ].find((el) => el && el.getBoundingClientRect().width > 0);
   if (!target) return;
 
   const f = from.getBoundingClientRect();

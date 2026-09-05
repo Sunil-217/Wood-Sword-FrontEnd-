@@ -49,6 +49,7 @@ export function MobileNav() {
             <li key={it.href} className="flex-1">
               <Link
                 href={it.href}
+                id={it.href === "/cart" ? "cart-icon-mobile" : undefined}
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-h-14 flex-col items-center justify-center gap-1 py-2 text-[10px] font-semibold transition-colors duration-[--duration-fast] ${
                   active ? "text-accent" : "text-muted/55"

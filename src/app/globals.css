@@ -246,58 +246,6 @@ h2 {
   animation: ws-float 6s ease-in-out infinite;
 }
 
-/* Cricket ball: bounce with a hint of squash */
-@keyframes ws-ball-bounce {
-  0%,
-  100% {
-    transform: translateY(0) scale(1, 1);
-  }
-  42% {
-    transform: translateY(-26px) scale(0.98, 1.02);
-  }
-  50% {
-    transform: translateY(-28px) scale(1, 1);
-  }
-  92% {
-    transform: translateY(0) scale(1, 1);
-  }
-  96% {
-    transform: translateY(2px) scale(1.04, 0.94);
-  }
-}
-.animate-ball-bounce {
-  animation: ws-ball-bounce 2.6s var(--ease-spring) infinite;
-}
-
-/* Seam rotation for the hero ball */
-@keyframes ws-seam-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.animate-seam-spin {
-  animation: ws-seam-spin 9s linear infinite;
-}
-
-/* Ball ground shadow, synced to the bounce */
-@keyframes ws-ball-shadow {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.35;
-  }
-  50% {
-    transform: scale(0.72);
-    opacity: 0.18;
-  }
-}
-.animate-ball-shadow {
-  animation: ws-ball-shadow 2.6s var(--ease-spring) infinite;
-}
-
 /* Floodlight breathing glow */
 @keyframes ws-glow {
   0%,
@@ -509,31 +457,6 @@ h2 {
 }
 .animate-word {
   animation: ws-word-in 0.75s var(--ease-out-expo) both;
-}
-
-/* Gradient ring that lights up on hover */
-.glow-ring::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  z-index: 30;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: linear-gradient(140deg, var(--color-brand-500), var(--color-gold-500));
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease-spring);
-  pointer-events: none;
-}
-.glow-ring:hover::after {
-  opacity: 1;
 }
 
 /* ------------------------------------------------------------------ */
@@ -919,33 +842,6 @@ h2 {
   );
 }
 
-/* Scoreboard panel — LED-board numerals on matte black-green */
-.scoreboard {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-    #131010;
-  border: 1px solid rgba(242, 100, 28, 0.3);
-  box-shadow:
-    inset 0 0 24px rgba(0, 0, 0, 0.55),
-    0 12px 32px rgba(0, 0, 0, 0.35);
-}
-.scoreboard-digits {
-  font-family: var(--font-display);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.06em;
-  color: var(--color-gold-400);
-  text-shadow: 0 0 14px rgba(240, 193, 78, 0.45);
-}
-
-/* Faint pitch-crease line art for light sections */
-.crease-lines {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--color-brand-900) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--color-brand-900) 4%, transparent) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(80% 70% at 50% 30%, black 0%, transparent 100%);
-}
-
 /* ------------------------------------------------------------------ */
 /*  Reduced motion: calm everything down                               */
 /* ------------------------------------------------------------------ */
@@ -964,9 +860,6 @@ h2 {
   .aurora-field::after,
   .animate-rise,
   .animate-toast-in,
-  .animate-ball-bounce,
-  .animate-seam-spin,
-  .animate-ball-shadow,
   .animate-glow,
   .drawer-cascade,
   .skeleton {

@@ -178,7 +178,7 @@ export function Header() {
           {/* Wishlist */}
           <Link
             href="/wishlist"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
+            className="relative hidden h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle lg:inline-flex"
             aria-label="Open wishlist"
           >
             <HeartIcon />
@@ -196,7 +196,7 @@ export function Header() {
           <Link
             href="/cart"
             id="cart-icon"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle"
+            className="relative hidden h-10 w-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-subtle lg:inline-flex"
             aria-label="Open bag"
           >
             <BagIcon />
