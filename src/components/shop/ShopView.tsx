@@ -195,6 +195,7 @@ export function ShopView() {
             sizeOptions={sizeOptions}
             handOptions={handOptions}
             categoryCounts={categoryCounts}
+            resultCount={list.length}
           />
         </aside>
 

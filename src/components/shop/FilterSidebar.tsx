@@ -5,15 +5,24 @@ import { useEffect, useState } from "react";
 import { buildQuery, PRICE_BUCKETS, parseList, toggleInList } from "@/lib/filters";
 import { categoriesInGroup, categoryMap, groups } from "@/lib/catalog";
 import type { CategorySlug } from "@/lib/types";
+import { FilterDrawer } from "./FilterDrawer";
 
 interface Props {
   params: Record<string, string>;
   sizeOptions: string[];
   handOptions: string[];
   categoryCounts: Record<string, number>;
+  /** Shown on the drawer's primary action so it reads as an outcome. */
+  resultCount: number;
 }
 
-export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts }: Props) {
+export function FilterSidebar({
+  params,
+  sizeOptions,
+  handOptions,
+  categoryCounts,
+  resultCount,
+}: Props) {
   const [open, setOpen] = useState(false);
 
   // The group owning the active category (or the active group) is open by
@@ -62,33 +71,8 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
     ...(params.sort ? { sort: params.sort } : {}),
   })}`;
 
-  return (
-    <div className="lg:sticky lg:top-24">
-      {/* Mobile toggle */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="mb-4 flex w-full items-center justify-between rounded-xl border border-line/12 bg-surface px-4 py-3 text-sm font-semibold text-ink lg:hidden"
-      >
-        <span className="flex items-center gap-2">
-          <FilterIcon />
-          Filters {activeCount > 0 && `(${activeCount})`}
-        </span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={open ? "rotate-180" : ""}>
-          <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-
-      <div
-        className={`${open ? "block" : "hidden"} space-y-7 overscroll-contain rounded-2xl border border-line/8 bg-surface p-5 lg:block lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto`}
-      >
-        <div className="flex items-center justify-between">
-          <h2 className="font-display text-base font-bold text-ink">Filters</h2>
-          {activeCount > 0 && (
-            <Link href={clearHref} className="text-xs font-semibold text-ball-500 hover:underline">
-              Clear all
-            </Link>
-          )}
-        </div>
+  const body = (
+      <>
 
         {/* Categories, grouped like the store menu */}
         <FilterGroup title="Category">
@@ -274,8 +258,57 @@ export function FilterSidebar({ params, sizeOptions, handOptions, categoryCounts
             </div>
           </FilterGroup>
         )}
+      </>
+  );
+
+  return (
+    <>
+      {/* Touch layouts open the same panel as a bottom sheet. */}
+      <button
+        onClick={() => setOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls="filter-drawer"
+        className="mb-4 flex min-h-12 w-full items-center justify-between rounded-xl border border-line/12 bg-surface px-4 py-3 text-sm font-semibold text-ink lg:hidden"
+      >
+        <span className="flex items-center gap-2">
+          <FilterIcon />
+          Filters
+        </span>
+        {activeCount > 0 && (
+          <span className="rounded-full bg-brand-500 px-2 py-0.5 text-[11px] font-bold text-white">
+            {activeCount}
+          </span>
+        )}
+      </button>
+
+      <div id="filter-drawer">
+        <FilterDrawer
+          open={open}
+          onClose={() => setOpen(false)}
+          activeCount={activeCount}
+          resultCount={resultCount}
+          clearHref={clearHref}
+        >
+          <div className="space-y-7">{body}</div>
+        </FilterDrawer>
       </div>
-    </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden lg:sticky lg:top-24 lg:block">
+        <div className="space-y-7 overscroll-contain rounded-2xl border border-line/8 bg-surface p-5 lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-base font-bold text-ink">Filters</h2>
+            {activeCount > 0 && (
+              <Link href={clearHref} className="text-xs font-semibold text-ball-500 hover:underline">
+                Clear all
+              </Link>
+            )}
+          </div>
+          {body}
+        </div>
+      </div>
+    </>
   );
 }
 
