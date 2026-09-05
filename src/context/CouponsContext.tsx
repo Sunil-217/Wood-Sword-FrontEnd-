@@ -22,7 +22,7 @@ export interface Coupon {
 }
 
 const SEED: Coupon[] = [
-  { code: "MM10", type: "percent", value: 10, active: true },
+  { code: "ONEUP10", type: "percent", value: 10, active: true },
   { code: "FLAT500", type: "flat", value: 500, active: true },
   { code: "FREESHIP", type: "freeship", value: 0, active: true },
 ];

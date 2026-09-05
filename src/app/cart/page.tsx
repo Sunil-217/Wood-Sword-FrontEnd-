@@ -176,18 +176,28 @@ export default function CartPage() {
 
         {/* Summary */}
         <div className="lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-line/8 bg-surface p-6 shadow-sm">
-            <h2 className="font-display text-lg font-bold text-ink">Order summary</h2>
+          <div className="relative overflow-hidden rounded-2xl bg-brand-950 p-6 text-white shadow-xl shadow-brand-950/20">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, var(--color-brand-500), var(--color-gold-500), transparent)",
+              }}
+            />
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
+              Order summary
+            </h2>
 
             {/* Promo code */}
             <div className="mt-4">
               {applied ? (
-                <div className="flex items-center justify-between gap-2 rounded-xl border border-brand-600/30 bg-brand-50 px-3 py-2.5">
+                <div className="flex items-center justify-between gap-2 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5">
                   <span className="flex items-center gap-2 text-sm">
-                    <span className="rounded bg-brand-900 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                    <span className="rounded bg-brand-500 px-1.5 py-0.5 text-[11px] font-bold text-white">
                       {applied.code}
                     </span>
-                    <span className="font-medium text-accent">{couponLabel(applied)} applied</span>
+                    <span className="font-medium text-gold-400">{couponLabel(applied)} applied</span>
                   </span>
                   <button onClick={clearApplied} className="text-xs font-semibold text-ball-500 hover:underline">
                     Remove
@@ -202,11 +212,11 @@ export default function CartPage() {
                       setCodeErr(null);
                     }}
                     placeholder="Promo code"
-                    className="min-w-0 flex-1 rounded-xl border border-line/15 bg-surface px-3 py-2.5 text-sm uppercase tracking-wide outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                    className="min-w-0 flex-1 rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-sm uppercase tracking-wide text-white outline-none placeholder:text-white/35 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25"
                   />
                   <button
                     type="submit"
-                    className="press shrink-0 rounded-xl bg-brand-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-800"
+                    className="press shrink-0 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-semibold text-white ring-1 ring-white/15 transition-colors hover:bg-white/20"
                   >
                     Apply
                   </button>
@@ -214,45 +224,45 @@ export default function CartPage() {
               )}
               {codeErr && <p className="mt-1.5 text-xs text-ball-600">{codeErr}</p>}
               {!applied && (
-                <p className="mt-1.5 text-[11px] text-muted/45">Try MM10, FLAT500 or FREESHIP</p>
+                <p className="mt-1.5 text-[11px] text-white/35">Try ONEUP10, FLAT500 or FREESHIP</p>
               )}
             </div>
 
-            <dl className="mt-5 space-y-3 text-sm">
-              <div className="flex justify-between text-muted/70">
-                <dt>Subtotal ({count} {count === 1 ? "item" : "items"})</dt>
-                <dd className="font-medium text-ink">{inr(subtotal)}</dd>
-              </div>
+            <dl className="mt-5 space-y-3.5 text-sm">
+              <HudRow label="Items">{count}</HudRow>
+              <HudRow label="Subtotal">{inr(subtotal)}</HudRow>
               {coupon.discount > 0 && (
-                <div className="flex justify-between text-accent">
-                  <dt>Discount ({applied?.code})</dt>
-                  <dd className="font-medium">−{inr(coupon.discount)}</dd>
-                </div>
+                <HudRow label={`Discount · ${applied?.code}`} tone="accent">
+                  −{inr(coupon.discount)}
+                </HudRow>
               )}
-              <div className="flex justify-between text-muted/70">
-                <dt>Shipping</dt>
-                <dd className="font-medium text-ink">
-                  {shipping === 0 ? <span className="text-accent">Free</span> : inr(shipping)}
-                </dd>
-              </div>
-              <div className="my-2 h-px bg-brand-900/8" />
-              <div className="flex items-baseline justify-between">
-                <dt className="font-display text-base font-bold text-ink">Total</dt>
-                <dd className="font-display text-xl font-extrabold text-ink">{inr(total)}</dd>
+              <HudRow label="Delivery" tone={shipping === 0 ? "accent" : undefined}>
+                {shipping === 0 ? "Free" : inr(shipping)}
+              </HudRow>
+
+              <div className="!mt-5 border-t border-white/12 pt-4">
+                <div className="flex items-baseline justify-between">
+                  <dt className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
+                    Total
+                  </dt>
+                  <dd className="font-display text-3xl font-extrabold tabular-nums text-white">
+                    {inr(total)}
+                  </dd>
+                </div>
               </div>
             </dl>
 
             <Link
               href="/checkout"
-              className="press btn-shine mt-6 block w-full rounded-full bg-brand-900 px-6 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-brand-900/15 transition-colors hover:bg-brand-800"
+              className="press btn-shine mt-6 block w-full rounded-full bg-brand-500 px-6 py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-brand-500/30 transition-shadow hover:shadow-xl hover:shadow-brand-500/40"
             >
-              Checkout · {inr(total)}
+              Proceed to checkout
             </Link>
-            <p className="mt-3 text-center text-[11px] text-muted/45">
-              Free shipping on orders over ₹2,000 · easy 7-day returns.
+            <p className="mt-3 text-center text-[11px] text-white/40">
+              Free delivery over ₹2,000 · easy 7-day returns
             </p>
 
-            <div className="mt-5 flex items-center justify-center gap-2 text-xs text-muted/50">
+            <div className="mt-5 flex items-center justify-center gap-2 text-xs text-white/40">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
               </svg>
@@ -262,5 +272,30 @@ export default function CartPage() {
         </div>
       </div>
     </Container>
+  );
+}
+
+function HudRow({
+  label,
+  tone,
+  children,
+}: {
+  label: string;
+  tone?: "accent";
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <dt className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">
+        {label}
+      </dt>
+      <dd
+        className={`font-display text-base font-bold tabular-nums ${
+          tone === "accent" ? "text-gold-400" : "text-white"
+        }`}
+      >
+        {children}
+      </dd>
+    </div>
   );
 }
