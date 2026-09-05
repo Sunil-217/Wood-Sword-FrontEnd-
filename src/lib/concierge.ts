@@ -3,7 +3,7 @@ import {
   categoryMap,
   groupMap,
   groups,
-  products,
+  products as staticProducts,
 } from "./catalog";
 import type { Product } from "./types";
 
@@ -131,7 +131,17 @@ const SYNONYMS: [RegExp, string][] = [
   [/\bkeeping\b|\bwicket ?keep\w*\b/, "wk gloves"],
 ];
 
-export function answer(rawQuery: string): ConciergeResult {
+/**
+ * @param catalog the live catalog. Defaults to the seed list so tests and any
+ *   server-side caller still work, but the UI passes what the shop is actually
+ *   showing — otherwise Assist can quote a price the store has changed or
+ *   offer a product it has withdrawn.
+ */
+export function answer(
+  rawQuery: string,
+  catalog: Product[] = staticProducts,
+): ConciergeResult {
+  const products = catalog;
   const q = rawQuery.trim().toLowerCase();
   if (!q) return { summary: "", products: [] };
 
@@ -197,8 +207,13 @@ export function answer(rawQuery: string): ConciergeResult {
       };
     }
     return {
-      summary: `Matches for “${rawQuery.trim()}”`,
+      summary:
+        scored.length > 6
+          ? `${scored.length} matches for “${rawQuery.trim()}” — closest first`
+          : `Matches for “${rawQuery.trim()}”`,
       products: scored.slice(0, 6).map((x) => x.p),
+      // Without this the shopper sees six results and no way to the rest.
+      href: `/shop?q=${encodeURIComponent(rawQuery.trim())}`,
     };
   }
 
@@ -211,8 +226,8 @@ export function answer(rawQuery: string): ConciergeResult {
 
   return {
     summary: list.length
-      ? `${list.length} ${bits.join(" ")} in stock`
-      : `No ${bits.join(" ")} in stock right now`,
+      ? `${list.length} ${bits.join(" ")}`
+      : `Nothing matches ${bits.join(" ")}`,
     products: list.slice(0, 6),
     href: `/shop?${params.toString()}`,
   };
@@ -221,7 +236,9 @@ export function answer(rawQuery: string): ConciergeResult {
 /** Starter prompts, built from sports that actually have stock. */
 export function samplePrompts(): string[] {
   const withStock = groups.filter((g) =>
-    products.some((p) => categoryMap[p.category].group === g.slug && p.inStock),
+    staticProducts.some(
+      (p) => categoryMap[p.category].group === g.slug && p.inStock,
+    ),
   );
   const badminton = withStock.find((g) => g.slug === "badminton");
   const cricket = withStock.find((g) => g.slug === "cricket");

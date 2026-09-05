@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CartSkeleton } from "@/components/ui/Skeleton";
 import { CheckoutSteps } from "@/components/checkout/CheckoutSteps";
 import { isValidEmail, isValidPhone } from "@/lib/services/auth";
 import { ProductArt } from "@/components/ProductArt";
@@ -33,7 +34,7 @@ export default function CheckoutPage() {
   if (!ready) {
     return (
       <Container className="py-16">
-        <div className="skeleton mx-auto h-48 max-w-2xl rounded-2xl" />
+        <CartSkeleton />
       </Container>
     );
   }

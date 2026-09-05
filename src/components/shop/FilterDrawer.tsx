@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef } from "react";
 
 /**
@@ -125,12 +126,12 @@ export function FilterDrawer({
         </div>
 
         <div className="flex items-center gap-3 border-t border-line/8 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-          <a
+          <Link
             href={clearHref}
             className="press inline-flex min-h-12 flex-1 items-center justify-center rounded-full border border-line/15 px-5 text-sm font-semibold text-ink"
           >
             Clear all
-          </a>
+          </Link>
           <button
             onClick={onClose}
             className="press inline-flex min-h-12 flex-1 items-center justify-center rounded-full bg-brand-500 px-5 text-sm font-semibold text-white"

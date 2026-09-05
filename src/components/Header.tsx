@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { categoriesInGroup, groups } from "@/lib/catalog";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
@@ -24,6 +24,9 @@ export function Header() {
   const megaRef = useRef<HTMLDivElement | null>(null);
   const megaBtnRef = useRef<HTMLButtonElement | null>(null);
   const megaCloseTimer = useRef<number | undefined>(undefined);
+  // Opened by a click rather than by hovering, so the pointer leaving must
+  // not take it away again.
+  const megaPinned = useRef(false);
   const pathname = usePathname();
   const { count, ready } = useCart();
   const { count: wishCount, ready: wishReady } = useWishlist();
@@ -39,6 +42,7 @@ export function Header() {
   // Safety net: close the drawer on any route change (incl. back/forward)
   useEffect(() => {
     setMobileOpen(false);
+    megaPinned.current = false;
     setMegaOpen(false);
   }, [pathname]);
 
@@ -48,11 +52,11 @@ export function Header() {
     if (!megaOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
-      setMegaOpen(false);
+      closeMega();
       megaBtnRef.current?.focus();
     };
     const onDown = (e: MouseEvent) => {
-      if (!megaRef.current?.contains(e.target as Node)) setMegaOpen(false);
+      if (!megaRef.current?.contains(e.target as Node)) closeMega();
     };
     window.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onDown);
@@ -68,9 +72,25 @@ export function Header() {
     window.clearTimeout(megaCloseTimer.current);
     setMegaOpen(true);
   }
+  function closeMega() {
+    window.clearTimeout(megaCloseTimer.current);
+    megaPinned.current = false;
+    setMegaOpen(false);
+  }
+  /**
+   * Hover opens the panel; a click keeps it open rather than undoing the hover
+   * that just opened it. A click on an already-pinned panel closes it, which
+   * is also the path a touch or keyboard user takes.
+   */
+  function toggleMega() {
+    if (megaOpen && megaPinned.current) return closeMega();
+    megaPinned.current = true;
+    openMega();
+  }
   // Pointer travel from the button to the panel crosses a gap; a short grace
   // period stops the menu flickering shut on the way.
   function scheduleMegaClose() {
+    if (megaPinned.current) return;
     window.clearTimeout(megaCloseTimer.current);
     megaCloseTimer.current = window.setTimeout(() => setMegaOpen(false), 140);
   }
@@ -144,7 +164,7 @@ export function Header() {
               type="button"
               aria-expanded={megaOpen}
               aria-controls="sports-mega-menu"
-              onClick={() => setMegaOpen((v) => !v)}
+              onClick={toggleMega}
               className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-ink transition-colors duration-[--duration-fast] hover:bg-subtle ${
                 megaOpen ? "bg-subtle" : ""
               }`}
@@ -224,10 +244,15 @@ export function Header() {
               </div>
             </div>
           </div>
-          <NavLink href="/shop?deals=1" active={pathname === "/shop"}>
-            Deals
+          {/* Reading the query string is what tells Deals apart from any
+              other /shop view; Suspense keeps the rest of the header in the
+              prerendered HTML. */}
+          <Suspense fallback={<NavLink href="/shop?deals=1">Deals</NavLink>}>
+            <DealsNavLink />
+          </Suspense>
+          <NavLink href="/about" active={pathname === "/about"}>
+            Brand
           </NavLink>
-          <NavLink href="/about">Brand</NavLink>
         </nav>
 
         <div className="ml-auto flex items-center gap-1.5">
@@ -471,6 +496,19 @@ export function Header() {
         </div>
       </div>
     </header>
+  );
+}
+
+function DealsNavLink() {
+  const pathname = usePathname();
+  const params = useSearchParams();
+  return (
+    <NavLink
+      href="/shop?deals=1"
+      active={pathname === "/shop" && params.get("deals") === "1"}
+    >
+      Deals
+    </NavLink>
   );
 }
 

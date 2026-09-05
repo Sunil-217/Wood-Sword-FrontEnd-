@@ -50,7 +50,7 @@ export function QuickViewModal() {
           />
           <div className="absolute left-3 top-3 flex gap-2">
             {product.badge && <ProductBadge kind={product.badge} />}
-            {off && <ProductBadge kind="Sale" />}
+            {off != null && <ProductBadge kind="Sale" />}
           </div>
         </div>
 
@@ -65,7 +65,9 @@ export function QuickViewModal() {
           </div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className="font-display text-2xl font-bold text-ink">{inr(product.price)}</span>
-            {product.mrp && <span className="text-sm text-muted/40 line-through">{inr(product.mrp)}</span>}
+            {product.mrp != null && product.mrp > 0 && (
+              <span className="text-sm text-muted/40 line-through">{inr(product.mrp)}</span>
+            )}
           </div>
           <p className="mt-3 text-sm leading-relaxed text-muted/65">{product.tagline}</p>
 

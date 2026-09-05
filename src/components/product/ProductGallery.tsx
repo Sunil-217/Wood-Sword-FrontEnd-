@@ -102,7 +102,7 @@ export function ProductGallery({ product: base }: { product: Product }) {
 
         <div className="pointer-events-none absolute left-4 top-4 flex gap-2">
           {product.badge && <ProductBadge kind={product.badge} />}
-          {off && <ProductBadge kind="Sale" />}
+          {off != null && <ProductBadge kind="Sale" />}
         </div>
 
         {hasPhoto && (

@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { answer, samplePrompts } from "@/lib/concierge";
 import { categoryMap } from "@/lib/catalog";
+import { useCatalog } from "@/context/CatalogContext";
 import { inr } from "@/lib/format";
 
 /**
@@ -16,11 +17,14 @@ import { inr } from "@/lib/format";
 export function ConciergeSection() {
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
+  const { products: liveCatalog } = useCatalog();
   const prompts = useMemo(() => samplePrompts(), []);
   const result = useMemo(
-    () => (submitted.trim() ? answer(submitted) : null),
-    [submitted],
+    () => (submitted.trim() ? answer(submitted, liveCatalog) : null),
+    [submitted, liveCatalog],
   );
+  // Submitting blanks used to do nothing at all — no result, no message.
+  const blank = submitted !== "" && !submitted.trim();
 
   function run(q: string) {
     setQuery(q);
@@ -75,6 +79,7 @@ export function ConciergeSection() {
                   id="assist-input"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  maxLength={120}
                   placeholder="Badminton racquet under ₹5,000"
                   className="min-w-0 flex-1 rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25"
                 />
@@ -101,9 +106,15 @@ export function ConciergeSection() {
             </div>
 
             {/* Answer */}
+            <div aria-live="polite">
+            {blank && (
+              <p className="mt-6 border-t border-white/10 pt-5 text-sm text-white/55">
+                Type something first — a sport, a type of kit, or a budget.
+              </p>
+            )}
             {result && (
-              <div className="mt-6 border-t border-white/10 pt-5" aria-live="polite">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold-400">
+              <div className="mt-6 border-t border-white/10 pt-5">
+                <p className="text-sm font-semibold leading-snug text-gold-400">
                   {result.summary}
                 </p>
 
@@ -159,6 +170,7 @@ export function ConciergeSection() {
                 )}
               </div>
             )}
+            </div>
 
             <p className="mt-5 text-[11px] leading-relaxed text-white/35">
               Matching runs in your browser against the Oneup catalog. It reads

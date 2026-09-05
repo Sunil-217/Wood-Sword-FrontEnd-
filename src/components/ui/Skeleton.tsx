@@ -135,3 +135,55 @@ export function OrderDetailSkeleton() {
     </Wrap>
   );
 }
+
+/** Line items beside the totals panel, as the cart and checkout lay them out. */
+export function CartSkeleton() {
+  return (
+    <Wrap label="Loading your bag" className="grid gap-8 lg:grid-cols-[1fr_360px]">
+      <div className="space-y-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex gap-4 rounded-2xl border border-line/8 bg-surface p-4 shadow-sm"
+          >
+            <Bar className="h-24 w-24 shrink-0 rounded-xl" />
+            <div className="flex-1 space-y-2 py-1">
+              <Bar className="h-3 w-20 rounded-full" />
+              <Bar className="h-4 w-3/5 rounded-full" />
+              <Bar className="h-4 w-24 rounded-full" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="space-y-3 rounded-2xl border border-line/8 bg-surface p-6 shadow-sm">
+        <Bar className="h-4 w-28 rounded-full" />
+        <Bar className="h-3 w-full rounded-full" />
+        <Bar className="h-3 w-4/5 rounded-full" />
+        <Bar className="mt-4 h-12 w-full rounded-full" />
+      </div>
+    </Wrap>
+  );
+}
+
+/** Profile card beside the account summary links. */
+export function AccountSkeleton() {
+  return (
+    <Wrap label="Loading your account" className="grid gap-8 lg:grid-cols-[1fr_300px]">
+      <div className="space-y-4 rounded-2xl border border-line/8 bg-surface p-6 shadow-sm sm:p-8">
+        <Bar className="h-5 w-24 rounded-full" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="space-y-1.5">
+            <Bar className="h-3 w-20 rounded-full" />
+            <Bar className="h-12 w-full rounded-xl" />
+          </div>
+        ))}
+        <Bar className="mt-2 h-12 w-40 rounded-full" />
+      </div>
+      <div className="space-y-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Bar key={i} className="h-16 w-full rounded-2xl" />
+        ))}
+      </div>
+    </Wrap>
+  );
+}

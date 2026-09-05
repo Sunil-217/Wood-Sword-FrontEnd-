@@ -18,18 +18,26 @@ interface Toast {
 export function Toaster() {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const nextId = useRef(0);
+  const timers = useRef<number[]>([]);
 
   useEffect(() => {
+    const pending = timers.current;
     function onToast(e: Event) {
       const message = (e as CustomEvent<string>).detail;
       const id = nextId.current++;
       setToasts((t) => [...t.slice(-2), { id, message }]);
-      window.setTimeout(() => {
-        setToasts((t) => t.filter((x) => x.id !== id));
-      }, 2600);
+      pending.push(
+        window.setTimeout(() => {
+          setToasts((t) => t.filter((x) => x.id !== id));
+        }, 2600),
+      );
     }
     window.addEventListener(EVENT, onToast);
-    return () => window.removeEventListener(EVENT, onToast);
+    return () => {
+      window.removeEventListener(EVENT, onToast);
+      for (const t of pending) window.clearTimeout(t);
+      pending.length = 0;
+    };
   }, []);
 
   if (toasts.length === 0) return null;

@@ -24,9 +24,12 @@ export function ProductJsonLd({ product }: { product: Product }) {
       url: `${SITE_URL}/product/${product.slug}`,
       priceCurrency: "INR",
       price: product.price,
-      availability: product.inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
+      // Only stated when it is known to be false — nothing behind the seed
+      // data can vouch for availability, and inventing it in structured data
+      // is a claim to search engines the store cannot honour.
+      ...(product.inStock
+        ? {}
+        : { availability: "https://schema.org/OutOfStock" }),
       seller: { "@type": "Organization", name: "Oneup Sports" },
     },
   };

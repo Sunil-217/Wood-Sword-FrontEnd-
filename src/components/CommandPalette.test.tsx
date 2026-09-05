@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import { CatalogProvider } from "@/context/CatalogContext";
 import { CommandPalette } from "./CommandPalette";
 
 const push = vi.fn();
@@ -8,9 +9,17 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push }),
 }));
 
+function mount() {
+  return render(
+    <CatalogProvider>
+      <CommandPalette />
+    </CatalogProvider>,
+  );
+}
+
 async function open() {
   const user = userEvent.setup();
-  render(<CommandPalette />);
+  mount();
   await user.click(screen.getByRole("button", { name: /search products/i }));
   return { user, input: await screen.findByRole("combobox") };
 }
@@ -24,7 +33,7 @@ describe("command palette", () => {
 
   it("opens with Ctrl+K and closes with Escape", async () => {
     const user = userEvent.setup();
-    render(<CommandPalette />);
+    mount();
 
     await user.keyboard("{Control>}k{/Control}");
     expect(await screen.findByRole("combobox")).toBeInTheDocument();
@@ -37,7 +46,7 @@ describe("command palette", () => {
 
   it('opens with "/" when focus is not in a field', async () => {
     const user = userEvent.setup();
-    render(<CommandPalette />);
+    mount();
 
     await user.keyboard("/");
     expect(await screen.findByRole("combobox")).toBeInTheDocument();

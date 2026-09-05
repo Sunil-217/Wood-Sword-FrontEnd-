@@ -24,9 +24,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return { title: "Product not found" };
+  const title = `${product.name} — ${categoryMap[product.category].name}`;
   return {
-    title: `${product.name} — ${categoryMap[product.category].name}`,
+    title,
     description: product.tagline,
+    alternates: { canonical: `/product/${product.slug}` },
+    openGraph: {
+      title,
+      description: product.tagline,
+      url: `/product/${product.slug}`,
+      type: "website",
+    },
   };
 }
 

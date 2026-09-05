@@ -40,12 +40,21 @@ export const metadata: Metadata = {
   },
   description:
     "Chennai's exclusive sports store. Cricket, badminton, football, table tennis, fitness, swimming, skating and leisure gear from Yonex, SG, SS, Shrey, Li-Ning, Adidas and more — worldwide shipping available.",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Oneup Sports — One stop shop for all your sporting requirements",
     description:
       "Exclusive sports store in Chromepet, Chennai. Cricket, badminton, football, table tennis, fitness and leisure gear — worldwide shipping available.",
+    url: "/",
     type: "website",
     siteName: "Oneup Sports",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Oneup Sports — One stop shop for all your sporting requirements",
+    description:
+      "Exclusive sports store in Chromepet, Chennai. Fourteen sports, one counter.",
   },
 };
 

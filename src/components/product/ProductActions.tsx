@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
 import { flyToCart } from "@/lib/flyToCart";
 import { inr } from "@/lib/format";
@@ -18,6 +18,8 @@ export function ProductActions({
   const router = useRouter();
 
   const [added, setAdded] = useState(false);
+  const addedTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(addedTimer.current), []);
   const [color, setColor] = useState(product.colors[0]);
   const [size, setSize] = useState(product.sizes[0]);
   const [hand, setHand] = useState(product.hands?.[0]);
@@ -47,7 +49,8 @@ export function ProductActions({
     addLine(buildLine());
     // Confirm on the button itself rather than throwing a toast over the page.
     setAdded(true);
-    window.setTimeout(() => setAdded(false), 1600);
+    window.clearTimeout(addedTimer.current);
+    addedTimer.current = window.setTimeout(() => setAdded(false), 1600);
     onDone?.();
   }
 

@@ -40,8 +40,8 @@ export function ProductCard({ product }: { product: Product }) {
         <span className="sheen" aria-hidden />
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {product.badge && <ProductBadge kind={product.badge} />}
-          {off && !product.badge && <ProductBadge kind="Sale" />}
-          {off && (
+          {off != null && !product.badge && <ProductBadge kind="Sale" />}
+          {off != null && (
             <span className="rounded-full bg-white/90 px-2 py-1 text-[11px] font-bold text-ball-600 shadow-sm backdrop-blur">
               -{off}%
             </span>
@@ -86,7 +86,7 @@ export function ProductCard({ product }: { product: Product }) {
             <span className="font-display text-base font-bold text-ink sm:text-lg">
               {inr(product.price)}
             </span>
-            {product.mrp && (
+            {product.mrp != null && product.mrp > 0 && (
               <span className="text-xs text-muted/40 line-through sm:text-sm">
                 {inr(product.mrp)}
               </span>

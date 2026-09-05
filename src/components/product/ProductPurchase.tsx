@@ -22,8 +22,10 @@ export function ProductPurchase({ product: base }: { product: Product }) {
     <>
       <div className="mt-5 flex flex-wrap items-baseline gap-3">
         <span className="font-display text-3xl font-bold text-ink">{inr(product.price)}</span>
-        {product.mrp && <span className="text-lg text-muted/40 line-through">{inr(product.mrp)}</span>}
-        {off && (
+        {product.mrp != null && product.mrp > 0 && (
+          <span className="text-lg text-muted/40 line-through">{inr(product.mrp)}</span>
+        )}
+        {off != null && (
           <span className="rounded-full bg-ball-500/10 px-2.5 py-1 text-sm font-bold text-ball-600">
             Save {off}%
           </span>

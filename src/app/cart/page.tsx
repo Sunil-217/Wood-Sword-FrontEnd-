@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { CartSkeleton } from "@/components/ui/Skeleton";
 import { ProductArt } from "@/components/ProductArt";
 import { useCart } from "@/context/CartContext";
 import { useCatalog } from "@/context/CatalogContext";
@@ -23,7 +24,7 @@ export default function CartPage() {
   if (!ready) {
     return (
       <Container className="py-16">
-        <div className="skeleton mx-auto h-40 max-w-md rounded-2xl" />
+        <CartSkeleton />
       </Container>
     );
   }

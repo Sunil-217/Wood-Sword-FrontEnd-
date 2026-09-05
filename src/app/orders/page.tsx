@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { OrderListSkeleton } from "@/components/ui/Skeleton";
 import { ProductArt } from "@/components/ProductArt";
 import { useOrders, type Order, type OrderStatus } from "@/context/OrdersContext";
 import { useAuth } from "@/context/AuthContext";
@@ -41,7 +42,7 @@ export default function OrdersPage() {
   if (!ready || !authReady) {
     return (
       <Container className="py-16">
-        <div className="skeleton mx-auto h-48 max-w-2xl rounded-2xl" />
+        <OrderListSkeleton />
       </Container>
     );
   }

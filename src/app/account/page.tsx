@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
+import { AccountSkeleton } from "@/components/ui/Skeleton";
 import { Field } from "@/app/login/page";
 import { useAuth } from "@/context/AuthContext";
 import { useOrders } from "@/context/OrdersContext";
@@ -23,7 +24,7 @@ export default function AccountPage() {
   if (!ready) {
     return (
       <Container className="py-16">
-        <div className="skeleton mx-auto h-72 max-w-3xl rounded-2xl" />
+        <AccountSkeleton />
       </Container>
     );
   }
@@ -81,6 +82,8 @@ function ProfileCard({
   const [phone, setPhone] = useState(user.phone ?? "");
   const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
   const [saved, setSaved] = useState(false);
+  const savedTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(savedTimer.current), []);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -93,7 +96,8 @@ function ProfileCard({
 
     onSave({ name: name.trim(), phone: phone.trim() || undefined });
     setSaved(true);
-    window.setTimeout(() => setSaved(false), 2200);
+    window.clearTimeout(savedTimer.current);
+    savedTimer.current = window.setTimeout(() => setSaved(false), 2200);
   }
 
   return (

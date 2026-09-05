@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Container } from "@/components/ui/Container";
 import { ProductArt } from "@/components/ProductArt";
 import { useAuth } from "@/context/AuthContext";
@@ -211,7 +211,9 @@ function Dashboard({ email, onLogout }: { email: string; onLogout: () => void })
                 <td className="px-4 py-3 text-muted/70">{categoryMap[p.category].name}</td>
                 <td className="px-4 py-3">
                   <span className="font-semibold text-ink">{inr(p.price)}</span>
-                  {p.mrp && <span className="ml-1 text-xs text-muted/40 line-through">{inr(p.mrp)}</span>}
+                  {p.mrp != null && p.mrp > 0 && (
+                    <span className="ml-1 text-xs text-muted/40 line-through">{inr(p.mrp)}</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   {p.badge ? (
@@ -497,17 +499,27 @@ function ProductDialog({
   const [tagline, setTagline] = useState(p?.tagline ?? "");
   const [image, setImage] = useState<string | undefined>(p?.image);
   const [imgBusy, setImgBusy] = useState(false);
+  const [imgError, setImgError] = useState<string | null>(null);
+  // Decoding finishes out of order, so a slow first pick could overwrite a
+  // faster second one. Only the newest request is allowed to set the image.
+  const imgRequest = useRef(0);
 
   async function onPickImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    const token = ++imgRequest.current;
     setImgBusy(true);
+    setImgError(null);
     try {
-      setImage(await downscaleImage(file, 640, 0.72));
+      const next = await downscaleImage(file, 640, 0.72);
+      if (token !== imgRequest.current) return;
+      setImage(next);
     } catch {
-      /* ignore */
+      if (token !== imgRequest.current) return;
+      setImgError("That file couldn't be read. Try a JPG or PNG.");
+    } finally {
+      if (token === imgRequest.current) setImgBusy(false);
     }
-    setImgBusy(false);
   }
 
   function save(e: React.FormEvent) {
@@ -605,9 +617,20 @@ function ProductDialog({
                 )}
               </span>
               <div className="flex flex-1 flex-wrap gap-2">
-                <label className="press cursor-pointer rounded-full border border-line/15 bg-surface px-4 py-2 text-sm font-semibold text-ink hover:bg-subtle">
+                <label
+                  className={`press rounded-full border border-line/15 bg-surface px-4 py-2 text-sm font-semibold text-ink hover:bg-subtle ${
+                    imgBusy ? "cursor-wait opacity-60" : "cursor-pointer"
+                  }`}
+                  aria-busy={imgBusy}
+                >
                   {imgBusy ? "Processing…" : image ? "Change photo" : "Upload photo"}
-                  <input type="file" accept="image/*" onChange={onPickImage} className="hidden" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={imgBusy}
+                    onChange={onPickImage}
+                    className="hidden"
+                  />
                 </label>
                 {image && (
                   <button
@@ -620,6 +643,11 @@ function ProductDialog({
                 )}
               </div>
             </div>
+            {imgError && (
+              <p role="alert" className="mt-2 text-xs text-ball-600">
+                {imgError}
+              </p>
+            )}
             <p className="mt-1.5 text-[11px] text-muted/45">Auto-resized to ~640px and saved in this browser.</p>
           </div>
 

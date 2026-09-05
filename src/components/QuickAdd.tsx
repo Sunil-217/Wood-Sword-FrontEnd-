@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { makeLineId, useCart } from "@/context/CartContext";
 import { flyToCart } from "@/lib/flyToCart";
 import type { ArtKind } from "@/lib/types";
@@ -22,6 +22,8 @@ export interface QuickAddProduct {
 export function QuickAdd({ product }: { product: QuickAddProduct }) {
   const { addLine } = useCart();
   const [added, setAdded] = useState(false);
+  const addedTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(addedTimer.current), []);
 
   function handleAdd(e: React.MouseEvent<HTMLButtonElement>) {
     flyToCart(e.currentTarget);
@@ -46,7 +48,8 @@ export function QuickAdd({ product }: { product: QuickAddProduct }) {
       qty: 1,
     });
     setAdded(true);
-    window.setTimeout(() => setAdded(false), 1400);
+    window.clearTimeout(addedTimer.current);
+    addedTimer.current = window.setTimeout(() => setAdded(false), 1400);
   }
 
   return (

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ProductArt } from "@/components/ProductArt";
 import { answer, samplePrompts } from "@/lib/concierge";
 import { categoryMap, groups } from "@/lib/catalog";
+import { useCatalog } from "@/context/CatalogContext";
 import { inr } from "@/lib/format";
 
 const RECENT_KEY = "oneup-recent-searches";
@@ -24,6 +25,10 @@ export function CommandPalette() {
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  // The trigger unmounts while the dialog is open, so focus has to go back
+  // once it returns rather than at the moment of closing.
+  const restoreFocus = useRef(false);
 
   const prompts = useMemo(() => samplePrompts(), []);
 
@@ -39,8 +44,42 @@ export function CommandPalette() {
     } catch {
       /* storage unavailable — recents are optional */
     }
+    restoreFocus.current = true;
     setOpen(true);
   }, []);
+
+  useEffect(() => {
+    if (open || !restoreFocus.current) return;
+    restoreFocus.current = false;
+    triggerRef.current?.focus();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const root = dialogRef.current;
+      if (!root) return;
+      const focusable = [
+        ...root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])',
+        ),
+      ].filter((el) => el.offsetParent !== null);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const activeEl = document.activeElement;
+      if (e.shiftKey && (activeEl === first || !root.contains(activeEl))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   /* ---- open / close shortcuts ---- */
   useEffect(() => {
@@ -96,7 +135,11 @@ export function CommandPalette() {
     router.push(href);
   }
 
-  const result = useMemo(() => (query.trim() ? answer(query) : null), [query]);
+  const { products: liveCatalog } = useCatalog();
+  const result = useMemo(
+    () => (query.trim() ? answer(query, liveCatalog) : null),
+    [query, liveCatalog],
+  );
   const sportHits = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q.length < 2) return [];
@@ -155,6 +198,7 @@ export function CommandPalette() {
   if (!open) {
     return (
       <button
+        ref={triggerRef}
         onClick={openPalette}
         aria-label="Search products and sports"
         aria-keyshortcuts="Control+K"
@@ -196,6 +240,7 @@ export function CommandPalette() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onInputKeyDown}
+            maxLength={120}
             placeholder="What are you looking for?"
             role="combobox"
             aria-expanded={options.length > 0}
@@ -213,6 +258,14 @@ export function CommandPalette() {
             <CloseIcon />
           </button>
         </div>
+
+        <p aria-live="polite" className="sr-only">
+          {query.trim()
+            ? options.length > 0
+              ? `${options.length} result${options.length === 1 ? "" : "s"}`
+              : "No results"
+            : ""}
+        </p>
 
         <div
           id="search-listbox"
@@ -270,13 +323,21 @@ export function CommandPalette() {
                 </Section>
               )}
 
-              {result && (
+              {result && result.products.length === 0 ? (
+                // The "nothing matched" line is the most important thing the
+                // palette says, so it is set as readable prose rather than as
+                // a faint all-caps section label.
+                <div className="px-3 py-8 text-center">
+                  <p className="text-sm font-medium text-ink">
+                    {result.summary || "No results"}
+                  </p>
+                  <p className="mt-1.5 text-sm text-muted/55">
+                    Try a different sport, product type or budget.
+                  </p>
+                </div>
+              ) : result ? (
                 <Section title={result.summary || "Results"}>
-                  {result.products.length === 0 ? (
-                    <p className="px-3 py-6 text-center text-sm text-muted/55">
-                      Try a different sport, product type or budget.
-                    </p>
-                  ) : (
+                  {(
                     <ul>
                       {result.products.map((p) => (
                         <li key={p.id}>
@@ -325,7 +386,7 @@ export function CommandPalette() {
                     </button>
                   )}
                 </Section>
-              )}
+              ) : null}
             </>
           )}
         </div>

@@ -10,5 +10,7 @@ export function inr(amount: number): string {
 /** Percentage saved when there is an MRP above the selling price. */
 export function discountPct(price: number, mrp?: number): number | null {
   if (!mrp || mrp <= price) return null;
-  return Math.round(((mrp - price) / mrp) * 100);
+  const pct = Math.round(((mrp - price) / mrp) * 100);
+  // A saving that rounds down to nothing gets no badge.
+  return pct >= 1 ? pct : null;
 }
