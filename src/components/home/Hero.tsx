@@ -6,6 +6,7 @@ import { Marquee } from "@/components/Marquee";
 import { TiltCard } from "@/components/fx/TiltCard";
 import { Magnetic } from "@/components/fx/Magnetic";
 import { CursorGlow } from "@/components/fx/CursorGlow";
+import { SplitWords } from "@/components/fx/SplitWords";
 
 const TILES = [
   { art: "bat", accent: "#c8901c", label: "Cricket", href: "/shop?group=cricket", tilt: "-5deg", delay: "0s" },
@@ -59,7 +60,7 @@ export function Hero() {
             className="hero-fluid animate-rise mt-6 font-display font-extrabold uppercase tracking-tight"
             style={{ animationDelay: "80ms" }}
           >
-            Play every game.
+            <SplitWords text="Play every game." delay={120} step={80} />
             <br />
             <span className="text-shimmer inline-block -skew-x-6 bg-gradient-to-r from-brand-400 via-gold-400 to-gold-500 bg-clip-text pr-2 text-transparent">
               Stay one up.

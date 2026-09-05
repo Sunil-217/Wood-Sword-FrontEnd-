@@ -1,5 +1,6 @@
 "use client";
 
+import { ViewTransition } from "react";
 import { useCatalog } from "@/context/CatalogContext";
 import { ProductArt } from "@/components/ProductArt";
 import { ProductBadge } from "@/components/ui/Badge";
@@ -15,13 +16,15 @@ export function ProductGallery({ product: base }: { product: Product }) {
   return (
     <div className="lg:sticky lg:top-24 lg:self-start">
       <div className="relative overflow-hidden rounded-3xl border border-line/8 shadow-sm">
-        <ProductArt
-          art={product.art}
-          accent={product.accent}
-          image={product.image}
-          label={product.name}
-          className="aspect-square w-full"
-        />
+        <ViewTransition name={`product-${product.slug}`} share="morph">
+          <ProductArt
+            art={product.art}
+            accent={product.accent}
+            image={product.image}
+            label={product.name}
+            className="aspect-square w-full"
+          />
+        </ViewTransition>
         <div className="absolute left-4 top-4 flex gap-2">
           {product.badge && <ProductBadge kind={product.badge} />}
           {off && <ProductBadge kind="Sale" />}

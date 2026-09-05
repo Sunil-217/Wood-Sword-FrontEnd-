@@ -65,6 +65,7 @@ export function Header() {
 
   return (
     <header
+      style={{ viewTransitionName: "site-header" }}
       className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ${
         scrolled
           ? "glass border-line/10 shadow-sm shadow-brand-900/5"

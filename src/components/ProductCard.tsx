@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ViewTransition } from "react";
 import type { Product } from "@/lib/types";
 import { inr, discountPct } from "@/lib/format";
 import { ProductArt } from "./ProductArt";
@@ -25,15 +26,17 @@ export function ProductCard({ product }: { product: Product }) {
   const { base, variant } = splitName(product.name);
 
   return (
-    <article className="group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
+    <article className="glow-ring group relative flex transform-gpu flex-col overflow-hidden rounded-2xl border border-line/8 bg-surface shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-spring)] hover:-translate-y-1.5 hover:border-line/15 hover:shadow-xl hover:shadow-brand-900/10">
       <div className="relative aspect-square overflow-hidden">
-        <ProductArt
-          art={product.art}
-          accent={product.accent}
-          image={product.image}
-          label={product.name}
-          className="h-full w-full transform-gpu transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.07]"
-        />
+        <ViewTransition name={`product-${product.slug}`} share="morph">
+          <ProductArt
+            art={product.art}
+            accent={product.accent}
+            image={product.image}
+            label={product.name}
+            className="h-full w-full transform-gpu transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.07]"
+          />
+        </ViewTransition>
         <span className="sheen" aria-hidden />
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {product.badge && <ProductBadge kind={product.badge} />}

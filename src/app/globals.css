@@ -372,6 +372,29 @@ h2 {
   filter: blur(0);
 }
 
+/* Modern browsers drive the reveal off the scroll timeline instead —
+   no IntersectionObserver work on the main thread. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    transition: none;
+    animation: ws-reveal-view linear both;
+    animation-timeline: view();
+    animation-range: entry 6% cover 32%;
+  }
+  @keyframes ws-reveal-view {
+    from {
+      opacity: 0;
+      transform: translateY(26px) scale(0.985);
+      filter: blur(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /*  Scene textures                                                     */
 /* ------------------------------------------------------------------ */
@@ -396,6 +419,111 @@ h2 {
 /* ------------------------------------------------------------------ */
 /*  Cricket identity details                                           */
 /* ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ */
+/*  View transitions (React <ViewTransition>, experimental.viewTransition) */
+/* ------------------------------------------------------------------ */
+
+/* Default page crossfade — quick out, gentler in. */
+::view-transition-old(root) {
+  animation: 140ms ease-in both ws-vt-fade reverse;
+}
+::view-transition-new(root) {
+  animation: 220ms ease-out 90ms both ws-vt-fade;
+}
+
+@keyframes ws-vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* Shared-element morph: a product card's artwork flying into the
+   product page hero. The blur mid-flight hides interpolation artefacts. */
+::view-transition-group(.morph) {
+  animation-duration: 460ms;
+  animation-timing-function: var(--ease-spring);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: ws-vt-morph-blur;
+  animation-duration: 460ms;
+}
+@keyframes ws-vt-morph-blur {
+  35% {
+    filter: blur(4px);
+  }
+}
+
+/* Chrome stays put so the user keeps a fixed spatial anchor. */
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  animation: none;
+}
+::view-transition-group(site-header) {
+  z-index: 100;
+}
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+::view-transition-new(site-header),
+::view-transition-new(site-footer) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* Kinetic word reveal — each word rises out of its own mask */
+@keyframes ws-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.9em) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+.animate-word {
+  animation: ws-word-in 0.75s var(--ease-out-expo) both;
+}
+
+/* Gradient ring that lights up on hover */
+.glow-ring::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 30;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(140deg, var(--color-brand-500), var(--color-gold-500));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-spring);
+  pointer-events: none;
+}
+.glow-ring:hover::after {
+  opacity: 1;
+}
 
 /* Fly-to-cart ball (created by src/lib/flyToCart.ts) */
 .fly-ball {
@@ -453,21 +581,6 @@ h2 {
 /* Tickers pause while hovered */
 .marquee-mask:hover .animate-marquee {
   animation-play-state: paused;
-}
-
-/* Page entrance — template.tsx remounts this on every navigation */
-@keyframes ws-page-enter {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.page-enter {
-  animation: ws-page-enter 0.45s var(--ease-out-expo) both;
 }
 
 /* Staggered grid entrance — re-key the wrapper to replay on filter change */
@@ -684,10 +797,10 @@ h2 {
   .animate-marquee,
   .animate-pop,
   .speed-lines,
-  .page-enter,
   .grid-stagger > * > *,
   .text-shimmer,
   .hero-scroll-fx,
+  .animate-word,
   .animate-rise,
   .animate-toast-in,
   .animate-ball-bounce,
@@ -703,6 +816,7 @@ h2 {
     transform: none;
     filter: none;
     transition: none;
+    animation: none;
   }
   .sheen,
   .btn-shine::after {

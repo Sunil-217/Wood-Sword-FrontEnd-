@@ -70,7 +70,10 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-24 bg-brand-950 text-brand-100">
+    <footer
+      style={{ viewTransitionName: "site-footer" }}
+      className="mt-24 bg-brand-950 text-brand-100"
+    >
       {/* boundary rope along the top edge */}
       <div
         aria-hidden
