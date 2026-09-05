@@ -87,6 +87,7 @@ export function ProductGallery({ product: base }: { product: Product }) {
               accent={product.accent}
               image={product.image}
               label={product.name}
+              preload
               sizes="(max-width: 1024px) 100vw, 46vw"
               className="aspect-square w-full"
             />

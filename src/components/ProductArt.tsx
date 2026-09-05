@@ -12,6 +12,7 @@ export function ProductArt({
   className = "",
   label,
   image,
+  preload = false,
   sizes = "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1536px) 25vw, 20vw",
 }: {
   art: ArtKind;
@@ -19,6 +20,11 @@ export function ProductArt({
   className?: string;
   label?: string;
   image?: string;
+  /**
+   * Set only on the one image that is the LCP element above the fold — the
+   * product page's main shot. Grid tiles must stay lazy.
+   */
+  preload?: boolean;
   /** Layout width hint for next/image; default suits the product grid. */
   sizes?: string;
 }) {
@@ -42,6 +48,7 @@ export function ProductArt({
           alt={label ?? "product photo"}
           fill
           sizes={sizes}
+          preload={preload}
           className="object-contain p-2 transition-transform duration-700 [transition-timing-function:var(--ease-spring)] group-hover:scale-[1.06]"
           unoptimized={image.startsWith("data:")}
         />
